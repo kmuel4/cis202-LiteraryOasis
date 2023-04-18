@@ -1,5 +1,5 @@
 {
-  "name": "cis202-LiteraryOasis",
+  "name": "literary-oasis",
   "version": "0.1.0",
   "private": true,
   "main": "public/main.js",
@@ -18,11 +18,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently \"react-scripts start\" \"electron . --ignore-certificate-errors\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "electron": "electron . --ignore-certificate-errors"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -41,5 +40,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1"
   }
 }

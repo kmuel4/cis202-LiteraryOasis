@@ -41,7 +41,9 @@ const Checkout = (props) => {
   };
 
   //initalize isbn
-  const [isbn, setIsbn] = useState((props.bookIsbn && props.bookIsbn.length > 0) ? props.bookIsbn : "");
+  const [isbn, setIsbn] = useState(
+    props.bookIsbn && props.bookIsbn.length > 0 ? props.bookIsbn : ""
+  );
   //get a random price (for now)
   const [price, setPrice] = useState("");
   //initialize books list
@@ -113,9 +115,7 @@ const Checkout = (props) => {
   //remove a book from the modal
   const removeBook = (indexToRemove) => {
     setBooks(books.filter((_, index) => index !== indexToRemove));
-    {
-      books.length === 0 && setIsCartEmpty(true);
-    }
+    books.length === 0 && setIsCartEmpty(true);
   };
 
   return (
@@ -242,7 +242,7 @@ const Checkout = (props) => {
             <Button variant="primary" onClick={handlePay}>
               Payment
             </Button>
-            </OverlayTrigger>
+          </OverlayTrigger>
         </Modal.Footer>
       </Modal>
       {newCustomer && <NewCustomer onClose={handleNewCustomer} />}

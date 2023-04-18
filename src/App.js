@@ -3,7 +3,7 @@ import BookLookup from "./Components/BookLookup/LookUpBook";
 import BookLookupAvaliability from "./Components/BookLookup/BookDetails";
 import Checkout from "./Components/Checkout/Checkout";
 import { useState } from "react";
-import NewCustomer from "./Components/Checkout/Receipt/NewCustomer/NewCustomer";
+//import NewCustomer from "./Components/Checkout/Receipt/NewCustomer/NewCustomer";
 import CardPayment from "./Components/Checkout/Payment";
 import Receipt from "./Components/Checkout/Receipt/Receipt";
 import "bootstrap/dist/css/bootstrap.min.css";
