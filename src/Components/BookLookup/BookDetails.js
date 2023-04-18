@@ -10,6 +10,8 @@ import {
   Breadcrumb,
   InputGroup,
   Container,
+  OverlayTrigger,
+  Tooltip,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../Images/literaryoasis-backdrop.png";
@@ -28,7 +30,7 @@ const ScreenC = (props) => {
   const handleAdd = () => {
     props.onClose(3);
     setShow(false);
-  }
+  };
 
   return (
     <>
@@ -91,13 +93,22 @@ const ScreenC = (props) => {
                   as={Col}
                   style={{ textAlign: "right", marginTop: "1.5rem" }}
                 >
-                  <Button
-                    variant="primary"
-                    onClick={handleAdd}
-                    className="mt-2"
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={
+                      <Tooltip>
+                        Add ISBN to checkout.
+                      </Tooltip>
+                    }
                   >
-                    Add to order
-                  </Button>
+                    <Button
+                      variant="primary"
+                      onClick={handleAdd}
+                      className="mt-2"
+                    >
+                      Add to order
+                    </Button>
+                  </OverlayTrigger>
                 </Container>
               </div>
             </Form>

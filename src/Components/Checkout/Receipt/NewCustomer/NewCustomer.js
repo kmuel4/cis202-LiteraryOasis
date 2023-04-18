@@ -18,9 +18,19 @@ const NewCustomer = (props) => {
   const [show, setShow] = useState(true);
 
   const handleClose = (event) => {
-    event.preventDefault();
+    //event.preventDefault();
     setShow(false);
     props.onClose(false);
+  };
+
+  const [zip, setZip] = useState();
+  const handleZipChange = (event) => {
+    const value = event.target.value;
+    if (value.length <= 5) {
+      setZip(event.target.value);
+    } else {
+      event.target.value = event.target.value.slice(0, 5);
+    }
   };
 
   return (
@@ -80,7 +90,13 @@ const NewCustomer = (props) => {
 
             <Form.Group as={Col} controlId="zip">
               <Form.Label>Zip*</Form.Label>
-              <Form.Control required placeholder="Enter Zip" />
+              <Form.Control
+                required
+                placeholder="Enter Zip"
+                pattern="[0-9]{5}"
+                value={zip}
+                onChange={handleZipChange}
+              />
             </Form.Group>
           </Row>
           <Form.Group className="mb-2">
@@ -90,9 +106,9 @@ const NewCustomer = (props) => {
           </Form.Group>
           <hr />
           {/*category survey */}
-          <CategorySurvey/>
+          <CategorySurvey />
           {/*author survey */}
-          <AuthorSurvey/>
+          <AuthorSurvey />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

@@ -35,32 +35,37 @@ const CardPayment = (props) => {
     props.onClose(0);
   };
 
-  //default state for state code
-  const [stateCode, setStateCode] = useState("NY");
-  const handleStateCodeChange = (event) => {
+  //handle zip code
+  const [zip, setZip] = useState();
+  const handleZipChange = (event) => {
     const value = event.target.value;
-    if(value.length <= 2){
-    setStateCode(event.target.value);
-    }
-    else{
-      event.target.value = event.target.value.slice(0,3);
+    if (value.length <= 5) {
+      setZip(event.target.value);
+    } else {
+      event.target.value = event.target.value.slice(0, 5);
     }
   };
 
-  //default state for country
-  const [country, setCountry] = useState("United States");
-  const handleCountryChange = (event) => {
-    setCountry(event.target.value);
+  //handle security code
+  const [securityCode, setSecurityCode] = useState();
+  const handleSecurityCode = (event) => {
+    const value = event.target.value;
+    if (value.length <= 3) {
+      setSecurityCode(event.target.value);
+    } else {
+      event.target.value = event.target.value.slice(0, 3);
+    }
   };
 
+  // initialize phone number
   const [phoneNumber, setPhoneNumber] = useState("");
-
   const handlePhoneNumberChange = (event) => {
     const value = event.target.value;
     const formattedValue = formatPhoneNumber(value);
     setPhoneNumber(formattedValue);
   };
 
+  //handle digit limit and add dashes in
   const formatPhoneNumber = (value) => {
     // Remove all non-digit characters
     const phoneNumber = value.replace(/\D/g, "");
@@ -74,7 +79,6 @@ const CardPayment = (props) => {
         6
       )}-${phoneNumber.slice(6, 10)}`;
     }
-
     return phoneNumber;
   };
 
@@ -82,6 +86,30 @@ const CardPayment = (props) => {
   const countPhoneNumberDigits = (number) => {
     const digits = number.replace(/-/g, "").match(/\d/g);
     return digits ? digits.length : 0;
+  };
+
+  //initialize expiration
+  const [expiration, setExpiration] = useState("");
+  const handleExpirationChange = (event) => {
+    const value = event.target.value;
+    if (value.length <= 5) {
+      const formattedValue = formatExpiration(value);
+      setExpiration(formattedValue);
+    } else {
+      event.target.value = event.target.value.slice(0, 5);
+    }
+  };
+
+  // format expiration to have dash
+  const formatExpiration = (value) => {
+    // Remove all non-digit characters
+    const expiration = value.replace(/\D/g, "");
+
+    // Add dashes after the first 2 digits
+    if (expiration.length >= 2) {
+      return `${expiration.slice(0, 2)}-${expiration.slice(2)}`;
+    }
+    return expiration;
   };
 
   const handleSubmit = (event) => {
@@ -148,14 +176,29 @@ const CardPayment = (props) => {
           {/*card expiration */}
           <Row className="mt-3">
             <Form.Group as={Col} controlId="CardExpiration">
-              <Form.Label>Expiration (MM-YY)*</Form.Label>
-              <Form.Control tabIndex={3} pattern="[0-9]{2}-[0-9]{2}" required />
+              <Form.Label>Expiration*</Form.Label>
+              <Form.Control
+                tabIndex={3}
+                pattern="[0-9]{2}-[0-9]{2}"
+                required
+                value={expiration}
+                onChange={handleExpirationChange}
+              />
+              <Form.Text className="text-muted">
+                (MM-YY) format
+              </Form.Text>
             </Form.Group>
 
             {/*card security code */}
             <Form.Group as={Col} controlId="CardSecurityCode">
               <Form.Label>Security Code*</Form.Label>
-              <Form.Control tabIndex={4} pattern="[0-9]{3}" required />
+              <Form.Control
+                tabIndex={4}
+                pattern="[0-9]{3}"
+                required
+                value={securityCode}
+                onChange={handleSecurityCode}
+              />
               <Form.Text className="text-muted">
                 Must be <strong>3</strong> digits.
               </Form.Text>
@@ -172,72 +215,69 @@ const CardPayment = (props) => {
             {/*first name */}
             <Form.Group as={Col} controlId="First">
               <Form.Label>Name*</Form.Label>
-              <Form.Control tabIndex={5} required />
-              <Form.Text className="text-muted">First</Form.Text>
+              <Form.Control tabIndex={5} required placeholder="Enter First" />
             </Form.Group>
             {/*last name */}
             <Form.Group as={Col} className="mt-2" controlId="Last">
               <Form.Label></Form.Label>
-              <Form.Control tabIndex={6} required />
-              <Form.Text className="text-muted">Last</Form.Text>
+              <Form.Control tabIndex={6} required placeholder="Enter Last" />
             </Form.Group>
           </Row>
           {/*address */}
           <Form.Group controlId="Address">
             <Form.Label>Address*</Form.Label>
-            <Form.Control tabIndex={7} required />
-            <Form.Text className="text-muted">Street Address</Form.Text>
+            <Form.Control tabIndex={7} required placeholder="1234 Main St" />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="Address2">
-            <Form.Label></Form.Label>
-            <Form.Control />
-            <Form.Text className="text-muted">
-              Apartment, suite, etc. (optional)
-            </Form.Text>
+          <Form.Group className="mb-3 mt-3" controlId="Address2">
+            <Form.Label>Address 2</Form.Label>
+            <Form.Control placeholder="Apartment, studio, or floor" />
           </Form.Group>
           {/*city */}
           <Row>
             <Form.Group as={Col} controlId="City">
-              <Form.Label></Form.Label>
-              <Form.Control tabIndex={8} pattern="[a-zA-Z]+" required />
-              <Form.Text className="text-muted">City</Form.Text>
+              <Form.Label>City*</Form.Label>
+              <Form.Control
+                tabIndex={8}
+                pattern="[a-zA-Z]+"
+                required
+                placeholder="Enter City"
+              />
             </Form.Group>
             {/*state */}
             <Form.Group as={Col} controlId="State">
-              <Form.Label></Form.Label>
-              <Form.Control
-                pattern="[A-Z]{2}"
-                value={stateCode}
-                onChange={handleStateCodeChange}
-                required
-              />
-              <Form.Text className="text-muted">
-                State / Province / Region
-              </Form.Text>
+              <Form.Label>State*</Form.Label>
+              <Form.Select required defaultValue={null}>
+                <option>NY</option>
+                <option>...</option>
+              </Form.Select>
             </Form.Group>
           </Row>
           {/*zip */}
-          <Row>
-            <Form.Group as={Col} controlId="Zip">
-              <Form.Label></Form.Label>
-              <Form.Control tabIndex={9} pattern="[0-9]{5}" required />
-              <Form.Text className="text-muted">Postal / Zip Code</Form.Text>
+          <Row className="mt-3">
+            <Form.Group as={Col} controlId="zip">
+              <Form.Label>Zip*</Form.Label>
+              <Form.Control
+                tabIndex={9}
+                required
+                placeholder="Enter Zip"
+                pattern="[0-9]{5}"
+                value={zip}
+                onChange={handleZipChange}
+              />
             </Form.Group>
             {/*country */}
             <Form.Group as={Col} controlId="Country">
-              <Form.Label></Form.Label>
-              <Form.Control
-                value={country}
-                onChange={handleCountryChange}
-                required
-              />
-              <Form.Text className="text-muted">Country</Form.Text>
+              <Form.Label>Country*</Form.Label>
+              <Form.Select required defaultValue={null}>
+                <option>United States</option>
+                <option>...</option>
+              </Form.Select>
             </Form.Group>
           </Row>
           {/*phone number */}
           <Form.Group className="mb-3 mt-3" controlId="Phone">
-            <Form.Label>Phone Number</Form.Label>
+            <Form.Label>Phone Number*</Form.Label>
             <Form.Control
               type="tel"
               value={phoneNumber}
