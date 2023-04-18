@@ -1,25 +1,103 @@
-import logo from './logo.svg';
-import './App.css';
+import { Stack, Button, Container, Image } from "react-bootstrap";
+import BookLookup from "./Components/BookLookup/LookUpBook";
+import BookLookupAvaliability from "./Components/BookLookup/BookDetails";
+import Checkout from "./Components/Checkout/Checkout";
+import { useState } from "react";
+import NewCustomer from "./Components/Checkout/Receipt/NewCustomer/NewCustomer";
+import CardPayment from "./Components/Checkout/Payment";
+import Receipt from "./Components/Checkout/Receipt/Receipt";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+import textArt from "./Images/literaryoasis-textart.png";
+import ReceiptAlert from "./Components/Alert";
 
-function App() {
+const App = () => {
+  const [index, setIndex] = useState(0);
+  const handleSetIndex = (value) => {
+    setIndex(value);
+  };
+
+  const [alertFlag, setAlertFlag] = useState(false);
+  const handleAlert = (value) => {
+    setAlertFlag(value);
+  };
+
+  const handleOpenBookLookup = () => {
+    handleSetIndex(1);
+    setAlertFlag(false);
+  };
+
+  const handleOpenCheckout = () => {
+    handleSetIndex(3);
+    setAlertFlag(false);
+  };
+
+  const [bookData, setBookData] = useState();
+
+ const [bookIsbn, setBookIsbn] = useState();
+
+  const showScreen = (value) => {
+    switch (value) {
+      case 1:
+        return <BookLookup onClose={handleSetIndex} bookData={setBookData} bookIsbn={setBookIsbn}/>;
+      case 2:
+        return <BookLookupAvaliability onClose={handleSetIndex} bookData={bookData} bookIsbn={bookIsbn}/>;
+      case 3:
+        return <Checkout onClose={handleSetIndex} bookIsbn={bookIsbn}/>;
+      case 5:
+        return <CardPayment onClose={handleSetIndex} />;
+      case 6:
+        return <Receipt onClose={handleSetIndex} receipt={handleAlert} />;
+      default:
+        return;
+    }
+  };
+
+  const showAlert = (value) => {
+    if (value) {
+      return <ReceiptAlert onClose={handleAlert} />;
+    }
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="d-flex justify-content-center pt-5 pb-3">
+        <Container className="p-5">
+          <Image
+            src={textArt}
+            className="mb-5"
+            style={{
+              width: "100%",
+              height: "auto",
+            }}
+          ></Image>
+
+          <div className="d-flex justify-content-center mb-4">
+            <Button
+              variant="primary"
+              onClick={() => handleOpenBookLookup()}
+              className="text-center me-3"
+              style={{ width: "200px" }}
+            >
+              Book Lookup
+            </Button>
+
+            <Button
+              variant="primary"
+              onClick={() => handleOpenCheckout()}
+              className="text-center ms-3"
+              style={{ width: "200px" }}
+            >
+              Checkout
+            </Button>
+          </div>
+
+          {showAlert(alertFlag)}
+
+          <Stack gap={3}>{showScreen(index)}</Stack>
+        </Container>
+      </div>
+    </>
   );
-}
+};
 
 export default App;

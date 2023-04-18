@@ -1,10 +1,16 @@
-.App {
-  text-align: center;
-}
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+body {
+  background-image: url('./Images/literaryoasis-backdrop.png');
+  background-size: contain;
+  background-position: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
