@@ -1,9 +1,9 @@
 import { Stack, Button, Container, Image } from "react-bootstrap";
 import BookLookup from "./Components/BookLookup/LookUpBook";
-import BookLookupAvaliability from "./Components/BookLookup/BookDetails";
+import BookDetails from "./Components/BookLookup/BookDetails";
 import Checkout from "./Components/Checkout/Checkout";
 import { useState } from "react";
-//import NewCustomer from "./Components/Checkout/Receipt/NewCustomer/NewCustomer";
+import NewCustomer from "./Components/Checkout/Receipt/NewCustomer/NewCustomer";
 import CardPayment from "./Components/Checkout/Payment";
 import Receipt from "./Components/Checkout/Receipt/Receipt";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -32,18 +32,48 @@ const App = () => {
     setAlertFlag(false);
   };
 
+  //store book data
   const [bookData, setBookData] = useState();
+  const [bookIsbn, setBookIsbn] = useState();
 
- const [bookIsbn, setBookIsbn] = useState();
+  //handle cart data
+  const [cart, setCart] = useState([]);
+  const handleSetCart = (event) => {
+    setCart(event);
+  };
 
+  //screen manager
   const showScreen = (value) => {
     switch (value) {
       case 1:
-        return <BookLookup onClose={handleSetIndex} bookData={setBookData} bookIsbn={setBookIsbn}/>;
+        return (
+          <BookLookup
+            onClose={handleSetIndex}
+            bookData={setBookData}
+            bookIsbn={setBookIsbn}
+          />
+        );
       case 2:
-        return <BookLookupAvaliability onClose={handleSetIndex} bookData={bookData} bookIsbn={bookIsbn}/>;
+        return (
+          <BookDetails
+            onClose={handleSetIndex}
+            bookData={bookData}
+            bookIsbn={bookIsbn}
+          />
+        );
       case 3:
-        return <Checkout onClose={handleSetIndex} bookIsbn={bookIsbn}/>;
+        return (
+          <Checkout
+            onClose={handleSetIndex}
+            bookIsbn={bookIsbn}
+            saveCart={handleSetCart}
+            getCart={cart}
+          />
+        );
+      case 4:
+        return (
+          <NewCustomer onClose={handleSetIndex} onSubmit={handleSetIndex} />
+        );
       case 5:
         return <CardPayment onClose={handleSetIndex} />;
       case 6:

@@ -16,21 +16,21 @@ import {
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../Images/literaryoasis-backdrop.png";
-import NewCustomer from "./Receipt/NewCustomer/NewCustomer";
 
 const Checkout = (props) => {
   const [show, setShow] = useState(true);
   const [isCartEmpty, setIsCartEmpty] = useState(true);
 
   const handleClose = () => {
+    props.saveCart(books);
     setShow(false);
     props.onClose(0);
   };
 
-  const [newCustomer, setNewCustomer] = useState(false);
   const handleNewCustomer = () => {
-    setNewCustomer(!newCustomer);
-    setMinimized(!minimized);
+    props.saveCart(books);
+    setShow(false);
+    props.onClose(4);
   };
 
   const handlePay = () => {
@@ -47,7 +47,10 @@ const Checkout = (props) => {
   //get a random price (for now)
   const [price, setPrice] = useState("");
   //initialize books list
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState(
+    props.getCart && props.getCart.length > 0 ? props.getCart : []
+  );;
+  
 
   //set book price once isbn is set
   useEffect(() => {
@@ -71,8 +74,6 @@ const Checkout = (props) => {
   const totalPrice = books.reduce((acc, book) => {
     return acc + Number(book.price);
   }, 0);
-
-  const [minimized, setMinimized] = useState(false);
 
   //render books in the modal
   const renderBooks = () => {
@@ -124,8 +125,6 @@ const Checkout = (props) => {
         show={show}
         onHide={handleClose}
         animation={false}
-        backdrop="static"
-        keyboard={false}
       >
         <Modal.Header closeButton>
           <Modal.Title>
@@ -223,9 +222,7 @@ const Checkout = (props) => {
             New Customer
           </Button>
         </Modal.Body>
-        <Modal.Footer
-          style={{ display: minimized ? "none" : "block", textAlign: "right" }}
-        >
+        <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
@@ -245,7 +242,6 @@ const Checkout = (props) => {
           </OverlayTrigger>
         </Modal.Footer>
       </Modal>
-      {newCustomer && <NewCustomer onClose={handleNewCustomer} />}
     </>
   );
 };

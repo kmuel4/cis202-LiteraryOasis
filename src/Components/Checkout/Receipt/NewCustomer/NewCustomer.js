@@ -17,10 +17,14 @@ import AuthorSurvey from "./AuthorSurvey";
 const NewCustomer = (props) => {
   const [show, setShow] = useState(true);
 
-  const handleClose = (event) => {
-    //event.preventDefault();
+  const handleClose = () => {
     setShow(false);
-    props.onClose(false);
+    props.onClose(3);
+  };
+
+  const handleSubmit = () => {
+    setShow(false)
+    props.onSubmit(3);
   };
 
   const [zip, setZip] = useState();
@@ -35,7 +39,7 @@ const NewCustomer = (props) => {
 
   return (
     <Modal show={show} onHide={handleClose} animation={false}>
-      <Form onSubmit={handleClose}>
+      <Form onSubmit={handleSubmit}>
         <Modal.Header closeButton>
           <Modal.Title>
             <Stack direction="horizontal" gap={1}>

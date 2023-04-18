@@ -16,7 +16,7 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../Images/literaryoasis-backdrop.png";
 
-const ScreenC = (props) => {
+const BookDetails = (props) => {
   const [show, setShow] = useState(true);
 
   const handleClose = () => {
@@ -131,4 +131,4 @@ const ScreenC = (props) => {
   );
 };
 
-export default ScreenC;
+export default BookDetails;
