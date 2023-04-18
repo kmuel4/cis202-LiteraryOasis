@@ -1,3 +1,17 @@
+# Launching the App
+
+### `npm start` 
+
+launch web app
+
+### `npm run electron`
+
+launch electron app
+
+### `npm build`
+
+puts the react app in build, then can modify main.js to run the index.html so you just have to launch the app with electron
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
