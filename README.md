@@ -1,3 +1,33 @@
+# Launching the App
+
+### `npm install react-bootstrap boostrap'
+
+installs bootstrap
+
+### `add "main": "public/main.js" to package.json`
+
+### `npm i electron`
+
+installs electron dependencies
+
+### `add "electron":"electron . --ignore-certificate-errors" to scripts`
+
+command to launch electron app 
+
+### `npm start` 
+
+launch web app
+
+### `npm run electron`
+
+launch electron app
+
+#run in separate terminals
+
+### `npm build`
+
+puts the react app in build, then can modify main.js to run the index.html to launch the app with electron in one terminal
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
