@@ -6,11 +6,13 @@ installs bootstrap
 
 ### `add "main": "public/main.js" to package.json`
 
-### `npm i electron
+### `npm i electron`
 
 installs electron dependencies
 
 ### `add "electron":"electron . --ignore-certificate-errors" to scripts`
+
+command to launch electron app 
 
 ### `npm start` 
 
@@ -24,7 +26,7 @@ launch electron app
 
 ### `npm build`
 
-puts the react app in build, then can modify main.js to run the index.html so you just have to launch the app with electron
+puts the react app in build, then can modify main.js to run the index.html to launch the app with electron in one terminal
 
 # Getting Started with Create React App
 
