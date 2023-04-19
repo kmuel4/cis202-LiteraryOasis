@@ -17,7 +17,7 @@ const createWindow = () => {
 
   //load the index.html from a url
   win.loadURL("http://localhost:3000");
-  //win.setMenu(null);
+  win.setMenu(null);
 
   // Wait for the React app to finish loading.
   let refresh = false;
