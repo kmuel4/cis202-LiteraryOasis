@@ -38,7 +38,7 @@ const CategorySurvey = () => {
   const [catHoverIndex, setCatHoverIndex] = useState(null);
   return (
     <>
-      <Form.Label>Reading Interest Survey</Form.Label>
+      <Form.Label>Reading Category Survey</Form.Label>
       <Form>
         <Row>
           <Form.Group as={Col}>

@@ -8,12 +8,14 @@ import {
   Image,
   Stack,
   Breadcrumb,
+  Container,
+  Card,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../../../Images/literaryoasis-backdrop.png";
 import CategorySurvey from "./CategorySurvey";
 import AuthorSurvey from "./AuthorSurvey";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faUser, faArrowsRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NewCustomer = (props) => {
@@ -42,8 +44,12 @@ const NewCustomer = (props) => {
   return (
     <Modal show={show} onHide={handleClose} animation={false}>
       <Form onSubmit={handleSubmit}>
-        <Modal.Header closeButton>
-          <Modal.Title>
+        <Modal.Header
+          className="stick-top"
+          style={{ padding: ".5rem 1rem", borderBottom: "none" }}
+          closeButton
+        >
+          <Modal.Title style={{ fontSize: "1.5rem" }}>
             <Stack direction="horizontal" gap={1}>
               <Image
                 roundedCircle
@@ -51,14 +57,30 @@ const NewCustomer = (props) => {
                 style={{ height: "3rem", width: "auto" }}
               />
               &nbsp;
-              <Breadcrumb style={{ fontSize: "1.25rem" }}>
-                <Breadcrumb.Item active>Checkout</Breadcrumb.Item>
-                <Breadcrumb.Item active>New Customer</Breadcrumb.Item>
+              <Breadcrumb style={{ fontSize: "1.25rem", marginTop: "1rem" }}>
+                <Breadcrumb.Item active style={{ color: "black" }}>
+                  Checkout
+                </Breadcrumb.Item>
+                <Breadcrumb.Item active style={{ color: "grey" }}>
+                  New Customer
+                </Breadcrumb.Item>
               </Breadcrumb>
             </Stack>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Container>
+            <h2
+              className="text-center"
+              style={{
+                fontSize: "3rem",
+                color: "black",
+                marginTop: "-1rem",
+              }}
+            >
+              <FontAwesomeIcon icon={faUser} />
+            </h2>
+          </Container>
           <Row className="mb-3">
             <Form.Label>Name*</Form.Label>
             <Form.Group as={Col} controlId="firstName">
@@ -110,19 +132,29 @@ const NewCustomer = (props) => {
               *The following survey is optional.
             </Form.Text>
           </Form.Group>
-          <hr />
-          {/*category survey */}
-          <CategorySurvey />
-          {/*author survey */}
-          <AuthorSurvey />
+          <Card className="p-2">
+            {/*category survey */}
+            <CategorySurvey />
+          </Card>
+          <Card className="p-2 mt-3">
+            {/*author survey */}
+            <AuthorSurvey />
+          </Card>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            <FontAwesomeIcon icon={faArrowLeft} /> Back
-          </Button>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
+          <div className="d-flex justify-content-between w-100">
+            <Button variant="secondary" onClick={handleClose}>
+              <FontAwesomeIcon icon={faArrowLeft} /> Back
+            </Button>
+            <Button variant="danger" >
+              <FontAwesomeIcon icon={faArrowsRotate}/>
+            </Button>
+            <div className="d-flex justify-content-end">
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </div>
+          </div>
         </Modal.Footer>
       </Form>
     </Modal>

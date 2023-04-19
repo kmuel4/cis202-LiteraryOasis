@@ -74,8 +74,12 @@ const Receipt = (props) => {
     <>
       <Modal show={show} backdrop="static" keyboard={false} animation={false}>
         <Form onSubmit={handleSubmit}>
-          <Modal.Header>
-            <Modal.Title>
+          <Modal.Header
+            className="stick-top"
+            style={{ padding: ".5rem 1rem", borderBottom: "none" }}
+            closeButton
+          >
+            <Modal.Title style={{ fontSize: "1.5rem" }}>
               <Stack direction="horizontal" gap={1}>
                 <Image
                   roundedCircle
@@ -83,17 +87,39 @@ const Receipt = (props) => {
                   style={{ height: "3rem", width: "auto" }}
                 />
                 &nbsp;
-                <Breadcrumb style={{ fontSize: "1.25rem" }}>
-                  <Breadcrumb.Item active>Checkout</Breadcrumb.Item>
-                  <Breadcrumb.Item active>Payment</Breadcrumb.Item>
-                  <Breadcrumb.Item active>Receipt</Breadcrumb.Item>
+                <Breadcrumb style={{ fontSize: "1.25rem", marginTop: "1rem" }}>
+                  <Breadcrumb.Item active style={{ color: "black" }}>
+                    Checkout
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item active style={{ color: "black" }}>
+                    Payment
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item active style={{ color: "grey" }}>
+                    Receipt
+                  </Breadcrumb.Item>
                 </Breadcrumb>
               </Stack>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Container className="mb-4">
-              <h3 className="text-center">Payment Successful! </h3>
+              <h2
+                className="text-center"
+                style={{
+                  fontSize: "2rem",
+                  color: "black",
+                  marginTop: "-1rem"
+                }}
+              >
+                Payment Successful!
+              </h2>
+              <hr
+                style={{
+                  marginLeft: "-2rem",
+                  marginRight: "-2rem",
+                  marginBottom: "1.25rem",
+                }}
+              />
             </Container>
             <Form.Group>
               <Form.Check

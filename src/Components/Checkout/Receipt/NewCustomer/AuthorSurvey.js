@@ -42,14 +42,14 @@ const AuthorSurvey = () => {
   const [authorHoverIndex, setAuthorHoverIndex] = useState(null);
   return (
     <>
-      <hr />
-      <Form className="mt-3">
+      <Form.Label>Favorite Author Survey</Form.Label>
+      <Form>
         <Row>
           <Form.Group as={Col}>
             {/*input for adding new author to the list */}
             <Form.Control
               type="text"
-              placeholder="Author..."
+              placeholder="Authors..."
               value={author}
               onChange={(event) => setAuthor(event.target.value)}
               //when enter is pressed add category to the list

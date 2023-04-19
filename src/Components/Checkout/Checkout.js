@@ -111,7 +111,9 @@ const Checkout = (props) => {
   //render books in the modal
   const renderBooks = () => {
     return (
-      <div style={{ maxHeight: "20rem", overflowY: "scroll", overflowX: "hidden"}}>
+      <div
+        style={{ maxHeight: "20rem", overflowY: "scroll", overflowX: "hidden" }}
+      >
         {books.map((book, index) => (
           <div
             key={index}
@@ -120,11 +122,11 @@ const Checkout = (props) => {
             <div>
               <Row>
                 <Form.Group as={Col}>
-                  <Form.Label>ISBN</Form.Label>
+                  <Form.Label>ISBN:</Form.Label>
                   <Form.Control placeholder={book.isbn} disabled />
                 </Form.Group>
                 <Form.Group as={Col}>
-                  <Form.Label>Price</Form.Label>
+                  <Form.Label>Price:</Form.Label>
                   <InputGroup>
                     <InputGroup.Text>$</InputGroup.Text>
                     <Form.Control placeholder={book.price} disabled />
@@ -134,7 +136,12 @@ const Checkout = (props) => {
                   as={Col}
                   style={{ marginTop: "30px", textAlign: "right" }}
                 >
-                  <Button variant="danger" style={{marginRight: ".5rem"}}onClick={() => removeBook(index)}>
+                  <Button
+                    variant="danger"
+                    style={{ marginRight: ".5rem" }}
+                    onClick={() => removeBook(index)}
+                  >
+                    Remove &nbsp;
                     <FontAwesomeIcon icon={faXmark} />
                   </Button>
                 </Container>
@@ -163,8 +170,12 @@ const Checkout = (props) => {
   return (
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>
+        <Modal.Header
+          className="stick-top"
+          style={{ padding: ".5rem 1rem", borderBottom: "none" }}
+          closeButton
+        >
+          <Modal.Title style={{ fontSize: "1.5rem" }}>
             <Stack direction="horizontal" gap={1}>
               <Image
                 roundedCircle
@@ -172,29 +183,31 @@ const Checkout = (props) => {
                 style={{ height: "3rem", width: "auto" }}
               />
               &nbsp;
-              <Breadcrumb style={{ fontSize: "1.25rem" }}>
-                <Breadcrumb.Item active>Checkout</Breadcrumb.Item>
+              <Breadcrumb style={{ fontSize: "1.25rem", marginTop: "1rem" }}>
+                <Breadcrumb.Item active style={{ color: "grey" }}>
+                  Checkout
+                </Breadcrumb.Item>
               </Breadcrumb>
             </Stack>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Container style={{ background: "" }}>
-            <h2 className="text-center">
-              Checkout &nbsp;
+          <Container>
+            <h2
+              className="text-center"
+              style={{
+                fontSize: "3rem",
+                color: "black",
+                marginTop: "-1rem",
+                marginBottom: "2rem",
+              }}
+            >
               <FontAwesomeIcon icon={faCashRegister} />
             </h2>
           </Container>
-          <hr style={{marginLeft: "-1rem", marginRight: "-1rem"}}/>
-          <Form.Group className="mb-2">
-            <Form.Text className="text-muted mb-4">
-              *Scan barcode or enter ISBN manually.
-            </Form.Text>
-          </Form.Group>
           <Form onSubmit={handleSubmit}>
             <div className="d-flex justify-content-between">
               <Form.Group as={Col} md={8} className="mb-3">
-                <Form.Label>ISBN</Form.Label>
                 <InputGroup>
                   <Form.Control
                     placeholder="Enter ISBN"
@@ -239,10 +252,7 @@ const Checkout = (props) => {
                   </em>
                 </Form.Text>
               </Form.Group>
-              <Container
-                as={Col}
-                style={{ textAlign: "right", marginTop: "2rem" }}
-              >
+              <Container as={Col} style={{ textAlign: "right", marginTop: "" }}>
                 {/*add book to order button */}
                 <Button
                   variant="primary"
@@ -254,6 +264,7 @@ const Checkout = (props) => {
                   onMouseEnter={() => setAddHover(true)}
                   onMouseLeave={() => setAddHover(false)}
                 >
+                  Add &nbsp;
                   <FontAwesomeIcon
                     icon={faCheck}
                     beatFade={addHover ? true : false}
@@ -262,14 +273,16 @@ const Checkout = (props) => {
               </Container>
             </div>
           </Form>
-          <Card style={{padding: ".5rem", marginBottom: "1rem"}}>
-          {books.length > 0 ? (
-            renderBooks()
-          ) : (
-            <>
-              <p style={{ textAlign: "center" }}>No books added</p>
-            </>
-          )}
+          <Card style={{ padding: ".5rem", marginBottom: "1rem" }}>
+            {books.length > 0 ? (
+              renderBooks()
+            ) : (
+              <>
+                <p style={{ textAlign: "center", marginTop: "1rem" }}>
+                  No books added
+                </p>
+              </>
+            )}
           </Card>
           <Row>
             {/*subtotal */}
@@ -305,24 +318,30 @@ const Checkout = (props) => {
           </Button>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <OverlayTrigger
-            placement="top"
-            overlay={
-              isCartEmpty ? (
-                <Tooltip>You must add something to cart to proceed.</Tooltip>
-              ) : (
-                <></>
-              )
-            }
-          >
-            <Button variant="primary" onClick={handlePay}>
-              Payment&nbsp;
-              <FontAwesomeIcon icon={faArrowRight} />
+          <div className="d-flex justify-content-between w-100">
+            <Button variant="secondary" onClick={handleClose}>
+              Close
             </Button>
-          </OverlayTrigger>
+            <div className="d-flex justify-content-end">
+              <OverlayTrigger
+                placement="top"
+                overlay={
+                  isCartEmpty ? (
+                    <Tooltip>
+                      You must add something to cart to proceed.
+                    </Tooltip>
+                  ) : (
+                    <></>
+                  )
+                }
+              >
+                <Button variant="primary" onClick={handlePay}>
+                  Payment&nbsp;
+                  <FontAwesomeIcon icon={faArrowRight} />
+                </Button>
+              </OverlayTrigger>
+            </div>
+          </div>
         </Modal.Footer>
       </Modal>
     </>

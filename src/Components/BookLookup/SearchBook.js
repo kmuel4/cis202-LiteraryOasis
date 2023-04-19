@@ -8,11 +8,12 @@ import {
   Stack,
   OverlayTrigger,
   Tooltip,
+  Container,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../Images/literaryoasis-backdrop.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const BookLookup = (props) => {
   const [show, setShow] = useState(true);
@@ -58,8 +59,8 @@ const BookLookup = (props) => {
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
         <Form onSubmit={handleSubmit}>
-          <Modal.Header closeButton>
-            <Modal.Title>
+          <Modal.Header className="stick-top" style={{ padding: ".5rem 1rem", borderBottom: "none" }} closeButton>
+            <Modal.Title style={{ fontSize: "1.5rem" }}>
               <Stack direction="horizontal" gap={1}>
                 <Image
                   roundedCircle
@@ -67,17 +68,31 @@ const BookLookup = (props) => {
                   style={{ height: "3rem", width: "auto" }}
                 />
                 &nbsp;
-                <Breadcrumb style={{ fontSize: "1.25rem" }}>
-                  <Breadcrumb.Item active>Book Lookup</Breadcrumb.Item>
+                <Breadcrumb style={{ fontSize: "1.25rem", marginTop: "1rem" }}>
+                  <Breadcrumb.Item active style={{ color: "grey" }}>
+                    Book Search
+                  </Breadcrumb.Item>
                 </Breadcrumb>
               </Stack>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
+            <Container>
+              <h2
+                className="text-center"
+                style={{
+                  fontSize: "3rem",
+                  color: "black",
+                  marginTop: "-1rem"
+                }}
+              >
+                <FontAwesomeIcon icon={faSearch} />
+              </h2>
+            </Container>
             <Form.Text className="text-muted mb-4">
-              Look up book by Title and Author or ISBN.
+              *Look up book by Title and Author or ISBN.
             </Form.Text>
-            <Form.Group className="mt-3">
+            <Form.Group className="mt-2">
               <Form.Label>Title:</Form.Label>
               <Form.Control
                 type="text"
@@ -96,7 +111,13 @@ const BookLookup = (props) => {
                 onChange={handleBookDataAuthor}
               />
             </Form.Group>
-            <hr className="mt-4" />
+            <hr
+              style={{
+                marginLeft: "-1rem",
+                marginRight: "-1rem",
+                marginTop: "1.5rem",
+              }}
+            />
             <Form.Group>
               <Form.Label>ISBN:</Form.Label>
               <Form.Control
@@ -123,34 +144,39 @@ const BookLookup = (props) => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <OverlayTrigger
-              placement="top"
-              overlay={
-                !(
-                  (title.length > 0 && author.length > 0) ||
-                  isbn.length > 0
-                ) ? (
-                  <Tooltip>
-                    You must enter Title & Author or ISBN to continue.
-                  </Tooltip>
-                ) : (
-                  <></>
-                )
-              }
-            >
-              <Button variant="primary" type="submit" tabIndex={4}>
-                Search{" "}
-                <FontAwesomeIcon
-                  icon={faArrowRight}
-                  shake={
-                    (title.length > 0 && author.length > 0) || isbn.length >= 13
-                  }
-                />
+            <div className="d-flex justify-content-between w-100">
+              <Button variant="secondary" onClick={handleClose}>
+                Close
               </Button>
-            </OverlayTrigger>
+              <div className="d-flex justify-content-end">
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    !(
+                      (title.length > 0 && author.length > 0) ||
+                      isbn.length > 0
+                    ) ? (
+                      <Tooltip>
+                        You must enter Title & Author or ISBN to continue.
+                      </Tooltip>
+                    ) : (
+                      <></>
+                    )
+                  }
+                >
+                  <Button variant="primary" type="submit" tabIndex={4}>
+                    Search &nbsp;
+                    <FontAwesomeIcon
+                      icon={faArrowRight}
+                      shake={
+                        (title.length > 0 && author.length > 0) ||
+                        isbn.length >= 13
+                      }
+                    />
+                  </Button>
+                </OverlayTrigger>
+              </div>
+            </div>
           </Modal.Footer>
         </Form>
       </Modal>

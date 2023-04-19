@@ -1,5 +1,5 @@
 import { Stack, Button, Container, Image } from "react-bootstrap";
-import BookLookup from "./Components/BookLookup/LookUpBook";
+import SearchBook from "./Components/BookLookup/SearchBook";
 import BookDetails from "./Components/BookLookup/BookDetails";
 import Checkout from "./Components/Checkout/Checkout";
 import { useState } from "react";
@@ -44,8 +44,6 @@ const App = () => {
     setCart(event);
   };
 
-  const [cartFlag, setCartFlag] = useState(false);
-
   //search book
   const searchBook = (data) => {
     setBookIsbn(data);
@@ -62,7 +60,7 @@ const App = () => {
     switch (value) {
       case 1:
         return (
-          <BookLookup
+          <SearchBook
             onClose={handleSetIndex}
             bookData={setBookData}
             bookIsbn={setBookIsbn}

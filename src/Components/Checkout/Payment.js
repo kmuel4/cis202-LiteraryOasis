@@ -16,6 +16,7 @@ import {
   faArrowLeft,
   faWallet,
   faCircleInfo,
+  faArrowsRotate,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -34,13 +35,16 @@ const CardPayment = (props) => {
     }
   };
 
+  //controls showing modal
   const [show, setShow] = useState(true);
 
+  //close and go to app
   const handleClose = () => {
     setShow(false);
     props.onClose(0);
   };
 
+  //go back to checkout
   const handleBack = () => {
     setShow(false);
     props.onClose(3);
@@ -123,9 +127,16 @@ const CardPayment = (props) => {
     return expiration;
   };
 
+  //progress to payment
   const handleSubmit = (event) => {
     event.preventDefault();
     props.onClose(6);
+  };
+
+  //clear fields that you cant delete
+  const handleClear = () => {
+    setExpiration("");
+    setPhoneNumber("");
   };
 
   return (
@@ -137,8 +148,12 @@ const CardPayment = (props) => {
       animation={false}
     >
       <Form onSubmit={handleSubmit}>
-        <Modal.Header closeButton>
-          <Modal.Title>
+        <Modal.Header
+          className="stick-top"
+          style={{ padding: ".5rem 1rem", borderBottom: "none" }}
+          closeButton
+        >
+          <Modal.Title style={{ fontSize: "1.5rem" }}>
             <Stack direction="horizontal" gap={1}>
               <Image
                 roundedCircle
@@ -146,21 +161,34 @@ const CardPayment = (props) => {
                 style={{ height: "3rem", width: "auto" }}
               />
               &nbsp;
-              <Breadcrumb style={{ fontSize: "1.25rem" }}>
-                <Breadcrumb.Item active>Checkout</Breadcrumb.Item>
-                <Breadcrumb.Item active>Payment</Breadcrumb.Item>
+              <Breadcrumb style={{ fontSize: "1.25rem", marginTop: "1rem" }}>
+                <Breadcrumb.Item active style={{ color: "black" }}>
+                  Checkout
+                </Breadcrumb.Item>
+                <Breadcrumb.Item active style={{ color: "grey" }}>
+                  Payment
+                </Breadcrumb.Item>
               </Breadcrumb>
             </Stack>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {/*title */}
-          <Container className="mt-1">
-            <h3 className="text-center">
+          <Container>
+            <h2
+              className="text-center"
+              style={{
+                fontSize: "2rem",
+                color: "black",
+                marginTop: "-1rem",
+                marginBottom: "1rem",
+              }}
+            >
               Card Information &nbsp;
               <FontAwesomeIcon icon={faWallet} />
-            </h3>
+            </h2>
           </Container>
+
           {/*card number */}
           <Form.Group className="mb-3" controlId="CardNumber">
             <Form.Label>Card Number*</Form.Label>
@@ -185,7 +213,7 @@ const CardPayment = (props) => {
           </Form.Group>
 
           {/*card expiration */}
-          <Row className="mt-3">
+          <Row className="mt-3 mb-4">
             <Form.Group as={Col} controlId="CardExpiration">
               <Form.Label>Expiration*</Form.Label>
               <Form.Control
@@ -213,12 +241,17 @@ const CardPayment = (props) => {
               </Form.Text>
             </Form.Group>
           </Row>
-
-          <Container className="mt-4">
-            <h3 className="text-center">
-              Billing Information &nbsp; 
+          <Container>
+            <h2
+              className="text-center"
+              style={{
+                fontSize: "2rem",
+                color: "black",
+              }}
+            >
+              Billing Address &nbsp;
               <FontAwesomeIcon icon={faCircleInfo} />
-            </h3>
+            </h2>
           </Container>
           <Row className="mb-3">
             {/*first name */}
@@ -306,12 +339,19 @@ const CardPayment = (props) => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleBack}>
-            <FontAwesomeIcon icon={faArrowLeft} /> Back
-          </Button>
-          <Button variant="primary" type="submit" tabIndex={11}>
-            Submit
-          </Button>
+          <div className="d-flex justify-content-between w-100">
+            <Button variant="secondary" onClick={handleBack}>
+              <FontAwesomeIcon icon={faArrowLeft} /> Back
+            </Button>
+            <Button variant="danger" onClick={handleClear}>
+              <FontAwesomeIcon icon={faArrowsRotate} />
+            </Button>
+            <div className="d-flex justify-content-end">
+              <Button variant="primary" type="submit" tabIndex={11}>
+                Submit
+              </Button>
+            </div>
+          </div>
         </Modal.Footer>
       </Form>
     </Modal>

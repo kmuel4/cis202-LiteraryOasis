@@ -10,13 +10,15 @@ import {
   Breadcrumb,
   InputGroup,
   Container,
-  OverlayTrigger,
-  Tooltip,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../Images/literaryoasis-backdrop.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faCartShopping,
+  faBookOpen,
+} from "@fortawesome/free-solid-svg-icons";
 
 const BookDetails = (props) => {
   const [show, setShow] = useState(true);
@@ -37,8 +39,12 @@ const BookDetails = (props) => {
   return (
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>
+        <Modal.Header
+          className="stick-top"
+          style={{ padding: ".5rem 1rem", borderBottom: "none" }}
+          closeButton
+        >
+          <Modal.Title style={{ fontSize: "1.5rem" }}>
             <Stack direction="horizontal" gap={1}>
               <Image
                 roundedCircle
@@ -46,14 +52,30 @@ const BookDetails = (props) => {
                 style={{ height: "3rem", width: "auto" }}
               />
               &nbsp;
-              <Breadcrumb style={{ fontSize: "1.25rem" }}>
-                <Breadcrumb.Item active>Book Lookup</Breadcrumb.Item>
-                <Breadcrumb.Item active>Book Details</Breadcrumb.Item>
+              <Breadcrumb style={{ fontSize: "1.25rem", marginTop: "1rem" }}>
+                <Breadcrumb.Item active style={{ color: "black" }}>
+                  Book Search
+                </Breadcrumb.Item>
+                <Breadcrumb.Item active style={{ color: "grey" }}>
+                  Book Details
+                </Breadcrumb.Item>
               </Breadcrumb>
             </Stack>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <Container>
+            <h2
+              className="text-center"
+              style={{
+                fontSize: "3rem",
+                color: "black",
+                marginTop: "-1rem"
+              }}
+            >
+              <FontAwesomeIcon icon={faBookOpen} />
+            </h2>
+          </Container>
           <Form>
             <Row>
               <Form.Group as={Col} className="mb-3">
@@ -93,30 +115,35 @@ const BookDetails = (props) => {
                 </Form.Group>
                 <Form.Group
                   as={Col}
-                  style={{marginTop: "2rem", textAlign: "right", marginLeft: "1rem"}}
+                  style={{
+                    marginTop: "2rem",
+                    textAlign: "right",
+                    marginLeft: "1rem",
+                  }}
                 >
-                    <Button
-                      variant="primary"
-                      onClick={handleAdd}
-                      style={{width: "14rem"}}
-                    >
-                      Add to Cart &nbsp;<FontAwesomeIcon icon={faCartShopping} beat size="1x"/>
-                    </Button>
+                  <Button
+                    variant="primary"
+                    onClick={handleAdd}
+                    style={{ width: "14rem" }}
+                  >
+                    Add to Cart &nbsp;
+                    <FontAwesomeIcon icon={faCartShopping} beat size="1x" />
+                  </Button>
                 </Form.Group>
               </div>
             </Form>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <div style={{ textAlign: "left" }}>
+          <div className="d-flex justify-content-between w-100">
             <Button variant="primary" onClick={handleBack}>
-              <FontAwesomeIcon icon={faArrowLeft}/> Return
+              <FontAwesomeIcon icon={faArrowLeft} /> Return
             </Button>
-          </div>
-          <div style={{ textAlign: "right" }}>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
+            <div className="d-flex justify-content-end">
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+            </div>
           </div>
         </Modal.Footer>
       </Modal>
