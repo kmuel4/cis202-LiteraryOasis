@@ -3,7 +3,7 @@ import {
   Button,
   Modal,
   Image,
-  Card,
+  Container,
   Form,
   Breadcrumb,
   Stack,
@@ -92,11 +92,9 @@ const Receipt = (props) => {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <h3 className="text-center">
-              <Card className="p-3" style={{ background: "#dde3f4" }}>
-                Payment Successful!
-              </Card>
-            </h3>
+            <Container className="mb-4">
+              <h3 className="text-center">Payment Successful! </h3>
+            </Container>
             <Form.Group>
               <Form.Check
                 type="checkbox"

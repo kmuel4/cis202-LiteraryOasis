@@ -5,13 +5,19 @@ import {
   Button,
   Modal,
   Image,
-  Card,
+  Container,
   Stack,
   Breadcrumb,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import logo from "../../Images/literaryoasis-backdrop.png";
+import {
+  faArrowLeft,
+  faWallet,
+  faCircleInfo,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CardPayment = (props) => {
   //card number
@@ -33,6 +39,11 @@ const CardPayment = (props) => {
   const handleClose = () => {
     setShow(false);
     props.onClose(0);
+  };
+
+  const handleBack = () => {
+    setShow(false);
+    props.onClose(3);
   };
 
   //handle zip code
@@ -126,7 +137,7 @@ const CardPayment = (props) => {
       animation={false}
     >
       <Form onSubmit={handleSubmit}>
-        <Modal.Header>
+        <Modal.Header closeButton>
           <Modal.Title>
             <Stack direction="horizontal" gap={1}>
               <Image
@@ -144,12 +155,12 @@ const CardPayment = (props) => {
         </Modal.Header>
         <Modal.Body>
           {/*title */}
-          <h3 className="text-center">
-            <Card className="p-3" style={{ background: "#dde3f4" }}>
-              Card Information
-            </Card>
-          </h3>
-
+          <Container className="mt-1">
+            <h3 className="text-center">
+              Card Information &nbsp;
+              <FontAwesomeIcon icon={faWallet} />
+            </h3>
+          </Container>
           {/*card number */}
           <Form.Group className="mb-3" controlId="CardNumber">
             <Form.Label>Card Number*</Form.Label>
@@ -184,9 +195,7 @@ const CardPayment = (props) => {
                 value={expiration}
                 onChange={handleExpirationChange}
               />
-              <Form.Text className="text-muted">
-                (MM-YY) format
-              </Form.Text>
+              <Form.Text className="text-muted">(MM-YY) format</Form.Text>
             </Form.Group>
 
             {/*card security code */}
@@ -205,12 +214,12 @@ const CardPayment = (props) => {
             </Form.Group>
           </Row>
 
-          <h3 className="text-center">
-            <Card className="p-3 mt-3" style={{ background: "#dde3f4" }}>
-              Billing Information
-            </Card>
-          </h3>
-
+          <Container className="mt-4">
+            <h3 className="text-center">
+              Billing Information &nbsp; 
+              <FontAwesomeIcon icon={faCircleInfo} />
+            </h3>
+          </Container>
           <Row className="mb-3">
             {/*first name */}
             <Form.Group as={Col} controlId="First">
@@ -297,8 +306,8 @@ const CardPayment = (props) => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Cancel Order
+          <Button variant="secondary" onClick={handleBack}>
+            <FontAwesomeIcon icon={faArrowLeft} /> Back
           </Button>
           <Button variant="primary" type="submit" tabIndex={11}>
             Submit

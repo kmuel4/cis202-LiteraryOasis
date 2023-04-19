@@ -13,6 +13,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../../../Images/literaryoasis-backdrop.png";
 import CategorySurvey from "./CategorySurvey";
 import AuthorSurvey from "./AuthorSurvey";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NewCustomer = (props) => {
   const [show, setShow] = useState(true);
@@ -23,7 +25,7 @@ const NewCustomer = (props) => {
   };
 
   const handleSubmit = () => {
-    setShow(false)
+    setShow(false);
     props.onSubmit(3);
   };
 
@@ -116,7 +118,7 @@ const NewCustomer = (props) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Back
+            <FontAwesomeIcon icon={faArrowLeft} /> Back
           </Button>
           <Button variant="primary" type="submit">
             Submit

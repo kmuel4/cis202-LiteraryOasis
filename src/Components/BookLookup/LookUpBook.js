@@ -11,6 +11,8 @@ import {
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../Images/literaryoasis-backdrop.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 const BookLookup = (props) => {
   const [show, setShow] = useState(true);
@@ -76,7 +78,7 @@ const BookLookup = (props) => {
               Look up book by Title and Author or ISBN.
             </Form.Text>
             <Form.Group className="mt-3">
-              <Form.Label>Title</Form.Label>
+              <Form.Label>Title:</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter Title"
@@ -85,7 +87,7 @@ const BookLookup = (props) => {
                 onChange={handleBookDataTitle}
               />
             </Form.Group>
-            <Form.Group>
+            <Form.Group className="mt-2">
               <Form.Label>Author:</Form.Label>
               <Form.Control
                 type="text"
@@ -96,7 +98,7 @@ const BookLookup = (props) => {
             </Form.Group>
             <hr className="mt-4" />
             <Form.Group>
-              <Form.Label>ISBN</Form.Label>
+              <Form.Label>ISBN:</Form.Label>
               <Form.Control
                 value={isbn}
                 placeholder="Enter ISBN"
@@ -125,18 +127,29 @@ const BookLookup = (props) => {
               Close
             </Button>
             <OverlayTrigger
-            placement="top"
-            overlay={!((title.length > 0 && author.length > 0) || isbn.length > 0)
-               ? (
-                <Tooltip>You must enter Title & Author or ISBN to continue.</Tooltip>
-              ) : (
-                <></>
-              )
-            }
-          >
-            <Button variant="primary" type="submit" tabIndex={4}>
-              Look up
-            </Button>
+              placement="top"
+              overlay={
+                !(
+                  (title.length > 0 && author.length > 0) ||
+                  isbn.length > 0
+                ) ? (
+                  <Tooltip>
+                    You must enter Title & Author or ISBN to continue.
+                  </Tooltip>
+                ) : (
+                  <></>
+                )
+              }
+            >
+              <Button variant="primary" type="submit" tabIndex={4}>
+                Search{" "}
+                <FontAwesomeIcon
+                  icon={faArrowRight}
+                  shake={
+                    (title.length > 0 && author.length > 0) || isbn.length >= 13
+                  }
+                />
+              </Button>
             </OverlayTrigger>
           </Modal.Footer>
         </Form>

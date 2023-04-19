@@ -15,6 +15,8 @@ import {
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../Images/literaryoasis-backdrop.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 const BookDetails = (props) => {
   const [show, setShow] = useState(true);
@@ -81,7 +83,7 @@ const BookDetails = (props) => {
 
             <Form onSubmit={handleClose}>
               <div className="d-flex justify-content-between">
-                <Form.Group as={Col} md={8} className="mb-3">
+                <Form.Group as={Col} className="mb-3">
                   <Form.Label>Price</Form.Label>
                   <InputGroup>
                     <InputGroup.Text>$</InputGroup.Text>
@@ -89,27 +91,18 @@ const BookDetails = (props) => {
                     <Form.Control placeholder="0.00" disabled />
                   </InputGroup>
                 </Form.Group>
-                <Container
+                <Form.Group
                   as={Col}
-                  style={{ textAlign: "right", marginTop: "1.5rem" }}
+                  style={{marginTop: "2rem", textAlign: "right", marginLeft: "1rem"}}
                 >
-                  <OverlayTrigger
-                    placement="top"
-                    overlay={
-                      <Tooltip>
-                        Add ISBN to checkout.
-                      </Tooltip>
-                    }
-                  >
                     <Button
                       variant="primary"
                       onClick={handleAdd}
-                      className="mt-2"
+                      style={{width: "14rem"}}
                     >
-                      Add to order
+                      Add to Cart &nbsp;<FontAwesomeIcon icon={faCartShopping} beat size="1x"/>
                     </Button>
-                  </OverlayTrigger>
-                </Container>
+                </Form.Group>
               </div>
             </Form>
           </Form>
@@ -117,7 +110,7 @@ const BookDetails = (props) => {
         <Modal.Footer>
           <div style={{ textAlign: "left" }}>
             <Button variant="primary" onClick={handleBack}>
-              Return
+              <FontAwesomeIcon icon={faArrowLeft}/> Return
             </Button>
           </div>
           <div style={{ textAlign: "right" }}>

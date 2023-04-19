@@ -10,6 +10,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import textArt from "./Images/literaryoasis-textart.png";
 import ReceiptAlert from "./Components/Alert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCashRegister, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const App = () => {
   const [index, setIndex] = useState(0);
@@ -33,14 +35,27 @@ const App = () => {
   };
 
   //store book data
-  const [bookData, setBookData] = useState();
-  const [bookIsbn, setBookIsbn] = useState();
+  const [bookData, setBookData] = useState('');
+  const [bookIsbn, setBookIsbn] = useState('');
 
   //handle cart data
   const [cart, setCart] = useState([]);
   const handleSetCart = (event) => {
     setCart(event);
   };
+
+  const [cartFlag, setCartFlag] = useState(false);
+
+  //search book
+  const searchBook = (data) => {
+    setBookIsbn(data);
+    setIndex(2);
+  };
+
+  //clear isbn
+  const clearIsbn = () => {
+    setBookIsbn('');
+  }
 
   //screen manager
   const showScreen = (value) => {
@@ -68,6 +83,8 @@ const App = () => {
             bookIsbn={bookIsbn}
             saveCart={handleSetCart}
             getCart={cart}
+            searchBook={searchBook}
+            clearIsbn={clearIsbn}
           />
         );
       case 4:
@@ -108,7 +125,7 @@ const App = () => {
               className="text-center me-3"
               style={{ width: "200px" }}
             >
-              Book Lookup
+              Book Search &nbsp;<FontAwesomeIcon icon={faSearch} />
             </Button>
 
             <Button
@@ -117,7 +134,7 @@ const App = () => {
               className="text-center ms-3"
               style={{ width: "200px" }}
             >
-              Checkout
+              Checkout &nbsp;<FontAwesomeIcon icon={faCashRegister} />
             </Button>
           </div>
 

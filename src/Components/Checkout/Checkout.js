@@ -8,33 +8,59 @@ import {
   Image,
   Breadcrumb,
   Stack,
-  Card,
   Container,
+  Card,
   InputGroup,
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../Images/literaryoasis-backdrop.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faSearch,
+  faXmark,
+  faCheck,
+  faArrowRight,
+  faUser,
+  faCashRegister,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Checkout = (props) => {
   const [show, setShow] = useState(true);
   const [isCartEmpty, setIsCartEmpty] = useState(true);
 
+  // hover over add icon
+  const [addHover, setAddHover] = useState(false);
+
+  //handle when search icon clicked
+  const handleSearchClick = () => {
+    if (isbn.length >= 13) {
+      props.saveCart(books);
+      setShow(false);
+      props.onClose(0);
+      props.searchBook(isbn);
+    }
+  };
+
+  //whenever modal closes, save cart
   const handleClose = () => {
     props.saveCart(books);
     setShow(false);
     props.onClose(0);
   };
 
+  // handle when add new customer, save cart
   const handleNewCustomer = () => {
     props.saveCart(books);
     setShow(false);
     props.onClose(4);
   };
 
+  // handle when payment is started, save cart
   const handlePay = () => {
     if (!isCartEmpty) {
+      props.saveCart(books);
       setShow(false);
       props.onClose(5);
     }
@@ -49,8 +75,7 @@ const Checkout = (props) => {
   //initialize books list
   const [books, setBooks] = useState(
     props.getCart && props.getCart.length > 0 ? props.getCart : []
-  );;
-  
+  );
 
   //set book price once isbn is set
   useEffect(() => {
@@ -59,9 +84,10 @@ const Checkout = (props) => {
     }
   }, [isbn]);
 
+  // when isbn is added to cart by the button
   const handleSubmit = (event) => {
     event.preventDefault();
-    setIsCartEmpty(false);
+    props.clearIsbn();
     const newBook = { isbn, price };
     setBooks([...books, newBook]);
     setIsbn("");
@@ -70,15 +96,22 @@ const Checkout = (props) => {
     document.querySelector('[tabindex="1"]').focus(); // call the focus() method on the ISBN input field
   };
 
-  //calculate total price
-  const totalPrice = books.reduce((acc, book) => {
-    return acc + Number(book.price);
+  const subtotal = books.reduce((acc, book) => {
+    return acc + parseFloat(book.price);
   }, 0);
+
+  const salesTax = () => {
+    return parseFloat((subtotal * 0.08).toFixed(2));
+  };
+
+  const totalAmount = () => {
+    return parseFloat((subtotal + salesTax()).toFixed(2));
+  };
 
   //render books in the modal
   const renderBooks = () => {
     return (
-      <div style={{ maxHeight: "20rem", overflow: "auto" }}>
+      <div style={{ maxHeight: "20rem", overflowY: "scroll", overflowX: "hidden"}}>
         {books.map((book, index) => (
           <div
             key={index}
@@ -101,8 +134,8 @@ const Checkout = (props) => {
                   as={Col}
                   style={{ marginTop: "30px", textAlign: "right" }}
                 >
-                  <Button variant="danger" onClick={() => removeBook(index)}>
-                    Remove
+                  <Button variant="danger" style={{marginRight: ".5rem"}}onClick={() => removeBook(index)}>
+                    <FontAwesomeIcon icon={faXmark} />
                   </Button>
                 </Container>
               </Row>
@@ -116,16 +149,20 @@ const Checkout = (props) => {
   //remove a book from the modal
   const removeBook = (indexToRemove) => {
     setBooks(books.filter((_, index) => index !== indexToRemove));
-    books.length === 0 && setIsCartEmpty(true);
   };
+
+  //check for empty cart
+  useEffect(() => {
+    if (books.length <= 0) {
+      setIsCartEmpty(true);
+    } else {
+      setIsCartEmpty(false);
+    }
+  }, [books]);
 
   return (
     <>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        animation={false}
-      >
+      <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header closeButton>
           <Modal.Title>
             <Stack direction="horizontal" gap={1}>
@@ -142,11 +179,13 @@ const Checkout = (props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h3 className="text-center">
-            <Card className="p-3" style={{ background: "#dde3f4" }}>
-              Cart
-            </Card>
-          </h3>
+          <Container style={{ background: "" }}>
+            <h2 className="text-center">
+              Checkout &nbsp;
+              <FontAwesomeIcon icon={faCashRegister} />
+            </h2>
+          </Container>
+          <hr style={{marginLeft: "-1rem", marginRight: "-1rem"}}/>
           <Form.Group className="mb-2">
             <Form.Text className="text-muted mb-4">
               *Scan barcode or enter ISBN manually.
@@ -156,26 +195,47 @@ const Checkout = (props) => {
             <div className="d-flex justify-content-between">
               <Form.Group as={Col} md={8} className="mb-3">
                 <Form.Label>ISBN</Form.Label>
-                <Form.Control
-                  placeholder="Enter ISBN"
-                  value={isbn}
-                  onChange={(event) => {
-                    const value = event.target.value;
-                    if (value.length <= 13) {
-                      // check if input length is <= 13
-                      setIsbn(value);
-                    } else {
-                      setIsbn(value.slice(0, 13)); // truncate input to 13 digits
-                    }
-                  }}
-                  tabIndex={1} // jump back here on add
-                  required
-                  pattern="[0-9]{13}"
-                />
+                <InputGroup>
+                  <Form.Control
+                    placeholder="Enter ISBN"
+                    value={isbn}
+                    onChange={(event) => {
+                      const value = event.target.value;
+                      if (value.length <= 13) {
+                        // check if input length is <= 13
+                        setIsbn(value);
+                      } else {
+                        setIsbn(value.slice(0, 13)); // truncate input to 13 digits
+                      }
+                    }}
+                    tabIndex={1} // jump back here on add
+                    required
+                    pattern="[0-9]{13}"
+                  />
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip>Search ISBN</Tooltip>}
+                  >
+                    <InputGroup.Text>
+                      {/*search book isbn icon */}
+                      <FontAwesomeIcon
+                        style={{
+                          cursor: isbn.length >= 13 ? "pointer" : "default",
+                        }}
+                        icon={faSearch}
+                        onClick={() => {
+                          handleSearchClick();
+                        }}
+                        shake={isbn.length >= 13 ? true : false}
+                      />
+                    </InputGroup.Text>
+                  </OverlayTrigger>
+                </InputGroup>
                 <Form.Text className="text-muted">
                   *Must be <strong>13</strong> digits.{" "}
                   <em>
-                    Currently entered <strong>{isbn.length}</strong> digits.
+                    Currently entered <strong>{isbn.length}</strong>{" "}
+                    digits.&nbsp;
                   </em>
                 </Form.Text>
               </Form.Group>
@@ -183,22 +243,26 @@ const Checkout = (props) => {
                 as={Col}
                 style={{ textAlign: "right", marginTop: "2rem" }}
               >
+                {/*add book to order button */}
                 <Button
                   variant="primary"
                   type="submit"
                   tabIndex={2}
                   style={{
-                    paddingRight: "25px",
-                    paddingLeft: "25px",
-                    marginRight: "-13px",
+                    marginRight: "-.8rem",
                   }}
+                  onMouseEnter={() => setAddHover(true)}
+                  onMouseLeave={() => setAddHover(false)}
                 >
-                  Add
+                  <FontAwesomeIcon
+                    icon={faCheck}
+                    beatFade={addHover ? true : false}
+                  />
                 </Button>
               </Container>
             </div>
           </Form>
-          <hr />
+          <Card style={{padding: ".5rem", marginBottom: "1rem"}}>
           {books.length > 0 ? (
             renderBooks()
           ) : (
@@ -206,20 +270,38 @@ const Checkout = (props) => {
               <p style={{ textAlign: "center" }}>No books added</p>
             </>
           )}
-          <hr style={{ marginTop: "1.2rem" }} />
-
-          <Form.Group className="mb-3">
-            <Form.Label>Total</Form.Label>
-            <InputGroup>
-              <InputGroup.Text>$</InputGroup.Text>
-              <Form.Control placeholder={totalPrice} disabled />
-            </InputGroup>
-          </Form.Group>
+          </Card>
+          <Row>
+            {/*subtotal */}
+            <Form.Group className="mb-3" as={Col}>
+              <Form.Label>Subtotal:</Form.Label>
+              <InputGroup>
+                <InputGroup.Text>$</InputGroup.Text>
+                <Form.Control placeholder={subtotal} disabled />
+              </InputGroup>
+            </Form.Group>
+            {/*sales tax */}
+            <Form.Group className="mb-3" as={Col}>
+              <Form.Label>Sales Tax:</Form.Label>
+              <InputGroup>
+                <InputGroup.Text>$</InputGroup.Text>
+                <Form.Control placeholder={salesTax()} disabled />
+              </InputGroup>
+            </Form.Group>
+            {/*total */}
+            <Form.Group className="mb-3" as={Col}>
+              <Form.Label>Total:</Form.Label>
+              <InputGroup>
+                <InputGroup.Text>$</InputGroup.Text>
+                <Form.Control placeholder={totalAmount()} disabled />
+              </InputGroup>
+            </Form.Group>
+          </Row>
           <Form.Group className="mb-2">
             <Form.Text className="text-muted mb-4">*Add new customer</Form.Text>
           </Form.Group>
           <Button variant="primary" onClick={handleNewCustomer}>
-            New Customer
+            <FontAwesomeIcon icon={faUser} /> &nbsp;New Customer
           </Button>
         </Modal.Body>
         <Modal.Footer>
@@ -237,7 +319,8 @@ const Checkout = (props) => {
             }
           >
             <Button variant="primary" onClick={handlePay}>
-              Payment
+              Payment&nbsp;
+              <FontAwesomeIcon icon={faArrowRight} />
             </Button>
           </OverlayTrigger>
         </Modal.Footer>
