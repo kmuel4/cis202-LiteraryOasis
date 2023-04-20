@@ -48,6 +48,9 @@ const BookDetails = (props) => {
     title: "",
     author: "",
     price: "",
+    status: "",
+    isbn: "",
+    location: "",
   });
   const handleSetBook = (value) => {
     setBook(value);
@@ -107,17 +110,17 @@ const BookDetails = (props) => {
           </Row>
           <Form.Group className="mb-3">
             <Form.Label>ISBN</Form.Label>
-            <Form.Control placeholder={props.bookIsbn} disabled />
+            <Form.Control placeholder={book.isbn} disabled />
           </Form.Group>
           <hr />
           <Row>
             <Form.Group as={Col} className="mb-3">
               <Form.Label>Location</Form.Label>
-              <Form.Control placeholder="Isle 4" disabled />
+              <Form.Control placeholder={book.location} disabled />
             </Form.Group>
             <Form.Group as={Col} className="mb-3">
               <Form.Label>Avaliability</Form.Label>
-              <Form.Control placeholder="Out of Stock" disabled />
+              <Form.Control placeholder={book.status} disabled />
             </Form.Group>
           </Row>
           <Form onSubmit={handleAdd}>

@@ -7,6 +7,8 @@ const BookDatabase = (props) => {
     ISBN: "",
     Price: "",
     Title: "",
+    Status: "",
+    Location: "",
     key: "",
   });
 
@@ -28,6 +30,8 @@ const BookDatabase = (props) => {
           ISBN: responseData[key].ISBN,
           Price: responseData[key].Price,
           Title: responseData[key].Title,
+          Status: responseData[key].Status,
+          Location: responseData[key].Location,
           key: key,
         });
       }
@@ -48,7 +52,10 @@ const BookDatabase = (props) => {
         props.setBook({
             title: selectedBook.Title,
             author: selectedBook.Author,
+            isbn: selectedBook.ISBN,
             price: selectedBook.Price,
+            status: selectedBook.Status,
+            location: selectedBook.Location,
         })
     }
   }, [selectedBook, props]);
