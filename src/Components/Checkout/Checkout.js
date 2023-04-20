@@ -22,16 +22,18 @@ import {
   faXmark,
   faCheck,
   faArrowRight,
-  faUser,
+  faUserPlus,
+  faMinus,
   faCashRegister,
 } from "@fortawesome/free-solid-svg-icons";
+import Header from "../Header";
 
 const Checkout = (props) => {
+  //show the modal
   const [show, setShow] = useState(true);
-  const [isCartEmpty, setIsCartEmpty] = useState(true);
 
-  // hover over add icon
-  const [addHover, setAddHover] = useState(false);
+  //initialize check for empty cart
+  const [isCartEmpty, setIsCartEmpty] = useState(true);
 
   //handle when search icon clicked
   const handleSearchClick = () => {
@@ -87,23 +89,32 @@ const Checkout = (props) => {
   // when isbn is added to cart by the button
   const handleSubmit = (event) => {
     event.preventDefault();
+    //clear isbn from search
     props.clearIsbn();
+    //add to cart
     const newBook = { isbn, price };
     setBooks([...books, newBook]);
+    //clear isbn and price
     setIsbn("");
     setPrice("");
-    //set random book price
-    document.querySelector('[tabindex="1"]').focus(); // call the focus() method on the ISBN input field
+    //focus on isbn input
+    document.querySelector('[tabindex="1"]').focus();
   };
 
+  //calc subtotal
   const subtotal = books.reduce((acc, book) => {
-    return acc + parseFloat(book.price);
+    //calc total
+    const total = acc + parseFloat(book.price);
+    //parse to an int and round to 2 digits
+    return parseFloat(total.toFixed(2));
   }, 0);
 
+  //calc sales tax
   const salesTax = () => {
     return parseFloat((subtotal * 0.08).toFixed(2));
   };
 
+  //calc total amount
   const totalAmount = () => {
     return parseFloat((subtotal + salesTax()).toFixed(2));
   };
@@ -114,6 +125,7 @@ const Checkout = (props) => {
       <div
         style={{ maxHeight: "20rem", overflowY: "scroll", overflowX: "hidden" }}
       >
+        {/*print all books in list */}
         {books.map((book, index) => (
           <div
             key={index}
@@ -121,10 +133,13 @@ const Checkout = (props) => {
           >
             <div>
               <Row>
+                {/*isbn */}
                 <Form.Group as={Col}>
                   <Form.Label>ISBN:</Form.Label>
                   <Form.Control placeholder={book.isbn} disabled />
                 </Form.Group>
+
+                {/*price */}
                 <Form.Group as={Col}>
                   <Form.Label>Price:</Form.Label>
                   <InputGroup>
@@ -132,6 +147,8 @@ const Checkout = (props) => {
                     <Form.Control placeholder={book.price} disabled />
                   </InputGroup>
                 </Form.Group>
+
+                {/*remove button */}
                 <Container
                   as={Col}
                   style={{ marginTop: "30px", textAlign: "right" }}
@@ -168,13 +185,13 @@ const Checkout = (props) => {
   }, [books]);
 
   return (
-    <>
       <Modal show={show} onHide={handleClose} animation={false}>
         <Modal.Header
           className="stick-top"
           style={{ padding: ".5rem 1rem", borderBottom: "none" }}
           closeButton
         >
+          {/*breadcrumb */}
           <Modal.Title style={{ fontSize: "1.5rem" }}>
             <Stack direction="horizontal" gap={1}>
               <Image
@@ -192,23 +209,33 @@ const Checkout = (props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Container>
-            <h2
-              className="text-center"
-              style={{
-                fontSize: "3rem",
-                color: "black",
-                marginTop: "-1rem",
-                marginBottom: "2rem",
-              }}
-            >
-              <FontAwesomeIcon icon={faCashRegister} />
-            </h2>
-          </Container>
+          {/*header */}
+          <Header
+            iconType={faCashRegister}
+            message={
+              <ul>
+                <li>
+                  Checkout is the main interface. Enter a book's ISBN by
+                  scanning the barcode or do it manually by keyboard. If you do
+                  not know the barcode, return to home and click Search Book.
+                </li>
+                <li>
+                  Click the shaking magnifying glass to go to the Book Details
+                  page for the inserted ISBN.
+                </li>
+                <li>
+                  If the customer is new, click the New Customer button to go to
+                  the New Customer page for registration.
+                </li>
+              </ul>
+            }
+          />
+          {/*enter isbn */}
           <Form onSubmit={handleSubmit}>
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between mt-4">
               <Form.Group as={Col} md={8} className="mb-3">
                 <InputGroup>
+                {/*isbn text field */}
                   <Form.Control
                     placeholder="Enter ISBN"
                     value={isbn}
@@ -223,27 +250,25 @@ const Checkout = (props) => {
                     }}
                     tabIndex={1} // jump back here on add
                     required
+                    //only accept 13 digit
                     pattern="[0-9]{13}"
                   />
-                  <OverlayTrigger
-                    placement="top"
-                    overlay={<Tooltip>Search ISBN</Tooltip>}
-                  >
-                    <InputGroup.Text>
-                      {/*search book isbn icon */}
-                      <FontAwesomeIcon
-                        style={{
-                          cursor: isbn.length >= 13 ? "pointer" : "default",
-                        }}
-                        icon={faSearch}
-                        onClick={() => {
-                          handleSearchClick();
-                        }}
-                        shake={isbn.length >= 13 ? true : false}
-                      />
-                    </InputGroup.Text>
-                  </OverlayTrigger>
+                    {/*search book isbn icon */}
+                  <InputGroup.Text>
+                    <FontAwesomeIcon
+                      style={{
+                        cursor: isbn.length >= 13 ? "pointer" : "default",
+                      }}
+                      icon={faSearch}
+                      onClick={() => {
+                        handleSearchClick();
+                      }}
+                      //shake when isbn is full
+                      shake={isbn.length >= 13 ? true : false}
+                    />
+                  </InputGroup.Text>
                 </InputGroup>
+                {/*input status text */}
                 <Form.Text className="text-muted">
                   *Must be <strong>13</strong> digits.{" "}
                   <em>
@@ -252,8 +277,9 @@ const Checkout = (props) => {
                   </em>
                 </Form.Text>
               </Form.Group>
+
+              {/*add book to cart*/}
               <Container as={Col} style={{ textAlign: "right", marginTop: "" }}>
-                {/*add book to order button */}
                 <Button
                   variant="primary"
                   type="submit"
@@ -261,14 +287,14 @@ const Checkout = (props) => {
                   style={{
                     marginRight: "-.8rem",
                   }}
-                  onMouseEnter={() => setAddHover(true)}
-                  onMouseLeave={() => setAddHover(false)}
                 >
                   Add &nbsp;
-                  <FontAwesomeIcon
-                    icon={faCheck}
-                    beatFade={addHover ? true : false}
-                  />
+                  {/*change icon if isbn is in the box */}
+                  {isbn.length >= 13 ? (
+                    <FontAwesomeIcon icon={faCheck} beatFade />
+                  ) : (
+                    <FontAwesomeIcon icon={faMinus} />
+                  )}
                 </Button>
               </Container>
             </div>
@@ -310,11 +336,8 @@ const Checkout = (props) => {
               </InputGroup>
             </Form.Group>
           </Row>
-          <Form.Group className="mb-2">
-            <Form.Text className="text-muted mb-4">*Add new customer</Form.Text>
-          </Form.Group>
           <Button variant="primary" onClick={handleNewCustomer}>
-            <FontAwesomeIcon icon={faUser} /> &nbsp;New Customer
+            <FontAwesomeIcon icon={faUserPlus} /> &nbsp;New Customer
           </Button>
         </Modal.Body>
         <Modal.Footer>
@@ -344,7 +367,6 @@ const Checkout = (props) => {
           </div>
         </Modal.Footer>
       </Modal>
-    </>
   );
 };
 

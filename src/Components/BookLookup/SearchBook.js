@@ -8,12 +8,12 @@ import {
   Stack,
   OverlayTrigger,
   Tooltip,
-  Container,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../Images/literaryoasis-backdrop.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faSearch } from "@fortawesome/free-solid-svg-icons";
+import Header from '../Header';
 
 const BookLookup = (props) => {
   const [show, setShow] = useState(true);
@@ -59,7 +59,11 @@ const BookLookup = (props) => {
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
         <Form onSubmit={handleSubmit}>
-          <Modal.Header className="stick-top" style={{ padding: ".5rem 1rem", borderBottom: "none" }} closeButton>
+          <Modal.Header
+            className="stick-top"
+            style={{ padding: ".5rem 1rem", borderBottom: "none" }}
+            closeButton
+          >
             <Modal.Title style={{ fontSize: "1.5rem" }}>
               <Stack direction="horizontal" gap={1}>
                 <Image
@@ -77,21 +81,11 @@ const BookLookup = (props) => {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Container>
-              <h2
-                className="text-center"
-                style={{
-                  fontSize: "3rem",
-                  color: "black",
-                  marginTop: "-1rem"
-                }}
-              >
-                <FontAwesomeIcon icon={faSearch} />
-              </h2>
-            </Container>
-            <Form.Text className="text-muted mb-4">
-              *Look up book by Title and Author or ISBN.
-            </Form.Text>
+            <Header
+              iconType={faSearch}
+              message="Book Search allows us to search for details about a 
+              book using either Title and Author or ISBN."
+            />
             <Form.Group className="mt-2">
               <Form.Label>Title:</Form.Label>
               <Form.Control
@@ -154,10 +148,10 @@ const BookLookup = (props) => {
                   overlay={
                     !(
                       (title.length > 0 && author.length > 0) ||
-                      isbn.length > 0
+                      isbn.length >= 13
                     ) ? (
                       <Tooltip>
-                        You must enter Title & Author or ISBN to continue.
+                        You must enter Title & Author or ISBN.
                       </Tooltip>
                     ) : (
                       <></>

@@ -9,16 +9,12 @@ import {
   Stack,
   Breadcrumb,
   InputGroup,
-  Container,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../Images/literaryoasis-backdrop.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowLeft,
-  faCartShopping,
-  faBookOpen,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faCartShopping, faBookOpen } from "@fortawesome/free-solid-svg-icons";
+import Header from "../Header";
 
 const BookDetails = (props) => {
   const [show, setShow] = useState(true);
@@ -64,18 +60,13 @@ const BookDetails = (props) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Container>
-            <h2
-              className="text-center"
-              style={{
-                fontSize: "3rem",
-                color: "black",
-                marginTop: "-1rem"
-              }}
-            >
-              <FontAwesomeIcon icon={faBookOpen} />
-            </h2>
-          </Container>
+          <Header
+            iconType={faBookOpen}
+            message="Book Details provides Title, Author, ISBN, Location, Avaliability, and Price
+                  of a searched book. If the book is out of stock, it can still
+                  be added to the cart and ordered to the store after completing
+                  checkout."
+          />
           <Form>
             <Row>
               <Form.Group as={Col} className="mb-3">
@@ -102,7 +93,6 @@ const BookDetails = (props) => {
                 <Form.Control placeholder="Out of Stock" disabled />
               </Form.Group>
             </Row>
-
             <Form onSubmit={handleClose}>
               <div className="d-flex justify-content-between">
                 <Form.Group as={Col} className="mb-3">
@@ -126,8 +116,8 @@ const BookDetails = (props) => {
                     onClick={handleAdd}
                     style={{ width: "14rem" }}
                   >
-                    Add to Cart &nbsp;
-                    <FontAwesomeIcon icon={faCartShopping} beat size="1x" />
+                    <FontAwesomeIcon icon={faCartShopping} beat />
+                    &nbsp; Add to Cart
                   </Button>
                 </Form.Group>
               </div>

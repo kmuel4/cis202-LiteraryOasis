@@ -9,9 +9,17 @@ import {
   Stack,
   OverlayTrigger,
   Tooltip,
+  InputGroup,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../../../Images/literaryoasis-backdrop.png";
+import logo from "../../Images/literaryoasis-backdrop.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPrint,
+  faCommentSms,
+  faFlagCheckered,
+  faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Receipt = (props) => {
   const [show, setShow] = useState(true);
@@ -31,6 +39,10 @@ const Receipt = (props) => {
     const value = event.target.value;
     const formattedValue = formatPhoneNumber(value);
     setPhoneNumber(formattedValue);
+  };
+
+  const handleClear = () => {
+    setPhoneNumber("");
   };
 
   const formatPhoneNumber = (value) => {
@@ -77,7 +89,6 @@ const Receipt = (props) => {
           <Modal.Header
             className="stick-top"
             style={{ padding: ".5rem 1rem", borderBottom: "none" }}
-            closeButton
           >
             <Modal.Title style={{ fontSize: "1.5rem" }}>
               <Stack direction="horizontal" gap={1}>
@@ -102,52 +113,61 @@ const Receipt = (props) => {
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Container className="mb-4">
+            <Container className="mb-4 text-center">
               <h2
-                className="text-center"
                 style={{
                   fontSize: "2rem",
                   color: "black",
-                  marginTop: "-1rem"
+                  marginTop: "-1rem",
                 }}
               >
                 Payment Successful!
               </h2>
-              <hr
-                style={{
-                  marginLeft: "-2rem",
-                  marginRight: "-2rem",
-                  marginBottom: "1.25rem",
-                }}
-              />
             </Container>
             <Form.Group>
               <Form.Check
                 type="checkbox"
-                label="Print Receipt"
+                label={
+                  <span>
+                    <FontAwesomeIcon icon={faPrint} /> Print Receipt
+                  </span>
+                }
                 defaultChecked={printChecked}
                 onChange={handleSetPrintChecked}
                 value={printChecked}
+                style={{ marginRight: "0.5rem" }} // optional: add some spacing between the label and icon
               />
             </Form.Group>
             <Form.Group>
               <Form.Check
                 type="checkbox"
-                label="Text Receipt"
+                label={
+                  <span>
+                    <FontAwesomeIcon icon={faCommentSms} /> Text Receipt
+                  </span>
+                }
                 defaultChecked={textReceipt}
                 onChange={handleTextReceipt}
               />
             </Form.Group>
-            {textReceipt && (
-              <Form.Group className="mb-3 mt-3" controlId="Phone">
-                <Form.Label>Phone Number</Form.Label>
-                <Form.Control
-                  type="tel"
-                  value={phoneNumber}
-                  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                  onChange={handlePhoneNumberChange}
-                  required
-                />
+            
+              <Form.Group className="mb-3 mt-3" controlId="Phone" >
+                <Form.Label>Phone Number:</Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    type="tel"
+                    value={phoneNumber}
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                    onChange={handlePhoneNumberChange}
+                    required
+                    disabled={!textReceipt}
+                  />
+                  <InputGroup.Text>
+                    <Button variant="danger" size="sm" onClick={handleClear}>
+                      <FontAwesomeIcon icon={faTrashCan} size="lg" />
+                    </Button>
+                  </InputGroup.Text>
+                </InputGroup>
                 <Form.Text className="text-muted">
                   Must be <strong>10</strong> digits with dashes.
                   <em>
@@ -157,7 +177,7 @@ const Receipt = (props) => {
                   </em>
                 </Form.Text>
               </Form.Group>
-            )}
+           
           </Modal.Body>
           <Modal.Footer>
             <OverlayTrigger
@@ -171,7 +191,9 @@ const Receipt = (props) => {
               }
             >
               <Button variant="primary" type="submit">
-                Submit
+                <FontAwesomeIcon icon={faFlagCheckered} />
+                &nbsp;Finish&nbsp;
+                <FontAwesomeIcon icon={faFlagCheckered} />
               </Button>
             </OverlayTrigger>
           </Modal.Footer>

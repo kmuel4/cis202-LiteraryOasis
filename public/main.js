@@ -1,11 +1,9 @@
 const { app, BrowserWindow, Notification } = require("electron");
 const path = require("path");
 
-let win;
-
 const createWindow = () => {
   // Create the browser window.
-  win = new BrowserWindow({
+  const win = new BrowserWindow({
     width: 755,
     maxWidth: 755,
     height: 800,

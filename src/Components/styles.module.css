@@ -1,0 +1,14 @@
+.question {
+  font-size: .75rem;
+  position: relative;
+  top: -2.5rem;
+  cursor: pointer;
+}
+
+h2 {
+  font-size: 3rem;
+  color: black;
+  margin-top: -1rem;
+  text-align: center;
+}
+

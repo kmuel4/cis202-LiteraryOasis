@@ -3,9 +3,9 @@ import SearchBook from "./Components/BookLookup/SearchBook";
 import BookDetails from "./Components/BookLookup/BookDetails";
 import Checkout from "./Components/Checkout/Checkout";
 import { useState } from "react";
-import NewCustomer from "./Components/Checkout/Receipt/NewCustomer/NewCustomer";
+import NewCustomer from "./Components/Checkout/NewCustomer/NewCustomer";
 import CardPayment from "./Components/Checkout/Payment";
-import Receipt from "./Components/Checkout/Receipt/Receipt";
+import Receipt from "./Components/Checkout/Receipt";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import textArt from "./Images/literaryoasis-textart.png";
@@ -19,9 +19,11 @@ const App = () => {
     setIndex(value);
   };
 
+  //show alert and clear cart
   const [alertFlag, setAlertFlag] = useState(false);
   const handleAlert = (value) => {
     setAlertFlag(value);
+    handleSetCart(null);
   };
 
   const handleOpenBookLookup = () => {
@@ -55,6 +57,11 @@ const App = () => {
     setBookIsbn('');
   }
 
+  //handle new customer added
+  const newCustomerAdded = () => {
+    setIndex(3);
+  };
+
   //screen manager
   const showScreen = (value) => {
     switch (value) {
@@ -87,7 +94,7 @@ const App = () => {
         );
       case 4:
         return (
-          <NewCustomer onClose={handleSetIndex} onSubmit={handleSetIndex} />
+          <NewCustomer onClose={handleSetIndex} onSubmit={newCustomerAdded} />
         );
       case 5:
         return <CardPayment onClose={handleSetIndex} />;
