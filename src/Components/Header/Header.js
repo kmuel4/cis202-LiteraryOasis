@@ -1,7 +1,7 @@
 import { Container, OverlayTrigger, Popover } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faQuestion } from "@fortawesome/free-solid-svg-icons";
-import icon from "./styles.module.css";
+import icon from "./icon.module.css";
 
 const Header = (props) => {
   return (

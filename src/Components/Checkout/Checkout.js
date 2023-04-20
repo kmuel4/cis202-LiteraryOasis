@@ -26,7 +26,7 @@ import {
   faMinus,
   faCashRegister,
 } from "@fortawesome/free-solid-svg-icons";
-import Header from "../Header";
+import Header from "../Header/Header";
 
 const Checkout = (props) => {
   //show the modal

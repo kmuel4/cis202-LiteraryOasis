@@ -13,10 +13,23 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../Images/literaryoasis-backdrop.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faSearch } from "@fortawesome/free-solid-svg-icons";
-import Header from '../Header';
+import Header from "../Header/Header";
 
-const BookLookup = (props) => {
+const BookSearch = (props) => {
+  //handle modal
   const [show, setShow] = useState(true);
+
+  //submit search
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleNext();
+  };
+
+  //close
+  const handleClose = () => {
+    props.onClose(0);
+    setShow(false);
+  };
 
   //initalize isbn
   const [isbn, setIsbn] = useState("");
@@ -27,20 +40,20 @@ const BookLookup = (props) => {
 
   //create object to carry book data
   const [bookData, setBookData] = useState({ title: null, author: null });
+
+  //handle book title
   const handleBookDataTitle = (data) => {
     setBookData({ ...bookData, title: data.target.value });
     setTitle(data.target.value);
   };
+
+  //handle book author
   const handleBookDataAuthor = (data) => {
     setBookData({ ...bookData, author: data.target.value });
     setAuthor(data.target.value);
   };
 
-  const handleClose = () => {
-    props.onClose(0);
-    setShow(false);
-  };
-
+  //proceed to book details
   const handleNext = () => {
     if ((title.length > 0 && author.length > 0) || isbn.length > 0) {
       props.onClose(2);
@@ -48,11 +61,6 @@ const BookLookup = (props) => {
       props.bookData(bookData);
       setShow(false);
     }
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    handleNext();
   };
 
   return (
@@ -150,9 +158,7 @@ const BookLookup = (props) => {
                       (title.length > 0 && author.length > 0) ||
                       isbn.length >= 13
                     ) ? (
-                      <Tooltip>
-                        You must enter Title & Author or ISBN.
-                      </Tooltip>
+                      <Tooltip>You must enter Title & Author or ISBN.</Tooltip>
                     ) : (
                       <></>
                     )
@@ -178,4 +184,4 @@ const BookLookup = (props) => {
   );
 };
 
-export default BookLookup;
+export default BookSearch;

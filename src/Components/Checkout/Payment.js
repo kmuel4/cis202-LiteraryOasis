@@ -18,7 +18,7 @@ import {
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Header from "../Header";
+import Header from "../Header/Header";
 
 const CardPayment = (props) => {
   //controls showing modal

@@ -14,7 +14,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../Images/literaryoasis-backdrop.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCartShopping, faBookOpen } from "@fortawesome/free-solid-svg-icons";
-import Header from "../Header";
+import Header from "../Header/Header";
 
 const BookDetails = (props) => {
   const [show, setShow] = useState(true);
