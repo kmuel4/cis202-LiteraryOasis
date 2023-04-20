@@ -13,11 +13,22 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../../Images/literaryoasis-backdrop.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faCartShopping, faBookOpen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faCartShopping,
+  faBookOpen,
+} from "@fortawesome/free-solid-svg-icons";
 import Header from "../Header/Header";
+import BookDatabase from "../../assets/BookDatabase";
 
 const BookDetails = (props) => {
   const [show, setShow] = useState(true);
+  const [renderDatabase, setRenderDatabase] = useState(true);
+  const handleRenderDatabase = () => {
+    setTimeout(() => {
+      setRenderDatabase(false);
+    }, 500);
+  };
 
   const handleClose = () => {
     props.onClose(0);
@@ -30,6 +41,17 @@ const BookDetails = (props) => {
   const handleAdd = () => {
     props.onClose(3);
     setShow(false);
+  };
+
+  //handle book info coming in
+  const [book, setBook] = useState({
+    title: "",
+    author: "",
+    price: "",
+  });
+  const handleSetBook = (value) => {
+    setBook(value);
+    handleRenderDatabase();
   };
 
   return (
@@ -67,61 +89,65 @@ const BookDetails = (props) => {
                   be added to the cart and ordered to the store after completing
                   checkout."
           />
-          <Form>
-            <Row>
-              <Form.Group as={Col} className="mb-3">
-                <Form.Label>Title</Form.Label>
-                <Form.Control placeholder={props.bookData.title} disabled />
-              </Form.Group>
-              <Form.Group as={Col} className="mb-3">
-                <Form.Label>Author</Form.Label>
-                <Form.Control placeholder={props.bookData.author} disabled />
-              </Form.Group>
-            </Row>
-            <Form.Group className="mb-3">
-              <Form.Label>ISBN</Form.Label>
-              <Form.Control placeholder={props.bookIsbn} disabled />
-            </Form.Group>
-            <hr />
-            <Row>
-              <Form.Group as={Col} className="mb-3">
-                <Form.Label>Location</Form.Label>
-                <Form.Control placeholder="Isle 4" disabled />
-              </Form.Group>
-              <Form.Group as={Col} className="mb-3">
-                <Form.Label>Avaliability</Form.Label>
-                <Form.Control placeholder="Out of Stock" disabled />
-              </Form.Group>
-            </Row>
-            <Form onSubmit={handleClose}>
-              <div className="d-flex justify-content-between">
-                <Form.Group as={Col} className="mb-3">
-                  <Form.Label>Price</Form.Label>
-                  <InputGroup>
-                    <InputGroup.Text>$</InputGroup.Text>
 
-                    <Form.Control placeholder="0.00" disabled />
-                  </InputGroup>
-                </Form.Group>
-                <Form.Group
-                  as={Col}
-                  style={{
-                    marginTop: "2rem",
-                    textAlign: "right",
-                    marginLeft: "1rem",
-                  }}
+          {/*get book details from database */}
+          {renderDatabase && (
+            <BookDatabase bookIsbn={props.bookIsbn} setBook={handleSetBook} />
+          )}
+
+          <Row>
+            <Form.Group as={Col} className="mb-3">
+              <Form.Label>Title</Form.Label>
+              <Form.Control placeholder={book.title} disabled />
+            </Form.Group>
+            <Form.Group as={Col} className="mb-3">
+              <Form.Label>Author</Form.Label>
+              <Form.Control placeholder={book.author} disabled />
+            </Form.Group>
+          </Row>
+          <Form.Group className="mb-3">
+            <Form.Label>ISBN</Form.Label>
+            <Form.Control placeholder={props.bookIsbn} disabled />
+          </Form.Group>
+          <hr />
+          <Row>
+            <Form.Group as={Col} className="mb-3">
+              <Form.Label>Location</Form.Label>
+              <Form.Control placeholder="Isle 4" disabled />
+            </Form.Group>
+            <Form.Group as={Col} className="mb-3">
+              <Form.Label>Avaliability</Form.Label>
+              <Form.Control placeholder="Out of Stock" disabled />
+            </Form.Group>
+          </Row>
+          <Form onSubmit={handleAdd}>
+            <div className="d-flex justify-content-between">
+              <Form.Group as={Col} className="mb-3">
+                <Form.Label>Price</Form.Label>
+                <InputGroup>
+                  <InputGroup.Text>$</InputGroup.Text>
+
+                  <Form.Control placeholder={book.price} disabled />
+                </InputGroup>
+              </Form.Group>
+              <Form.Group
+                as={Col}
+                style={{
+                  marginTop: "2rem",
+                  textAlign: "right",
+                  marginLeft: "1rem",
+                }}
+              >
+                <Button
+                  variant="primary"
+                  type="submit"
+                  style={{ width: "14rem" }}
                 >
-                  <Button
-                    variant="primary"
-                    onClick={handleAdd}
-                    style={{ width: "14rem" }}
-                  >
-                    <FontAwesomeIcon icon={faCartShopping} beat />
-                    &nbsp; Add to Cart
-                  </Button>
-                </Form.Group>
-              </div>
-            </Form>
+                  <FontAwesomeIcon icon={faCartShopping} beat />
+                  &nbsp; Add to Cart
+                </Button>
+              </Form.Group>
+            </div>
           </Form>
         </Modal.Body>
         <Modal.Footer>

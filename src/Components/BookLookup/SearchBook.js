@@ -16,6 +16,7 @@ import { faArrowRight, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Header from "../Header/Header";
 
 const BookSearch = (props) => {
+
   //handle modal
   const [show, setShow] = useState(true);
 
