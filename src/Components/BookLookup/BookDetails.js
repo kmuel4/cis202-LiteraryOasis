@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   Modal,
@@ -19,16 +19,10 @@ import {
   faBookOpen,
 } from "@fortawesome/free-solid-svg-icons";
 import Header from "../Header/Header";
-import BookDatabase from "../../assets/BookDatabase";
+import BookList from "../../assets/BookList";
 
 const BookDetails = (props) => {
   const [show, setShow] = useState(true);
-  const [renderDatabase, setRenderDatabase] = useState(true);
-  const handleRenderDatabase = () => {
-    setTimeout(() => {
-      setRenderDatabase(false);
-    }, 500);
-  };
 
   const handleClose = () => {
     props.onClose(0);
@@ -43,23 +37,44 @@ const BookDetails = (props) => {
     setShow(false);
   };
 
+  //get list of books from database
+  const [retrievedBookList, setRetrievedBookList] = useState([]);
+
   //handle book info coming in
   const [book, setBook] = useState({
-    title: "",
-    author: "",
-    price: "",
-    status: "",
-    isbn: "",
-    location: "",
+    Title: "",
+    Author: "",
+    Price: "",
+    Status: "",
+    ISBN: "",
+    Location: "",
   });
-  const handleSetBook = (value) => {
-    setBook(value);
-    handleRenderDatabase();
-  };
+
+  useEffect(() => {
+    const selectedBook = retrievedBookList.find(
+      (selectedBook) => selectedBook.ISBN === props.bookIsbn
+    );
+    console.log('selectedBook:', selectedBook);
+    if (selectedBook) {
+      setBook(selectedBook);
+    } else {
+      setBook({
+        Title: "NULL",
+        Author: "NULL",
+        Price: "NULL",
+        Status: "NULL",
+        ISBN: "NULL",
+        Location: "NULL",
+      });
+    }
+  }, [retrievedBookList, props.bookIsbn]);
 
   return (
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
+        {/*get the booklist */}
+        <BookList retrievedBookList={setRetrievedBookList} />
+
         <Modal.Header
           className="stick-top"
           style={{ padding: ".5rem 1rem", borderBottom: "none" }}
@@ -93,34 +108,29 @@ const BookDetails = (props) => {
                   checkout."
           />
 
-          {/*get book details from database */}
-          {renderDatabase && (
-            <BookDatabase bookIsbn={props.bookIsbn} setBook={handleSetBook} />
-          )}
-
           <Row>
             <Form.Group as={Col} className="mb-3">
               <Form.Label>Title</Form.Label>
-              <Form.Control placeholder={book.title} disabled />
+              <Form.Control placeholder={book.Title} disabled />
             </Form.Group>
             <Form.Group as={Col} className="mb-3">
               <Form.Label>Author</Form.Label>
-              <Form.Control placeholder={book.author} disabled />
+              <Form.Control placeholder={book.Author} disabled />
             </Form.Group>
           </Row>
           <Form.Group className="mb-3">
             <Form.Label>ISBN</Form.Label>
-            <Form.Control placeholder={book.isbn} disabled />
+            <Form.Control placeholder={book.ISBN} disabled />
           </Form.Group>
           <hr />
           <Row>
             <Form.Group as={Col} className="mb-3">
               <Form.Label>Location</Form.Label>
-              <Form.Control placeholder={book.location} disabled />
+              <Form.Control placeholder={book.Location} disabled />
             </Form.Group>
             <Form.Group as={Col} className="mb-3">
               <Form.Label>Avaliability</Form.Label>
-              <Form.Control placeholder={book.status} disabled />
+              <Form.Control placeholder={book.Status} disabled />
             </Form.Group>
           </Row>
           <Form onSubmit={handleAdd}>
@@ -130,7 +140,7 @@ const BookDetails = (props) => {
                 <InputGroup>
                   <InputGroup.Text>$</InputGroup.Text>
 
-                  <Form.Control placeholder={book.price} disabled />
+                  <Form.Control placeholder={book.Price} disabled />
                 </InputGroup>
               </Form.Group>
               <Form.Group

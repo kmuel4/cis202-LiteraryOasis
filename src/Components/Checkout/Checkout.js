@@ -27,6 +27,7 @@ import {
   faCashRegister,
 } from "@fortawesome/free-solid-svg-icons";
 import Header from "../Header/Header";
+import BookList from "../../assets/BookList";
 
 const Checkout = (props) => {
   //show the modal
@@ -35,32 +36,8 @@ const Checkout = (props) => {
   //initialize check for empty cart
   const [isCartEmpty, setIsCartEmpty] = useState(true);
 
+  //get list of books from database
   const [retrievedBookList, setRetrievedBookList] = useState([]);
-
-  useEffect(() => {
-    const fetchBooks = async () => {
-      const response = await fetch(
-        "https://literaryoasis-6ffb0-default-rtdb.firebaseio.com/Books.json"
-      );
-      const responseData = await response.json();
-
-      const loadedBooks = [];
-
-      for (const key in responseData) {
-        loadedBooks.push({
-          Author: responseData[key].Author,
-          ISBN: responseData[key].ISBN,
-          Price: responseData[key].Price,
-          Title: responseData[key].Title,
-          Status: responseData[key].Status,
-          Location: responseData[key].Location,
-          key: key,
-        });
-      }
-      setRetrievedBookList(loadedBooks);
-    };
-    fetchBooks();
-  });
 
   //handle when search icon clicked
   const handleSearchClick = () => {
@@ -99,12 +76,9 @@ const Checkout = (props) => {
   const [isbn, setIsbn] = useState(
     props.bookIsbn && props.bookIsbn.length > 0 ? props.bookIsbn : ""
   );
-  //get a random price (for now)
+
+  //initialize price
   const [price, setPrice] = useState("");
-  //initialize books list
-  const [books, setBooks] = useState(
-    props.getCart && props.getCart.length > 0 ? props.getCart : []
-  );
 
   //set book price once isbn is set
   useEffect(() => {
@@ -114,6 +88,11 @@ const Checkout = (props) => {
       setPrice(book ? book.Price : 0);
     }
   }, [isbn, retrievedBookList]);
+
+  //initialize books list for the cart
+  const [books, setBooks] = useState(
+    props.getCart && props.getCart.length > 0 ? props.getCart : []
+  );
 
   // when isbn is added to cart by the button
   const handleSubmit = (event) => {
@@ -305,6 +284,9 @@ const Checkout = (props) => {
                 </em>
               </Form.Text>
             </Form.Group>
+
+            {/*get the booklist */}
+            <BookList retrievedBookList={setRetrievedBookList}/>
 
             {/*add book to cart*/}
             <Container as={Col} style={{ textAlign: "right", marginTop: "" }}>
