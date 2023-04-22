@@ -39,6 +39,8 @@ const Checkout = (props) => {
   //get list of books from database
   const [retrievedBookList, setRetrievedBookList] = useState([]);
 
+  const [outOfStockFlag, setOutOfStockFlag] = useState(false);
+
   //handle when search icon clicked
   const handleSearchClick = () => {
     if (isbn.length >= 13) {
@@ -85,7 +87,10 @@ const Checkout = (props) => {
     if (isbn.length === 13) {
       //get the book that matches the isbn
       const book = retrievedBookList.find((book) => book.ISBN === isbn);
-      setPrice(book ? book.Price : 0);
+      //if book not found, give it a random price 2.99 - 24.99
+      setPrice(book ? book.Price : (Math.random() * 22 + 2.99).toFixed(2));
+      //find out if anything is out of stock
+      setOutOfStockFlag(retrievedBookList.some((book) => book.status === "Out of stock"));
     }
   }, [isbn, retrievedBookList]);
 
@@ -286,7 +291,7 @@ const Checkout = (props) => {
             </Form.Group>
 
             {/*get the booklist */}
-            <BookList retrievedBookList={setRetrievedBookList}/>
+            <BookList retrievedBookList={setRetrievedBookList} />
 
             {/*add book to cart*/}
             <Container as={Col} style={{ textAlign: "right", marginTop: "" }}>
@@ -346,9 +351,21 @@ const Checkout = (props) => {
             </InputGroup>
           </Form.Group>
         </Row>
-        <Button variant="primary" onClick={handleNewCustomer}>
-          <FontAwesomeIcon icon={faUserPlus} /> &nbsp;New Customer
-        </Button>
+        <div className="d-flex justify-content-between w-100">
+          <Button variant="primary" onClick={handleNewCustomer}>
+            <FontAwesomeIcon icon={faUserPlus} /> &nbsp;New Customer
+          </Button>
+          <div className="d-flex justify-content-end"></div>
+          {outOfStockFlag ? (
+            <Container style={{ width: "10rem", marginRight: "0rem", height: "1rem"}}>
+              <Form.Text className="text-muted">
+                *Some items in your cart are out of stock.
+              </Form.Text>
+            </Container>
+          ) : (
+            <></>
+          )}
+        </div>
       </Modal.Body>
       <Modal.Footer>
         <div className="d-flex justify-content-between w-100">
