@@ -79,6 +79,7 @@ const App = () => {
             onClose={handleSetIndex}
             bookData={bookData}
             bookIsbn={bookIsbn}
+            setIsbn={setBookIsbn}
           />
         );
       case 3:

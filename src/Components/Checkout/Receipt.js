@@ -34,38 +34,28 @@ const Receipt = (props) => {
     }
   };
 
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const handlePhoneNumberChange = (event) => {
-    const value = event.target.value;
-    const formattedValue = formatPhoneNumber(value);
-    setPhoneNumber(formattedValue);
-  };
-
+  //clear phone submission
   const handleClear = () => {
-    setPhoneNumber("");
+    setPhone("");
   };
 
-  const formatPhoneNumber = (value) => {
-    // Remove all non-digit characters
-    const phoneNumber = value.replace(/\D/g, "");
+  //initialize phone
+  const [phone, setPhone] = useState("");
 
-    // Add dashes after the first three digits and after the next three digits
-    if (phoneNumber.length >= 3 && phoneNumber.length < 6) {
-      return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
-    } else if (phoneNumber.length >= 6) {
-      return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(
-        3,
-        6
-      )}-${phoneNumber.slice(6, 10)}`;
+  //format phone
+  const handlePhoneChange = (e) => {
+    const input = e.target.value.replace(/\D/g, ""); // remove non-numeric characters
+    let formattedInput = "";
+    if (input.length > 0) {
+      formattedInput = "(" + input.slice(0, 3);
     }
-
-    return phoneNumber;
-  };
-
-  //count just the digits
-  const countPhoneNumberDigits = (number) => {
-    const digits = number.replace(/-/g, "").match(/\d/g);
-    return digits ? digits.length : 0;
+    if (input.length > 3) {
+      formattedInput += ") " + input.slice(3, 6);
+    }
+    if (input.length > 6) {
+      formattedInput += "-" + input.slice(6, 10);
+    }
+    setPhone(formattedInput);
   };
 
   //check to see if we show phone number input
@@ -150,34 +140,25 @@ const Receipt = (props) => {
                 onChange={handleTextReceipt}
               />
             </Form.Group>
-            
-              <Form.Group className="mb-3 mt-3" controlId="Phone" >
-                <Form.Label>Phone Number:</Form.Label>
-                <InputGroup>
-                  <Form.Control
-                    type="tel"
-                    value={phoneNumber}
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    onChange={handlePhoneNumberChange}
-                    required
-                    disabled={!textReceipt}
-                  />
-                  <InputGroup.Text>
-                    <Button variant="danger" size="sm" onClick={handleClear}>
-                      <FontAwesomeIcon icon={faTrashCan} size="lg" />
-                    </Button>
-                  </InputGroup.Text>
-                </InputGroup>
-                <Form.Text className="text-muted">
-                  Must be <strong>10</strong> digits with dashes.
-                  <em>
-                    Currently entered:{" "}
-                    <strong>{countPhoneNumberDigits(phoneNumber)} </strong>
-                    digits.
-                  </em>
-                </Form.Text>
-              </Form.Group>
-           
+
+            <Form.Group className="mb-3 mt-3" controlId="Phone">
+              <Form.Label>Phone Number:</Form.Label>
+              <InputGroup>
+                <Form.Control
+                  type="tel"
+                  placeholder="(123) 456-7890"
+                  value={phone}
+                  onChange={handlePhoneChange}
+                  required={textReceipt}
+                  disabled={!textReceipt}
+                />
+                <InputGroup.Text>
+                  <Button variant="danger" size="sm" onClick={handleClear}>
+                    <FontAwesomeIcon icon={faTrashCan} size="lg" />
+                  </Button>
+                </InputGroup.Text>
+              </InputGroup>
+            </Form.Group>
           </Modal.Body>
           <Modal.Footer>
             <OverlayTrigger

@@ -22,20 +22,28 @@ import Header from "../Header/Header";
 import BookList from "../../assets/BookList";
 
 const BookDetails = (props) => {
+  //show the modal
   const [show, setShow] = useState(true);
 
+  //close
   const handleClose = () => {
     props.onClose(0);
     setShow(false);
   };
+  //return to search
   const handleBack = () => {
     props.onClose(1);
     setShow(false);
   };
+  //add to the cart
   const handleAdd = () => {
     props.onClose(3);
+    props.setIsbn(book.ISBN)
     setShow(false);
   };
+
+  //null flag, no book found
+  const [nullFlag, setNullFlag] = useState(false);
 
   //get list of books from database
   const [retrievedBookList, setRetrievedBookList] = useState([]);
@@ -50,14 +58,31 @@ const BookDetails = (props) => {
     Location: "",
   });
 
+  //get selected book from booklist, add it to fields
   useEffect(() => {
-    const selectedBook = retrievedBookList.find(
-      (selectedBook) => selectedBook.ISBN === props.bookIsbn
-    );
-    console.log('selectedBook:', selectedBook);
+    let selectedBook = null;
+
+    //check for isbn first
+    if (props.bookIsbn) {
+      selectedBook = retrievedBookList.find(
+        (book) => book.ISBN === props.bookIsbn
+      );
+      setNullFlag(false);
+    }
+    // if no isbn, use author and title
+    else if (props.bookData) {
+      selectedBook = retrievedBookList.find(
+        (book) =>
+          book.Author === props.bookData.author &&
+          book.Title === props.bookData.title
+      );
+      setNullFlag(false);
+    }
+    //if we got a selected book, set it
     if (selectedBook) {
       setBook(selectedBook);
     } else {
+      setNullFlag(true);
       setBook({
         Title: "NULL",
         Author: "NULL",
@@ -67,7 +92,7 @@ const BookDetails = (props) => {
         Location: "NULL",
       });
     }
-  }, [retrievedBookList, props.bookIsbn]);
+  }, [retrievedBookList, props.bookIsbn, props.bookData]);
 
   return (
     <>
@@ -152,11 +177,12 @@ const BookDetails = (props) => {
                 }}
               >
                 <Button
-                  variant="primary"
+                  variant={!nullFlag ? "primary" : "danger"}
                   type="submit"
                   style={{ width: "14rem" }}
+                  disabled={nullFlag}
                 >
-                  <FontAwesomeIcon icon={faCartShopping} beat />
+                  <FontAwesomeIcon icon={faCartShopping} beat={!nullFlag} />
                   &nbsp; Add to Cart
                 </Button>
               </Form.Group>

@@ -21,6 +21,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../Header/Header";
 
 const CardPayment = (props) => {
+
   //controls showing modal
   const [show, setShow] = useState(true);
 
@@ -63,29 +64,8 @@ const CardPayment = (props) => {
   //handle name on card
   const [cardName, setCardName] = useState();
 
-  // handle expiration
-  const [expiration, setExpiration] = useState("");
-  const handleExpirationChange = (event) => {
-    const value = event.target.value;
-    if (value.length <= 5) {
-      const formattedValue = formatExpiration(value);
-      setExpiration(formattedValue);
-    } else {
-      event.target.value = event.target.value.slice(0, 5);
-    }
-  };
-
-  // format expiration
-  const formatExpiration = (value) => {
-    // Remove all non-digit characters
-    const expiration = value.replace(/\D/g, "");
-
-    // Add dashes after the first 2 digits
-    if (expiration.length >= 2) {
-      return `${expiration.slice(0, 2)}-${expiration.slice(2)}`;
-    }
-    return expiration;
-  };
+  //handle expiration
+  const [expiration, setExpiration] = useState();
 
   //handle security code
   const [securityCode, setSecurityCode] = useState();
@@ -124,35 +104,23 @@ const CardPayment = (props) => {
     }
   };
 
-  // handle phone number
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const handlePhoneNumberChange = (event) => {
-    const value = event.target.value;
-    const formattedValue = formatPhoneNumber(value);
-    setPhoneNumber(formattedValue);
-  };
+  //initialize phone
+  const [phone, setPhone] = useState("");
 
-  //handle phone number digit limit and add dashes in
-  const formatPhoneNumber = (value) => {
-    // Remove all non-digit characters
-    const phoneNumber = value.replace(/\D/g, "");
-
-    // Add dashes after the first three digits and after the next three digits
-    if (phoneNumber.length >= 3 && phoneNumber.length < 6) {
-      return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
-    } else if (phoneNumber.length >= 6) {
-      return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(
-        3,
-        6
-      )}-${phoneNumber.slice(6, 10)}`;
+  //format phone
+  const handlePhoneChange = (e) => {
+    const input = e.target.value.replace(/\D/g, ""); // remove non-numeric characters
+    let formattedInput = "";
+    if (input.length > 0) {
+      formattedInput = "(" + input.slice(0, 3);
     }
-    return phoneNumber;
-  };
-
-  //count just phone number the digits
-  const countPhoneNumberDigits = (number) => {
-    const digits = number.replace(/-/g, "").match(/\d/g);
-    return digits ? digits.length : 0;
+    if (input.length > 3) {
+      formattedInput += ") " + input.slice(3, 6);
+    }
+    if (input.length > 6) {
+      formattedInput += "-" + input.slice(6, 10);
+    }
+    setPhone(formattedInput);
   };
 
   //clear fields that you cant delete
@@ -170,7 +138,7 @@ const CardPayment = (props) => {
     setAddress2("");
     setCity("");
     setZip("");
-    setPhoneNumber("");
+    setPhone("");
 
     //focus on first text field
     document.querySelector('[tabindex="1"]').focus();
@@ -253,12 +221,12 @@ const CardPayment = (props) => {
             <Form.Group as={Col} controlId="CardExpiration">
               <Form.Label>Expiration*</Form.Label>
               <Form.Control
-                tabIndex={3}
-                pattern="[0-9]{2}-[0-9]{2}"
-                required
+                type="month"
+                placeholder="Enter date"
                 value={expiration}
-                onChange={handleExpirationChange}
-                placeholder="MM-YY"
+                onChange={(e) => setExpiration(e.target.value)}
+                required
+                tabIndex={3}
               />
             </Form.Group>
 
@@ -378,20 +346,13 @@ const CardPayment = (props) => {
             <Form.Label>Phone Number*</Form.Label>
             <Form.Control
               type="tel"
-              value={phoneNumber}
-              pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-              onChange={handlePhoneNumberChange}
+              placeholder="(123) 456-7890"
+              value={phone}
+              onChange={handlePhoneChange}
               required
+              minLength="14"
               tabIndex={10}
             />
-            <Form.Text className="text-muted">
-              Must be <strong>10</strong> digits with dashes.{" "}
-              <em>
-                Currently entered:{" "}
-                <strong>{countPhoneNumberDigits(phoneNumber)} </strong>
-                digits.
-              </em>
-            </Form.Text>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
