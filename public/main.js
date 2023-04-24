@@ -6,9 +6,9 @@ const createWindow = () => {
   // Create the browser window.
   win = new BrowserWindow({
     width: 755,
-    maxWidth: 755,
+    maxWidth: 960,
     height: 800,
-    maxHeight: 800,
+    maxHeight: 1024,
     webPreferences: {
       nodeIntegration: true,
     },
