@@ -1,4 +1,7 @@
-# Launching the App
+# Launching the Build
+run the LiteraryOasis.bat file to launch the app
+
+# Launching the app for development
 
 ### `npm install react-bootstrap boostrap`
 
