@@ -1,4 +1,11 @@
-import { Stack, Button, Container, Image } from "react-bootstrap";
+import {
+  Stack,
+  Button,
+  Container,
+  Image,
+  Toast,
+  ToastContainer,
+} from "react-bootstrap";
 import SearchBook from "./Components/BookLookup/SearchBook";
 import BookDetails from "./Components/BookLookup/BookDetails";
 import Checkout from "./Components/Checkout/Checkout";
@@ -12,12 +19,17 @@ import textArt from "./Images/literaryoasis-textart.png";
 import ReceiptAlert from "./Components/Alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCashRegister, faSearch } from "@fortawesome/free-solid-svg-icons";
+import logo from "./Images/book.png";
 
 const App = () => {
+  //handle what we show on the main screen
   const [index, setIndex] = useState(0);
   const handleSetIndex = (value) => {
     setIndex(value);
   };
+
+  // handle showing toast on new customer add
+  const [show, setShow] = useState(false);
 
   //show alert and clear cart
   const [alertFlag, setAlertFlag] = useState(false);
@@ -26,19 +38,21 @@ const App = () => {
     handleSetCart(null);
   };
 
+  //button to open book lookup
   const handleOpenBookLookup = () => {
     handleSetIndex(1);
     setAlertFlag(false);
   };
 
+  //button to open checkout
   const handleOpenCheckout = () => {
     handleSetIndex(3);
     setAlertFlag(false);
   };
 
   //store book data
-  const [bookData, setBookData] = useState('');
-  const [bookIsbn, setBookIsbn] = useState('');
+  const [bookData, setBookData] = useState("");
+  const [bookIsbn, setBookIsbn] = useState("");
 
   //handle cart data
   const [cart, setCart] = useState([]);
@@ -54,18 +68,20 @@ const App = () => {
 
   //clear isbn
   const clearIsbn = () => {
-    setBookIsbn('');
-  }
+    setBookIsbn("");
+  };
 
   //handle new customer added
   const newCustomerAdded = () => {
     setIndex(3);
+    setShow(true);
   };
 
   //screen manager
   const showScreen = (value) => {
     switch (value) {
       case 1:
+        //search book
         return (
           <SearchBook
             onClose={handleSetIndex}
@@ -74,6 +90,7 @@ const App = () => {
           />
         );
       case 2:
+        //book details
         return (
           <BookDetails
             onClose={handleSetIndex}
@@ -83,6 +100,7 @@ const App = () => {
           />
         );
       case 3:
+        //checkout
         return (
           <Checkout
             onClose={handleSetIndex}
@@ -94,18 +112,22 @@ const App = () => {
           />
         );
       case 4:
+        //new customer
         return (
           <NewCustomer onClose={handleSetIndex} onSubmit={newCustomerAdded} />
         );
       case 5:
+        // payment
         return <CardPayment onClose={handleSetIndex} />;
       case 6:
+        //receipt
         return <Receipt onClose={handleSetIndex} receipt={handleAlert} />;
       default:
         return;
     }
   };
 
+  //show receipt alert
   const showAlert = (value) => {
     if (value) {
       return <ReceiptAlert onClose={handleAlert} />;
@@ -131,7 +153,8 @@ const App = () => {
               className="text-center me-3"
               style={{ width: "200px" }}
             >
-              Book Search &nbsp;<FontAwesomeIcon icon={faSearch} />
+              Book Search &nbsp;
+              <FontAwesomeIcon icon={faSearch} />
             </Button>
 
             <Button
@@ -140,7 +163,8 @@ const App = () => {
               className="text-center ms-3"
               style={{ width: "200px" }}
             >
-              Checkout &nbsp;<FontAwesomeIcon icon={faCashRegister} />
+              Checkout &nbsp;
+              <FontAwesomeIcon icon={faCashRegister} />
             </Button>
           </div>
 
@@ -149,6 +173,21 @@ const App = () => {
           <Stack gap={3}>{showScreen(index)}</Stack>
         </Container>
       </div>
+      
+      <ToastContainer className="p-3" position="top-start">
+        <Toast onClose={() => setShow(false)} show={show} delay={4000} autohide>
+          <Toast.Header>
+            <Image
+              roundedCircle
+              src={logo}
+              style={{ height: "1.5rem", width: "auto" }}
+            />
+            <strong className="me-auto">&nbsp;Literary Oasis</strong>
+            <small>now</small>
+          </Toast.Header>
+          <Toast.Body>New Customer added to the database!</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </>
   );
 };
