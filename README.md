@@ -1,5 +1,5 @@
 # Launching the Build
-run the LiteraryOasis shortcut file to launch the app
+run the LiteraryOasis.bat file or make a shortcut to run the build
 
 # Launching the app for development
 
