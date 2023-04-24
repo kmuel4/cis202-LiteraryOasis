@@ -168,12 +168,14 @@ const App = () => {
             </Button>
           </div>
 
+          {/*show alert when receipt closes */}
           {showAlert(alertFlag)}
 
           <Stack gap={3}>{showScreen(index)}</Stack>
         </Container>
       </div>
-      
+
+      {/*toast for adding new customer */}
       <ToastContainer className="p-3" position="top-start">
         <Toast onClose={() => setShow(false)} show={show} delay={4000} autohide>
           <Toast.Header>
