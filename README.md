@@ -1,6 +1,6 @@
 # Launching the App
 
-### `npm install react-bootstrap boostrap'
+### `npm install react-bootstrap boostrap`
 
 installs bootstrap
 
