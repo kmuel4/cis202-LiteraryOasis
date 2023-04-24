@@ -15,7 +15,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../../Images/literaryoasis-backdrop.png";
+import logo from "../../Images/book.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
@@ -38,8 +38,6 @@ const Checkout = (props) => {
 
   //get list of books from database
   const [retrievedBookList, setRetrievedBookList] = useState([]);
-
-  const [outOfStockFlag, setOutOfStockFlag] = useState(false);
 
   //handle when search icon clicked
   const handleSearchClick = () => {
@@ -89,8 +87,6 @@ const Checkout = (props) => {
       const book = retrievedBookList.find((book) => book.ISBN === isbn);
       //if book not found, give it a random price 2.99 - 24.99
       setPrice(book ? book.Price : (Math.random() * 22 + 2.99).toFixed(2));
-      //find out if anything is out of stock
-      setOutOfStockFlag(retrievedBookList.some((book) => book.status === "Out of stock"));
     }
   }, [isbn, retrievedBookList]);
 
@@ -102,10 +98,20 @@ const Checkout = (props) => {
   // when isbn is added to cart by the button
   const handleSubmit = (event) => {
     event.preventDefault();
+    //flag if the book is out of stock
+    let status;
+    const book = retrievedBookList.find((book) => book.ISBN === isbn);
+    if (book && book.Status === "Avaliable") {
+      //if avaliable set to true
+      status = true;
+    } else {
+      //if not found or out of stock set false
+      status = false;
+    }
     //clear isbn from search
     props.clearIsbn();
     //add to cart
-    const newBook = { isbn, price };
+    const newBook = { isbn, price, status };
     setBooks([...books, newBook]);
     //clear isbn and price
     setIsbn("");
@@ -164,17 +170,38 @@ const Checkout = (props) => {
                 {/*remove button */}
                 <Container
                   as={Col}
-                  style={{ marginTop: "30px", textAlign: "right" }}
+                  style={{ marginTop: "32px", textAlign: "right" }}
                 >
                   <Button
                     variant="danger"
-                    style={{ marginRight: ".5rem" }}
+                    style={{
+                      marginRight: ".5rem",
+                      maxHeight: "2.5rem",
+                      overflowX: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
                     onClick={() => removeBook(index)}
                   >
                     Remove &nbsp;
                     <FontAwesomeIcon icon={faXmark} />
                   </Button>
                 </Container>
+                {book.status === false ? (
+                  <Container
+                    style={{
+                      textAlign: "left",
+                      marginTop: ".5rem",
+                      marginBottom: "-.5rem",
+                    }}
+                  >
+                    <mark style={{ fontSize: ".75rem", color: "grey" }}>
+                      *This book is out of stock and will be ordered.
+                    </mark>
+                  </Container>
+                ) : (
+                  <></>
+                )}
               </Row>
             </div>
           </div>
@@ -356,15 +383,6 @@ const Checkout = (props) => {
             <FontAwesomeIcon icon={faUserPlus} /> &nbsp;New Customer
           </Button>
           <div className="d-flex justify-content-end"></div>
-          {outOfStockFlag ? (
-            <Container style={{ width: "10rem", marginRight: "0rem", height: "1rem"}}>
-              <Form.Text className="text-muted">
-                *Some items in your cart are out of stock.
-              </Form.Text>
-            </Container>
-          ) : (
-            <></>
-          )}
         </div>
       </Modal.Body>
       <Modal.Footer>

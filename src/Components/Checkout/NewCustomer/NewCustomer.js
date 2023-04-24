@@ -11,7 +11,7 @@ import {
   Card,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../../../Images/literaryoasis-backdrop.png";
+import logo from "../../../Images/book.png";
 import Survey from "./Survey";
 import {
   faArrowLeft,
@@ -22,8 +22,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../../Header/Header";
 
 const NewCustomer = (props) => {
-  const [showScrollArrow, setShowScrollArrow] = useState(true);
-
   //handle modal
   const [show, setShow] = useState(true);
 

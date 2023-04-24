@@ -10,7 +10,7 @@ import {
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
-import logo from "../../Images/literaryoasis-backdrop.png";
+import logo from "../../Images/book.png";
 import {
   faArrowLeft,
   faWallet,

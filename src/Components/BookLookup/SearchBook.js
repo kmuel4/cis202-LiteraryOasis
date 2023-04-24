@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../../Images/literaryoasis-backdrop.png";
+import logo from "../../Images/book.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Header from "../Header/Header";

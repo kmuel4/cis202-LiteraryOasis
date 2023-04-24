@@ -12,7 +12,7 @@ import {
   InputGroup,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../../Images/literaryoasis-backdrop.png";
+import logo from "../../Images/book.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPrint,

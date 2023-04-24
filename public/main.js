@@ -1,9 +1,10 @@
-const { app, BrowserWindow, Notification } = require("electron");
-const path = require("path");
+const { app, BrowserWindow } = require("electron");
+
+let win; // Declare win variable in the global scope
 
 const createWindow = () => {
   // Create the browser window.
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 755,
     maxWidth: 755,
     height: 800,
@@ -13,21 +14,17 @@ const createWindow = () => {
     },
   });
 
-  //load the index.html from a url
+  // Load the index.html from a URL.
   win.loadURL("http://localhost:3000");
-  //win.setMenu(null);
 
-  // Wait for the React app to finish loading.
-  let refresh = false;
-  win.webContents.on("did-finish-load", () => {
-    if(!refresh){
-      win.reload(); // Refresh the Electron window when the React app is ready
-      refresh = true;
+  // Wait for the DOM to finish loading.
+  let refresh = true;
+  win.webContents.on("dom-ready", () => {
+    if (refresh) {
+      // Refresh the window once the DOM is ready.
+      win.reload();
+      refresh = false;
     }
-  });
-
-  win.on("closed", () => {
-    win = null;
   });
 };
 
@@ -36,7 +33,7 @@ const createWindow = () => {
  */
 app.whenReady().then(createWindow);
 
-//quit when windows are closed
+// Quit when all windows are closed.
 app.on("window-all-closed", () => {
   app.quit();
 });
