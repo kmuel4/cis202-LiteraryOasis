@@ -2,9 +2,12 @@
   "name": "literary-oasis",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "main": "public/main.js",
   "author": "Kurt Mueller",
+  "description": "Literary Oasis App",
   "license": "SUNY Brockport",
+  "copyright": "Copyright © 2023 Kurt Mueller",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
@@ -13,18 +16,23 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.3",
-    "electron": "^24.0.0",
+    "electron": "^24.1.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yarn": "^1.22.19"
   },
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"electron . --ignore-certificate-errors\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron:start": "concurrently -k \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electronmon .\"",
+    "electron:package:mac": "yarn build && electron-builder -m -c.extraMetadata.main=build/electron.js",
+    "electron:package:win": "yarn build && electron-builder -w -c.extraMetadata.main=build/electron.js",
+    "electron:package:linux": "yarn build && electron-builder -l -c.extraMetadata.main=build/electron.js"
   },
   "eslintConfig": {
     "extends": [
@@ -34,11 +42,13 @@
   },
   "browserslist": {
     "production": [
+      "last 1 electron version",
       ">0.2%",
       "not dead",
       "not op_mini all"
     ],
     "development": [
+      "last 1 electron version",
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
@@ -46,6 +56,30 @@
   },
   "devDependencies": {
     "concurrently": "^8.0.1",
-    "electron-builder": "^23.6.0"
+    "cross-env": "^7.0.3",
+    "electron-builder": "^23.6.0",
+    "electronmon": "^2.0.2",
+    "wait-on": "^7.0.1"
+  },
+  "build": {
+    "appId": "com.electron.myapp",
+    "productName": "Literary Oasis",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "public"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "public\book.ico"
+    },
+    "linux": {
+      "target": "deb"
+    }
   }
 }
