@@ -1,8 +1,6 @@
 # Launching the Build
 run the LiteraryOasis.bat file or make a shortcut to run the build
 
-### install the following to run the program
-
 # Launching the app for development
 
 ### `yarn`
