@@ -86,7 +86,7 @@ const Checkout = (props) => {
       //get the book that matches the isbn
       const book = retrievedBookList.find((book) => book.ISBN === isbn);
       //if book not found, give it a random price 2.99 - 24.99
-      setPrice(book ? book.Price : (Math.random() * 22 + 2.99).toFixed(2));
+      setPrice(book ? book.Price : "0.00");
     }
   }, [isbn, retrievedBookList]);
 
