@@ -42,11 +42,6 @@ function setupLocalFilesNormalizerProxy() {
   );
 }
 
-//quit when all windows closed
-app.on("window-all-closed", () => {
-  app.quit();
-});
-
 // this method will be called when Electron has finished its initialization and
 // is ready to create the browser windows.
 app.whenReady().then(() => {
@@ -63,7 +58,7 @@ app.whenReady().then(() => {
 
 // quit when all windows are closed, except on macOS.
 // it's common for applications and their menu bar to stay active until the user quits  explicitly with Cmd + Q.
-app.on("window-all-closed", function () {
+app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
