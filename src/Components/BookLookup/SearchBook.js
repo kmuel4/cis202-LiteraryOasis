@@ -99,6 +99,7 @@ const BookSearch = (props) => {
               iconType={faSearch}
               message="Book Search allows us to search for details about a 
               book using either Title and Author or ISBN."
+              onClick={handleBookList}
             />
             <Form.Group className="mt-2">
               <Form.Label>Title:</Form.Label>
@@ -155,9 +156,6 @@ const BookSearch = (props) => {
             <div className="d-flex justify-content-between w-100">
               <Button variant="secondary" onClick={handleClose}>
                 Close
-              </Button>
-              <Button variant="secondary" onClick={handleBookList}>
-                Book List
               </Button>
               <div className="d-flex justify-content-end">
                 <OverlayTrigger

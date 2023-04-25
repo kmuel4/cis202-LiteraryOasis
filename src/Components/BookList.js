@@ -81,45 +81,50 @@ const BookDetails = (props) => {
             iconType={faBook}
             message="Book List shows all books in the database."
           />
-          <Card style={{maxHeight: "30rem", marginTop: "2rem"}}>
-            <div style={{ overflow: "auto"}}>
-            <table className="table" style={{ overflow: "auto"}}>
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Author</th>
-                  <th>Price</th>
-                  <th>Status</th>
-                  <th>ISBN</th>
-                  <th>Location</th>
-                </tr>
-              </thead>
-              <tbody>
-                {retrievedBookList.map((book, index) => (
-                  <tr key={index}>
-                    <td>{book.Title}</td>
-                    <td>{book.Author}</td>
-                    <td>${book.Price}</td>
-                    <td>{book.Status}</td>
-                    <td>{book.ISBN}</td>
-                    <td>{book.Location}</td>
+          <Form style={{ overflow: "auto" }}>
+            <Card className="m-3">
+            <Form.Group>
+              <Row>
+                <Form.Control value="title" />
+                <Form.Control value="author" />
+              </Row>
+            </Form.Group>
+            </Card>
+            <Card style={{ maxHeight: "30rem", marginTop: ".5rem" }}>
+              <table className="table" style={{ overflow: "auto" }}>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            </div>
-          </Card>
+                </thead>
+                <tbody>
+                  {retrievedBookList.map((book, index) => (
+                    <tr key={index} style={{ border: "1px solid lightgrey" }}>
+                      <td style={{ border: "1px solid lightgrey" }}>
+                        <Form.Check
+                          type="radio"
+                          id={index}
+                          name="selectedBook"
+                        />
+                      </td>
+                      <td>{book.Title}</td>
+                      <td>{book.Author}</td>
+                      <td>{book.ISBN}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </Card>
+          </Form>
         </Modal.Body>
         <Modal.Footer>
           <div className="d-flex justify-content-between w-100">
             <Button variant="primary" onClick={handleBack}>
               <FontAwesomeIcon icon={faArrowLeft} /> Return
             </Button>
-            <div className="d-flex justify-content-end">
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
-            </div>
           </div>
         </Modal.Footer>
       </Modal>

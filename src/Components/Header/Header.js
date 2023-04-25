@@ -7,7 +7,7 @@ const Header = (props) => {
   return (
     <Container className={icon}>
       <h2>
-        <FontAwesomeIcon icon={props.iconType} />
+        <FontAwesomeIcon icon={props.iconType} onClick={props.onClick}/>
         <span className={icon.question}>
           <OverlayTrigger
             trigger="click"
