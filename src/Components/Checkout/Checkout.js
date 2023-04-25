@@ -5,9 +5,6 @@ import {
   Form,
   Row,
   Col,
-  Image,
-  Breadcrumb,
-  Stack,
   Container,
   Card,
   InputGroup,
@@ -15,7 +12,6 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../../Images/book.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
@@ -28,6 +24,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Header from "../Header/Header";
 import BookDatabase from "../../assets/BookDatabase";
+import ModalHeader from "../ModalHeader";
 
 const Checkout = (props) => {
   //show the modal
@@ -226,28 +223,10 @@ const Checkout = (props) => {
 
   return (
     <Modal show={show} onHide={handleClose} animation={false}>
-      <Modal.Header
-        className="stick-top"
-        style={{ padding: ".5rem 1rem", borderBottom: "none" }}
-        closeButton
-      >
-        {/*breadcrumb */}
-        <Modal.Title style={{ fontSize: "1.5rem" }}>
-          <Stack direction="horizontal" gap={1}>
-            <Image
-              roundedCircle
-              src={logo}
-              style={{ height: "3rem", width: "auto" }}
-            />
-            &nbsp;
-            <Breadcrumb style={{ fontSize: "1.25rem", marginTop: "1rem" }}>
-              <Breadcrumb.Item active style={{ color: "grey" }}>
-                Checkout
-              </Breadcrumb.Item>
-            </Breadcrumb>
-          </Stack>
-        </Modal.Title>
-      </Modal.Header>
+
+        {/*modal header stuff */}
+        <ModalHeader breadcrumbs={["Checkout"]} />
+
       <Modal.Body>
         {/*header */}
         <Header

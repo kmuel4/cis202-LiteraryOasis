@@ -5,13 +5,9 @@ import {
   Col,
   Row,
   Form,
-  Image,
-  Stack,
-  Breadcrumb,
   Card,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../../../Images/book.png";
 import Survey from "./Survey";
 import {
   faArrowLeft,
@@ -20,6 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../../Header/Header";
+import ModalHeader from "../../ModalHeader";
 
 const NewCustomer = (props) => {
   //handle modal
@@ -76,31 +73,10 @@ const NewCustomer = (props) => {
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
         <Form onSubmit={handleSubmit}>
-          <Modal.Header
-            className="stick-top"
-            style={{ padding: ".5rem 1rem", borderBottom: "none" }}
-            closeButton
-          >
-            {/*breadcrumb */}
-            <Modal.Title style={{ fontSize: "1.5rem" }}>
-              <Stack direction="horizontal" gap={1}>
-                <Image
-                  roundedCircle
-                  src={logo}
-                  style={{ height: "3rem", width: "auto" }}
-                />
-                &nbsp;
-                <Breadcrumb style={{ fontSize: "1.25rem", marginTop: "1rem" }}>
-                  <Breadcrumb.Item active style={{ color: "black" }}>
-                    Checkout
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item active style={{ color: "grey" }}>
-                    New Customer
-                  </Breadcrumb.Item>
-                </Breadcrumb>
-              </Stack>
-            </Modal.Title>
-          </Modal.Header>
+
+        {/*modal header stuff */}
+        <ModalHeader breadcrumbs={["Checkout", "New Customer"]} />
+
           <Modal.Body>
             {/*header */}
             <Header

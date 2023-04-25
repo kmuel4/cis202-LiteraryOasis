@@ -5,23 +5,20 @@ import {
   Form,
   Row,
   Col,
-  Image,
-  Stack,
-  Breadcrumb,
-  InputGroup,
   Card,
   Container,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../Images/book.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
   faBook,
   faArrowRight,
+  faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 import Header from "./Header/Header";
 import BookDatabase from "../assets/BookDatabase";
+import ModalHeader from "./ModalHeader";
 
 const BookDetails = (props) => {
   //show the modal
@@ -44,6 +41,7 @@ const BookDetails = (props) => {
     setRetrievedBookList(value);
   };
 
+  // filtered book list from search
   const [filteredBookList, setFilteredBookList] = useState([]);
 
   // filter the retrieved book list to only include books that match the author or title
@@ -86,72 +84,55 @@ const BookDetails = (props) => {
         {/*get the booklist */}
         <BookDatabase retrievedBookList={handleRetrievedBookList} />
 
-        <Modal.Header
-          className="stick-top"
-          style={{ padding: ".5rem 1rem", borderBottom: "none" }}
-          closeButton
-        >
-          <Modal.Title style={{ fontSize: "1.5rem" }}>
-            <Stack direction="horizontal" gap={1}>
-              <Image
-                roundedCircle
-                src={logo}
-                style={{ height: "3rem", width: "auto" }}
-              />
-              &nbsp;
-              <Breadcrumb style={{ fontSize: "1.25rem", marginTop: "1rem" }}>
-                <Breadcrumb.Item active style={{ color: "black" }}>
-                  Book Search
-                </Breadcrumb.Item>
-                <Breadcrumb.Item active style={{ color: "grey" }}>
-                  Book List
-                </Breadcrumb.Item>
-              </Breadcrumb>
-            </Stack>
-          </Modal.Title>
-        </Modal.Header>
+        {/*modal header stuff */}
+        <ModalHeader breadcrumbs={["Book Search", "Similar Books"]} />
+
         <Form onSubmit={handleNext}>
           <Modal.Body>
             {/*header */}
             <Header
               iconType={faBook}
-              message="Book List shows similar books based on your search."
+              message="Book List shows similar books found based on your search. Click to select and get details for a book."
             />
             {/*book title and author from search */}
             <Row className="mt-2">
               {/*title */}
               <Form.Group as={Col}>
+                <Form.Label>Title:</Form.Label>
                 <Form.Control placeholder={props.bookData.title} disabled />
               </Form.Group>
               {/*author */}
               <Form.Group as={Col}>
+                <Form.Label>Author:</Form.Label>
                 <Form.Control placeholder={props.bookData.author} disabled />
               </Form.Group>
             </Row>
             <Form.Text className="text-muted">Did you mean...</Form.Text>
+            {/*table */}
             <Card
               style={{
                 maxHeight: "30rem",
                 marginTop: ".5rem",
                 overflowY: "auto",
                 overflowX: "hidden",
-                paddingRight: ".25rem",
               }}
             >
-              <table className="table" style={{ overflow: "auto" }}>
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    {/*<th>ISBN</th>*/}
-                  </tr>
-                </thead>
+              {/*show table if it has contents, show conditional message otherwise */}
+              {filteredBookList.length > 0 ? (
+                <table className="table" style={{ overflow: "auto", marginBottom: "0rem" }}>
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Title</th>
+                      <th>Author</th>
+                      {/*<th>ISBN</th>*/}
+                    </tr>
+                  </thead>
 
-                <tbody>
-                  
-                    {filteredBookList.map((book, index) => (
-                      <tr key={index} style={{ border: "1px solid lightgrey" }}>
+                  <tbody>
+                    {//loop through filtered booklist and print it in the table
+                    filteredBookList.map((book, index) => (
+                      <tr key={index}>
                         <td style={{ border: "1px solid lightgrey" }}>
                           <Form.Check
                             type="radio"
@@ -169,9 +150,18 @@ const BookDetails = (props) => {
                         {/* <td>{book.ISBN}</td> */}
                       </tr>
                     ))}
-        
-                </tbody>
-              </table>
+                  </tbody>
+                </table>
+              ) : (
+                <Container style={{ textAlign: "center", padding: "1rem" }}>
+                  <FontAwesomeIcon
+                    icon={faTriangleExclamation}
+                    size="2xl"
+                    style={{ color: "#ffc107" }}
+                  />
+                  <h5 className="mt-1">No books found.</h5>
+                </Container>
+              )}
             </Card>
           </Modal.Body>
           <Modal.Footer>

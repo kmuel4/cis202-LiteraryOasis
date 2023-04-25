@@ -2,17 +2,13 @@ import { useState } from "react";
 import {
   Button,
   Modal,
-  Image,
   Container,
   Form,
-  Breadcrumb,
-  Stack,
   OverlayTrigger,
   Tooltip,
   InputGroup,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../../Images/book.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPrint,
@@ -20,6 +16,7 @@ import {
   faFlagCheckered,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
+import ModalHeader from "../ModalHeader";
 
 const Receipt = (props) => {
   const [show, setShow] = useState(true);
@@ -76,32 +73,9 @@ const Receipt = (props) => {
     <>
       <Modal show={show} backdrop="static" keyboard={false} animation={false}>
         <Form onSubmit={handleSubmit}>
-          <Modal.Header
-            className="stick-top"
-            style={{ padding: ".5rem 1rem", borderBottom: "none" }}
-          >
-            <Modal.Title style={{ fontSize: "1.5rem" }}>
-              <Stack direction="horizontal" gap={1}>
-                <Image
-                  roundedCircle
-                  src={logo}
-                  style={{ height: "3rem", width: "auto" }}
-                />
-                &nbsp;
-                <Breadcrumb style={{ fontSize: "1.25rem", marginTop: "1rem" }}>
-                  <Breadcrumb.Item active style={{ color: "black" }}>
-                    Checkout
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item active style={{ color: "black" }}>
-                    Payment
-                  </Breadcrumb.Item>
-                  <Breadcrumb.Item active style={{ color: "grey" }}>
-                    Receipt
-                  </Breadcrumb.Item>
-                </Breadcrumb>
-              </Stack>
-            </Modal.Title>
-          </Modal.Header>
+          {/*modal header stuff */}
+          <ModalHeader breadcrumbs={["Checkout", "Payment", "Receipt"]} />
+
           <Modal.Body>
             <Container className="mb-4 text-center">
               <h2
