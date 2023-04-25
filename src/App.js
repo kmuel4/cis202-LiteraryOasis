@@ -90,6 +90,9 @@ const App = () => {
             bookIsbn={setBookIsbn}
           />
         );
+      case 7:
+        //book list
+        return <BookList onClose={handleSetIndex} bookData={bookData} bookIsbn={setBookIsbn}/>;
       case 2:
         //book details
         return (
@@ -123,9 +126,6 @@ const App = () => {
       case 6:
         //receipt
         return <Receipt onClose={handleSetIndex} receipt={handleAlert} />;
-      case 7:
-        //book list
-        return <BookList onClose={handleSetIndex} />;
       default:
         return;
     }

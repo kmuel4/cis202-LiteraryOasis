@@ -16,7 +16,6 @@ import { faArrowRight, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Header from "../Header/Header";
 
 const BookSearch = (props) => {
-
   //handle modal
   const [show, setShow] = useState(true);
 
@@ -31,6 +30,8 @@ const BookSearch = (props) => {
     props.onClose(0);
     setShow(false);
   };
+
+  const [similarSearch, setSimilarSearch] = useState(false);
 
   //initalize isbn
   const [isbn, setIsbn] = useState("");
@@ -67,12 +68,14 @@ const BookSearch = (props) => {
   //proceed to book list
   const handleBookList = () => {
     props.onClose(7);
+    props.bookData(bookData);
+    setShow(false);
   };
 
   return (
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleBookList}>
           <Modal.Header
             className="stick-top"
             style={{ padding: ".5rem 1rem", borderBottom: "none" }}
@@ -120,11 +123,17 @@ const BookSearch = (props) => {
                 onChange={handleBookDataAuthor}
               />
             </Form.Group>
+            <Form.Group className="mt-2">
+              <Stack direction="horizontal" gap={3}>
+                <Form.Label>Search similar books:</Form.Label>
+                <Form.Check type="checkbox" style={{marginTop: "-.4rem"}}
+                onChange={() => setSimilarSearch(!similarSearch)}/>
+              </Stack>
+            </Form.Group>
             <hr
               style={{
                 marginLeft: "-1rem",
                 marginRight: "-1rem",
-                marginTop: "1.5rem",
               }}
             />
             <Form.Group>

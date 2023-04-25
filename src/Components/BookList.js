@@ -10,11 +10,16 @@ import {
   Breadcrumb,
   InputGroup,
   Card,
+  Container,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../Images/book.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faBook } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faBook,
+  faArrowRight,
+} from "@fortawesome/free-solid-svg-icons";
 import Header from "./Header/Header";
 import BookDatabase from "../assets/BookDatabase";
 
@@ -36,15 +41,21 @@ const BookDetails = (props) => {
   //get list of books from database
   const [retrievedBookList, setRetrievedBookList] = useState([]);
 
-  //handle book info coming in
-  const [book, setBook] = useState({
-    Title: "",
-    Author: "",
-    Price: "",
-    Status: "",
-    ISBN: "",
-    Location: "",
-  });
+  //selected book ISBN
+  const [selectedBook, setSelectedBook] = useState("");
+
+  //proceed to book details
+  const handleNext = (event) => {
+    event.preventDefault();
+    //find book that matches ISBN in database
+    const selectedBookIndex = retrievedBookList.findIndex(
+      (book) => book.ISBN === selectedBook
+    );
+    setSelectedBook(retrievedBookList[selectedBookIndex])
+    props.onClose(2);
+    props.bookIsbn(selectedBook);
+    setShow(false);
+  };
 
   return (
     <>
@@ -76,21 +87,33 @@ const BookDetails = (props) => {
             </Stack>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <Header
-            iconType={faBook}
-            message="Book List shows all books in the database."
-          />
-          <Form style={{ overflow: "auto" }}>
-            <Card className="m-3">
-            <Form.Group>
-              <Row>
-                <Form.Control value="title" />
-                <Form.Control value="author" />
-              </Row>
-            </Form.Group>
-            </Card>
-            <Card style={{ maxHeight: "30rem", marginTop: ".5rem" }}>
+        <Form onSubmit={handleNext}>
+          <Modal.Body>
+            {/*header */}
+            <Header
+              iconType={faBook}
+              message="Book List shows all books in the database."
+            />
+            {/*book title and author from search */}
+            <Row className="mb-3 mt-2">
+              {/*title */}
+              <Form.Group as={Col}>
+                <Form.Control placeholder={props.bookData.title} disabled />
+              </Form.Group>
+              {/*author */}
+              <Form.Group as={Col}>
+                <Form.Control placeholder={props.bookData.author} disabled />
+              </Form.Group>
+            </Row>
+            <Card
+              style={{
+                maxHeight: "30rem",
+                marginTop: ".5rem",
+                overflowY: "auto",
+                overflowX: "hidden",
+                paddingRight: ".25rem",
+              }}
+            >
               <table className="table" style={{ overflow: "auto" }}>
                 <thead>
                   <tr>
@@ -108,6 +131,11 @@ const BookDetails = (props) => {
                           type="radio"
                           id={index}
                           name="selectedBook"
+                          value={book.ISBN}
+                          onChange={(event) =>
+                            setSelectedBook(event.target.value)
+                          }
+                          defaultChecked={index === 0}
                         />
                       </td>
                       <td>{book.Title}</td>
@@ -118,15 +146,20 @@ const BookDetails = (props) => {
                 </tbody>
               </table>
             </Card>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <div className="d-flex justify-content-between w-100">
-            <Button variant="primary" onClick={handleBack}>
-              <FontAwesomeIcon icon={faArrowLeft} /> Return
-            </Button>
-          </div>
-        </Modal.Footer>
+          </Modal.Body>
+          <Modal.Footer>
+            <div className="d-flex justify-content-between w-100">
+              <Button variant="secondary" onClick={handleBack}>
+                <FontAwesomeIcon icon={faArrowLeft} /> Return
+              </Button>
+              <div className="d-flex justify-content-end">
+                <Button variant="primary" type="submit">
+                  Search <FontAwesomeIcon icon={faArrowRight} shake />
+                </Button>
+              </div>
+            </div>
+          </Modal.Footer>
+        </Form>
       </Modal>
     </>
   );

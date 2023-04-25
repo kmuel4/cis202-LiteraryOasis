@@ -38,7 +38,7 @@ const BookDetails = (props) => {
   //add to the cart
   const handleAdd = () => {
     props.onClose(3);
-    props.setIsbn(book.ISBN)
+    props.setIsbn(book.ISBN);
     setShow(false);
   };
 
@@ -88,7 +88,7 @@ const BookDetails = (props) => {
         Author: "NULL",
         Price: "NULL",
         Status: "NULL",
-        ISBN: "NULL",
+        ISBN: props.bookIsbn,
         Location: "NULL",
       });
     }
