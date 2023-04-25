@@ -40,6 +40,29 @@ const BookDetails = (props) => {
 
   //get list of books from database
   const [retrievedBookList, setRetrievedBookList] = useState([]);
+  const handleRetrievedBookList = (value) => {
+    setRetrievedBookList(value);
+  };
+
+  const [filteredBookList, setFilteredBookList] = useState([]);
+
+  // filter the retrieved book list to only include books that match the author or title
+  useEffect(() => {
+    const filtered = retrievedBookList.filter(
+      (book) =>
+        // will only filter if not null or empty string
+        (book.Author?.toLowerCase().includes(
+          props.bookData.author?.toLowerCase()
+        ) ??
+          false) ||
+        (book.Title?.toLowerCase().includes(
+          props.bookData.title?.toLowerCase()
+        ) ??
+          false)
+    );
+    // set the filtered book list
+    setFilteredBookList(filtered);
+  }, [retrievedBookList, props.bookData.author, props.bookData.title]);
 
   //selected book ISBN
   const [selectedBook, setSelectedBook] = useState("");
@@ -51,7 +74,7 @@ const BookDetails = (props) => {
     const selectedBookIndex = retrievedBookList.findIndex(
       (book) => book.ISBN === selectedBook
     );
-    setSelectedBook(retrievedBookList[selectedBookIndex])
+    setSelectedBook(retrievedBookList[selectedBookIndex]);
     props.onClose(2);
     props.bookIsbn(selectedBook);
     setShow(false);
@@ -61,7 +84,7 @@ const BookDetails = (props) => {
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
         {/*get the booklist */}
-        <BookDatabase retrievedBookList={setRetrievedBookList} />
+        <BookDatabase retrievedBookList={handleRetrievedBookList} />
 
         <Modal.Header
           className="stick-top"
@@ -92,10 +115,10 @@ const BookDetails = (props) => {
             {/*header */}
             <Header
               iconType={faBook}
-              message="Book List shows all books in the database."
+              message="Book List shows similar books based on your search."
             />
             {/*book title and author from search */}
-            <Row className="mb-3 mt-2">
+            <Row className="mt-2">
               {/*title */}
               <Form.Group as={Col}>
                 <Form.Control placeholder={props.bookData.title} disabled />
@@ -105,6 +128,7 @@ const BookDetails = (props) => {
                 <Form.Control placeholder={props.bookData.author} disabled />
               </Form.Group>
             </Row>
+            <Form.Text className="text-muted">Did you mean...</Form.Text>
             <Card
               style={{
                 maxHeight: "30rem",
@@ -120,29 +144,32 @@ const BookDetails = (props) => {
                     <th></th>
                     <th>Title</th>
                     <th>Author</th>
-                    <th>ISBN</th>
+                    {/*<th>ISBN</th>*/}
                   </tr>
                 </thead>
+
                 <tbody>
-                  {retrievedBookList.map((book, index) => (
-                    <tr key={index} style={{ border: "1px solid lightgrey" }}>
-                      <td style={{ border: "1px solid lightgrey" }}>
-                        <Form.Check
-                          type="radio"
-                          id={index}
-                          name="selectedBook"
-                          value={book.ISBN}
-                          onChange={(event) =>
-                            setSelectedBook(event.target.value)
-                          }
-                          defaultChecked={index === 0}
-                        />
-                      </td>
-                      <td>{book.Title}</td>
-                      <td>{book.Author}</td>
-                      <td>{book.ISBN}</td>
-                    </tr>
-                  ))}
+                  
+                    {filteredBookList.map((book, index) => (
+                      <tr key={index} style={{ border: "1px solid lightgrey" }}>
+                        <td style={{ border: "1px solid lightgrey" }}>
+                          <Form.Check
+                            type="radio"
+                            id={index}
+                            name="selectedBook"
+                            value={book.ISBN}
+                            onChange={(event) =>
+                              setSelectedBook(event.target.value)
+                            }
+                            required
+                          />
+                        </td>
+                        <td>{book.Title}</td>
+                        <td>{book.Author}</td>
+                        {/* <td>{book.ISBN}</td> */}
+                      </tr>
+                    ))}
+        
                 </tbody>
               </table>
             </Card>

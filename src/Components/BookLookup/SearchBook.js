@@ -57,25 +57,27 @@ const BookSearch = (props) => {
 
   //proceed to book details
   const handleNext = () => {
-    if ((title.length > 0 && author.length > 0) || isbn.length > 0) {
-      props.onClose(2);
-      props.bookIsbn(isbn);
+    //do precision search
+    if (!similarSearch) {
+      if ((title.length > 0 && author.length > 0) || isbn.length > 0) {
+        props.onClose(2);
+        props.bookIsbn(isbn);
+        props.bookData(bookData);
+        setShow(false);
+      }
+    }
+    //do similar search
+    else {
+      props.onClose(7);
       props.bookData(bookData);
       setShow(false);
     }
   };
 
-  //proceed to book list
-  const handleBookList = () => {
-    props.onClose(7);
-    props.bookData(bookData);
-    setShow(false);
-  };
-
   return (
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
-        <Form onSubmit={handleBookList}>
+        <Form onSubmit={handleNext}>
           <Modal.Header
             className="stick-top"
             style={{ padding: ".5rem 1rem", borderBottom: "none" }}
@@ -102,7 +104,7 @@ const BookSearch = (props) => {
               iconType={faSearch}
               message="Book Search allows us to search for details about a 
               book using either Title and Author or ISBN."
-              onClick={handleBookList}
+              onClick={handleNext}
             />
             <Form.Group className="mt-2">
               <Form.Label>Title:</Form.Label>
@@ -126,8 +128,11 @@ const BookSearch = (props) => {
             <Form.Group className="mt-2">
               <Stack direction="horizontal" gap={3}>
                 <Form.Label>Search similar books:</Form.Label>
-                <Form.Check type="checkbox" style={{marginTop: "-.4rem"}}
-                onChange={() => setSimilarSearch(!similarSearch)}/>
+                <Form.Check
+                  type="checkbox"
+                  style={{ marginTop: "-.4rem" }}
+                  onChange={() => setSimilarSearch(!similarSearch)}
+                />
               </Stack>
             </Form.Group>
             <hr
@@ -171,8 +176,8 @@ const BookSearch = (props) => {
                   placement="top"
                   overlay={
                     !(
-                      (title.length > 0 && author.length > 0) ||
-                      isbn.length >= 13
+                      ((title.length > 0 && author.length > 0) ||
+                      isbn.length >= 13) || similarSearch
                     ) ? (
                       <Tooltip>You must enter Title & Author or ISBN.</Tooltip>
                     ) : (
