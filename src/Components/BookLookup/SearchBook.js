@@ -64,6 +64,11 @@ const BookSearch = (props) => {
     }
   };
 
+  //proceed to book list
+  const handleBookList = () => {
+    props.onClose(7);
+  };
+
   return (
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
@@ -150,6 +155,9 @@ const BookSearch = (props) => {
             <div className="d-flex justify-content-between w-100">
               <Button variant="secondary" onClick={handleClose}>
                 Close
+              </Button>
+              <Button variant="secondary" onClick={handleBookList}>
+                Book List
               </Button>
               <div className="d-flex justify-content-end">
                 <OverlayTrigger

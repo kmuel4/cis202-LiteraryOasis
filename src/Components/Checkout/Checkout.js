@@ -27,7 +27,7 @@ import {
   faCashRegister,
 } from "@fortawesome/free-solid-svg-icons";
 import Header from "../Header/Header";
-import BookList from "../../assets/BookList";
+import BookDatabase from "../../assets/BookDatabase";
 
 const Checkout = (props) => {
   //show the modal
@@ -318,7 +318,7 @@ const Checkout = (props) => {
             </Form.Group>
 
             {/*get the booklist */}
-            <BookList retrievedBookList={setRetrievedBookList} />
+            <BookDatabase retrievedBookList={setRetrievedBookList} />
 
             {/*add book to cart*/}
             <Container as={Col} style={{ textAlign: "right", marginTop: "" }}>

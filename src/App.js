@@ -20,6 +20,7 @@ import ReceiptAlert from "./Components/Alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCashRegister, faSearch } from "@fortawesome/free-solid-svg-icons";
 import logo from "./Images/book.png";
+import BookList from "./Components/BookList";
 
 const App = () => {
   //handle what we show on the main screen
@@ -122,6 +123,9 @@ const App = () => {
       case 6:
         //receipt
         return <Receipt onClose={handleSetIndex} receipt={handleAlert} />;
+      case 7:
+        //book list
+        return <BookList onClose={handleSetIndex} />;
       default:
         return;
     }

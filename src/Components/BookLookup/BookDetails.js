@@ -19,7 +19,7 @@ import {
   faBookOpen,
 } from "@fortawesome/free-solid-svg-icons";
 import Header from "../Header/Header";
-import BookList from "../../assets/BookList";
+import BookDatabase from "../../assets/BookDatabase";
 
 const BookDetails = (props) => {
   //show the modal
@@ -98,7 +98,7 @@ const BookDetails = (props) => {
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
         {/*get the booklist */}
-        <BookList retrievedBookList={setRetrievedBookList} />
+        <BookDatabase retrievedBookList={setRetrievedBookList} />
 
         <Modal.Header
           className="stick-top"
