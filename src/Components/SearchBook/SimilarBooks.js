@@ -108,7 +108,7 @@ const BookDetails = (props) => {
               </Form.Group>
             </Row>
             <Form.Text className="text-muted">Did you mean...</Form.Text>
-            {/*table */}
+            {/*table card*/}
             <Card
               style={{
                 maxHeight: "30rem",
@@ -123,21 +123,21 @@ const BookDetails = (props) => {
                   className="table"
                   style={{ overflow: "auto", marginBottom: "0rem" }}
                 >
+                  {/*table */}
                   <thead>
                     <tr>
                       <th></th>
                       <th>Title</th>
                       <th>Author</th>
-                      {/*<th>ISBN</th>*/}
                     </tr>
                   </thead>
-
                   <tbody>
                     {
                       //loop through filtered booklist and print it in the table
                       filteredBookList.map((book, index) => (
                         <tr key={index}>
                           <td style={{ border: "1px solid lightgrey" }}>
+                            {/*radio button gets isbn */}
                             <Form.Check
                               type="radio"
                               id={index}
@@ -149,15 +149,17 @@ const BookDetails = (props) => {
                               required
                             />
                           </td>
+                          {/*print title */}
                           <td>{book.Title}</td>
+                          {/*print author */}
                           <td>{book.Author}</td>
-                          {/* <td>{book.ISBN}</td> */}
                         </tr>
                       ))
                     }
                   </tbody>
                 </table>
               ) : (
+                //no books found
                 <Container style={{ textAlign: "center", padding: "1rem" }}>
                   <FontAwesomeIcon
                     icon={faTriangleExclamation}
@@ -168,15 +170,30 @@ const BookDetails = (props) => {
                 </Container>
               )}
             </Card>
+            <Form.Text className="text-muted">*Showing {filteredBookList.length} results</Form.Text>
           </Modal.Body>
           <Modal.Footer>
             <div className="d-flex justify-content-between w-100">
+              {/*back button */}
               <Button variant="secondary" onClick={handleBack}>
-                <FontAwesomeIcon icon={faArrowLeft} shake={filteredBookList.length === 0}/> Return
+                <FontAwesomeIcon
+                  icon={faArrowLeft}
+                  shake={filteredBookList.length === 0}
+                />{" "}
+                Return
               </Button>
               <div className="d-flex justify-content-end">
-                <Button variant="primary" type="submit" disabled={filteredBookList.length === 0}>
-                  Search <FontAwesomeIcon icon={faArrowRight} shake={filteredBookList.length > 0} />
+                {/*search button */}
+                <Button
+                  variant="primary"
+                  type="submit"
+                  disabled={filteredBookList.length === 0}
+                >
+                  Search{" "}
+                  <FontAwesomeIcon
+                    icon={faArrowRight}
+                    shake={filteredBookList.length > 0}
+                  />
                 </Button>
               </div>
             </div>

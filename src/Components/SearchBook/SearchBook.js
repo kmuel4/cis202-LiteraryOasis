@@ -34,8 +34,14 @@ const BookSearch = (props) => {
       !similarSearch
     ) {
       return <Tooltip>You must enter Title & Author or ISBN.</Tooltip>;
-    } else {
-      return <></>;
+    }
+    //similar search
+    else {
+      if (title.length === 0 && author.length === 0) {
+        return <Tooltip>You must enter a Title or Author</Tooltip>;
+      } else {
+        return <></>;
+      }
     }
   };
 
@@ -68,9 +74,11 @@ const BookSearch = (props) => {
     }
     //do similar search
     else {
-      props.onClose(7);
-      props.bookData(bookData);
-      setShow(false);
+      if (title.length > 0 || author.length > 0) {
+        props.onClose(7);
+        props.bookData(bookData);
+        setShow(false);
+      }
     }
   };
 
@@ -115,6 +123,8 @@ const BookSearch = (props) => {
               book using either Title and Author or ISBN. Toggle search for similar
               to get a collection of similar books based on Title and/or Author."
             />
+
+            {/*title */}
             <Form.Group className="mt-2">
               <Form.Label>Title:</Form.Label>
               <Form.Control
@@ -125,6 +135,8 @@ const BookSearch = (props) => {
                 onChange={handleBookDataTitle}
               />
             </Form.Group>
+
+            {/*author */}
             <Form.Group className="mt-2">
               <Form.Label>Author:</Form.Label>
               <Form.Control
@@ -134,7 +146,8 @@ const BookSearch = (props) => {
                 onChange={handleBookDataAuthor}
               />
             </Form.Group>
-            {/* */}
+
+            {/*similar search */}
             <Form.Group className="mt-2">
               <Form.Label>Show similar books:</Form.Label>
               <Form.Check
@@ -143,13 +156,15 @@ const BookSearch = (props) => {
                 onChange={() => setSimilarSearch(!similarSearch)}
               />
             </Form.Group>
-            
+
             <hr
               style={{
                 marginLeft: "-1rem",
                 marginRight: "-1rem",
               }}
             />
+
+            {/*isbn */}
             <Form.Group>
               <Form.Label>ISBN:</Form.Label>
               <Form.Control
@@ -164,10 +179,10 @@ const BookSearch = (props) => {
                     setIsbn(value.slice(0, 13)); // truncate input to 13 digits
                   }
                 }}
-                tabIndex={3} // jump back here on add
                 pattern="[0-9]{13}"
                 disabled={similarSearch}
               />
+              {/*count isbn digits */}
               <Form.Text className="text-muted">
                 *Must be <strong>13</strong> digits.{" "}
                 <em>
@@ -177,12 +192,14 @@ const BookSearch = (props) => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
+            {/*close button */}
             <div className="d-flex justify-content-between w-100">
               <Button variant="secondary" onClick={handleClose}>
                 Close
               </Button>
               <div className="d-flex justify-content-end">
                 <OverlayTrigger placement="top" overlay={searchPopover()}>
+                  {/*search button */}
                   <Button variant="primary" type="submit" tabIndex={4}>
                     Search &nbsp;
                     <FontAwesomeIcon
