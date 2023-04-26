@@ -5,9 +5,6 @@ import {
   Form,
   Row,
   Col,
-  Image,
-  Breadcrumb,
-  Stack,
   Container,
   Card,
   InputGroup,
@@ -15,7 +12,6 @@ import {
   Tooltip,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../../Images/book.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
@@ -27,7 +23,9 @@ import {
   faCashRegister,
 } from "@fortawesome/free-solid-svg-icons";
 import Header from "../Header/Header";
-import BookList from "../../assets/BookList";
+import BookDatabase from "../../assets/BookDatabase";
+import ModalHeader from "../ModalHeader";
+import RenderBooks from "./RenderBooks";
 
 const Checkout = (props) => {
   //show the modal
@@ -95,6 +93,11 @@ const Checkout = (props) => {
     props.getCart && props.getCart.length > 0 ? props.getCart : []
   );
 
+  // when a book is removed
+  const handleRemoveBook = (data) => {
+    setBooks(books.filter((_, index) => index !== data));
+  };
+
   // when isbn is added to cart by the button
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -138,83 +141,6 @@ const Checkout = (props) => {
     return parseFloat((subtotal + salesTax()).toFixed(2));
   };
 
-  //render books in the modal
-  const renderBooks = () => {
-    return (
-      <div
-        style={{ maxHeight: "20rem", overflowY: "scroll", overflowX: "hidden" }}
-      >
-        {/*print all books in list */}
-        {books.map((book, index) => (
-          <div
-            key={index}
-            className="d-flex justify-content-between align-items-center mb-3"
-          >
-            <div>
-              <Row>
-                {/*isbn */}
-                <Form.Group as={Col}>
-                  <Form.Label>ISBN:</Form.Label>
-                  <Form.Control placeholder={book.isbn} disabled />
-                </Form.Group>
-
-                {/*price */}
-                <Form.Group as={Col}>
-                  <Form.Label>Price:</Form.Label>
-                  <InputGroup>
-                    <InputGroup.Text>$</InputGroup.Text>
-                    <Form.Control placeholder={book.price} disabled />
-                  </InputGroup>
-                </Form.Group>
-
-                {/*remove button */}
-                <Container
-                  as={Col}
-                  style={{ marginTop: "32px", textAlign: "right" }}
-                >
-                  <Button
-                    variant="danger"
-                    style={{
-                      marginRight: ".5rem",
-                      maxHeight: "2.5rem",
-                      overflowX: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    }}
-                    onClick={() => removeBook(index)}
-                  >
-                    Remove &nbsp;
-                    <FontAwesomeIcon icon={faXmark} />
-                  </Button>
-                </Container>
-                {book.status === false ? (
-                  <Container
-                    style={{
-                      textAlign: "left",
-                      marginTop: ".5rem",
-                      marginBottom: "-.5rem",
-                    }}
-                  >
-                    <mark style={{ fontSize: ".75rem", color: "grey" }}>
-                      *This book is out of stock and will be ordered.
-                    </mark>
-                  </Container>
-                ) : (
-                  <></>
-                )}
-              </Row>
-            </div>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
-  //remove a book from the modal
-  const removeBook = (indexToRemove) => {
-    setBooks(books.filter((_, index) => index !== indexToRemove));
-  };
-
   //check for empty cart
   useEffect(() => {
     if (books.length <= 0) {
@@ -226,28 +152,9 @@ const Checkout = (props) => {
 
   return (
     <Modal show={show} onHide={handleClose} animation={false}>
-      <Modal.Header
-        className="stick-top"
-        style={{ padding: ".5rem 1rem", borderBottom: "none" }}
-        closeButton
-      >
-        {/*breadcrumb */}
-        <Modal.Title style={{ fontSize: "1.5rem" }}>
-          <Stack direction="horizontal" gap={1}>
-            <Image
-              roundedCircle
-              src={logo}
-              style={{ height: "3rem", width: "auto" }}
-            />
-            &nbsp;
-            <Breadcrumb style={{ fontSize: "1.25rem", marginTop: "1rem" }}>
-              <Breadcrumb.Item active style={{ color: "grey" }}>
-                Checkout
-              </Breadcrumb.Item>
-            </Breadcrumb>
-          </Stack>
-        </Modal.Title>
-      </Modal.Header>
+      {/*modal header stuff */}
+      <ModalHeader breadcrumbs={["Checkout"]} />
+
       <Modal.Body>
         {/*header */}
         <Header
@@ -318,7 +225,7 @@ const Checkout = (props) => {
             </Form.Group>
 
             {/*get the booklist */}
-            <BookList retrievedBookList={setRetrievedBookList} />
+            <BookDatabase retrievedBookList={setRetrievedBookList} />
 
             {/*add book to cart*/}
             <Container as={Col} style={{ textAlign: "right", marginTop: "" }}>
@@ -343,7 +250,8 @@ const Checkout = (props) => {
         </Form>
         <Card style={{ padding: ".5rem", marginBottom: "1rem" }}>
           {books.length > 0 ? (
-            renderBooks()
+            // render books in cart
+            <RenderBooks books={books} removeBook={handleRemoveBook} />
           ) : (
             <>
               <p style={{ textAlign: "center", marginTop: "1rem" }}>
@@ -378,19 +286,21 @@ const Checkout = (props) => {
             </InputGroup>
           </Form.Group>
         </Row>
+        {/*new customer button */}
         <div className="d-flex justify-content-between w-100">
           <Button variant="primary" onClick={handleNewCustomer}>
             <FontAwesomeIcon icon={faUserPlus} /> &nbsp;New Customer
           </Button>
-          <div className="d-flex justify-content-end"></div>
         </div>
       </Modal.Body>
       <Modal.Footer>
+        {/*close button */}
         <div className="d-flex justify-content-between w-100">
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
           <div className="d-flex justify-content-end">
+            {/*popup for payment button */}
             <OverlayTrigger
               placement="top"
               overlay={
@@ -401,6 +311,7 @@ const Checkout = (props) => {
                 )
               }
             >
+              {/*payment button */}
               <Button variant="primary" onClick={handlePay}>
                 Payment&nbsp;
                 <FontAwesomeIcon icon={faArrowRight} />

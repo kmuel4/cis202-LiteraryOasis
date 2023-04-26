@@ -3,20 +3,17 @@ import {
   Button,
   Modal,
   Form,
-  Image,
-  Breadcrumb,
   Stack,
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import logo from "../../Images/book.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Header from "../Header/Header";
+import ModalHeader from "../ModalHeader";
 
 const BookSearch = (props) => {
-
   //handle modal
   const [show, setShow] = useState(true);
 
@@ -31,6 +28,8 @@ const BookSearch = (props) => {
     props.onClose(0);
     setShow(false);
   };
+
+  const [similarSearch, setSimilarSearch] = useState(false);
 
   //initalize isbn
   const [isbn, setIsbn] = useState("");
@@ -56,9 +55,18 @@ const BookSearch = (props) => {
 
   //proceed to book details
   const handleNext = () => {
-    if ((title.length > 0 && author.length > 0) || isbn.length > 0) {
-      props.onClose(2);
-      props.bookIsbn(isbn);
+    //do precision search
+    if (!similarSearch) {
+      if ((title.length > 0 && author.length > 0) || isbn.length > 0) {
+        props.onClose(2);
+        props.bookIsbn(isbn);
+        props.bookData(bookData);
+        setShow(false);
+      }
+    }
+    //do similar search
+    else {
+      props.onClose(7);
       props.bookData(bookData);
       setShow(false);
     }
@@ -67,33 +75,17 @@ const BookSearch = (props) => {
   return (
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
-        <Form onSubmit={handleSubmit}>
-          <Modal.Header
-            className="stick-top"
-            style={{ padding: ".5rem 1rem", borderBottom: "none" }}
-            closeButton
-          >
-            <Modal.Title style={{ fontSize: "1.5rem" }}>
-              <Stack direction="horizontal" gap={1}>
-                <Image
-                  roundedCircle
-                  src={logo}
-                  style={{ height: "3rem", width: "auto" }}
-                />
-                &nbsp;
-                <Breadcrumb style={{ fontSize: "1.25rem", marginTop: "1rem" }}>
-                  <Breadcrumb.Item active style={{ color: "grey" }}>
-                    Book Search
-                  </Breadcrumb.Item>
-                </Breadcrumb>
-              </Stack>
-            </Modal.Title>
-          </Modal.Header>
+        <Form onSubmit={handleNext}>
+          {/*modal header stuff */}
+          <ModalHeader breadcrumbs={["Book Search"]} />
+
           <Modal.Body>
             <Header
               iconType={faSearch}
               message="Book Search allows us to search for details about a 
-              book using either Title and Author or ISBN."
+              book using either Title and Author or ISBN. Toggle search for similar
+              to get a collection of similar books based on Title and/or Author."
+              onClick={handleNext}
             />
             <Form.Group className="mt-2">
               <Form.Label>Title:</Form.Label>
@@ -114,11 +106,18 @@ const BookSearch = (props) => {
                 onChange={handleBookDataAuthor}
               />
             </Form.Group>
+            <Form.Group className="mt-2">
+              <Form.Label>Show similar books:</Form.Label>
+              <Form.Check
+                type="switch"
+                style={{ marginTop: "-.3rem" }}
+                onChange={() => setSimilarSearch(!similarSearch)}
+              />
+            </Form.Group>
             <hr
               style={{
                 marginLeft: "-1rem",
                 marginRight: "-1rem",
-                marginTop: "1.5rem",
               }}
             />
             <Form.Group>
@@ -157,7 +156,8 @@ const BookSearch = (props) => {
                   overlay={
                     !(
                       (title.length > 0 && author.length > 0) ||
-                      isbn.length >= 13
+                      isbn.length >= 13 ||
+                      similarSearch
                     ) ? (
                       <Tooltip>You must enter Title & Author or ISBN.</Tooltip>
                     ) : (

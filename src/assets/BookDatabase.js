@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const BookList = (props) => {
+const BookDatabase = (props) => {
   const [retrievedBookList, setRetrievedBookList] = useState([]);
 
   useEffect(() => {
@@ -35,4 +35,4 @@ const BookList = (props) => {
   );
 };
 
-export default BookList;
+export default BookDatabase;

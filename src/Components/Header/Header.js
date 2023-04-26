@@ -7,6 +7,7 @@ const Header = (props) => {
   return (
     <Container className={icon}>
       <h2>
+        {/*unique icon for each ehader */}
         <FontAwesomeIcon icon={props.iconType} />
         <span className={icon.question}>
           <OverlayTrigger
@@ -14,10 +15,12 @@ const Header = (props) => {
             placement="bottom"
             overlay={
               <Popover>
+                {/*unique message for each popover */}
                 <Popover.Body>{props.message}</Popover.Body>
               </Popover>
             }
           >
+            {/*question icon to open popover */}
             <FontAwesomeIcon icon={faQuestion} />
           </OverlayTrigger>
         </span>

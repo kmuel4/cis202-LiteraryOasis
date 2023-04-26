@@ -62,6 +62,7 @@ const Survey = (props) => {
 
   //know when hovering over input pill
   const [hoverIndex, setInputHoverIndex] = useState(null);
+
   return (
     <>
       <Form.Label>{props.surveyType}</Form.Label>
@@ -123,6 +124,7 @@ const Survey = (props) => {
                           maxHeight: "3rem",
                           whiteSpace: "normal",
                         }}
+                        //know when mouse is inside our outside input pill
                         onMouseEnter={() => setInputHoverIndex(index)}
                         onMouseLeave={() => setInputHoverIndex(null)}
                         // remove when clicked

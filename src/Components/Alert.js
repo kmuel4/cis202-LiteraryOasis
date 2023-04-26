@@ -3,8 +3,10 @@ import Alert from "react-bootstrap/Alert";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const ReceiptAlert = (props) => {
+  //show alert
   const [show, setShow] = useState(true);
 
+  //close alert
   const handleClose = () => {
     setShow(false);
     props.onClose(false);
