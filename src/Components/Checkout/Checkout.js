@@ -314,7 +314,7 @@ const Checkout = (props) => {
               {/*payment button */}
               <Button variant="primary" onClick={handlePay}>
                 Payment&nbsp;
-                <FontAwesomeIcon icon={faArrowRight} />
+                <FontAwesomeIcon icon={faArrowRight} shake={!isCartEmpty}/>
               </Button>
             </OverlayTrigger>
           </div>

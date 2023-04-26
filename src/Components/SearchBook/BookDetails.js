@@ -160,7 +160,7 @@ const BookDetails = (props) => {
         <Modal.Footer>
           <div className="d-flex justify-content-between w-100">
             <Button variant="primary" onClick={handleBack}>
-              <FontAwesomeIcon icon={faArrowLeft} /> Return
+              <FontAwesomeIcon icon={faArrowLeft} shake={nullFlag}/> Return
             </Button>
             <div className="d-flex justify-content-end">
               <Button variant="secondary" onClick={handleClose}>

@@ -66,7 +66,7 @@ const BookDetails = (props) => {
   const [selectedBook, setSelectedBook] = useState("");
 
   //proceed to book details
-  const handleNext = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     //find book that matches ISBN in database
     const selectedBookIndex = retrievedBookList.findIndex(
@@ -87,7 +87,7 @@ const BookDetails = (props) => {
         {/*modal header stuff */}
         <ModalHeader breadcrumbs={["Book Search", "Similar Books"]} />
 
-        <Form onSubmit={handleNext}>
+        <Form onSubmit={handleSubmit}>
           <Modal.Body>
             {/*header */}
             <Header
@@ -172,11 +172,11 @@ const BookDetails = (props) => {
           <Modal.Footer>
             <div className="d-flex justify-content-between w-100">
               <Button variant="secondary" onClick={handleBack}>
-                <FontAwesomeIcon icon={faArrowLeft} /> Return
+                <FontAwesomeIcon icon={faArrowLeft} shake={filteredBookList.length === 0}/> Return
               </Button>
               <div className="d-flex justify-content-end">
-                <Button variant="primary" type="submit">
-                  Search <FontAwesomeIcon icon={faArrowRight} shake />
+                <Button variant="primary" type="submit" disabled={filteredBookList.length === 0}>
+                  Search <FontAwesomeIcon icon={faArrowRight} shake={filteredBookList.length > 0} />
                 </Button>
               </div>
             </div>

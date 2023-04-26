@@ -1,12 +1,5 @@
-import { useState } from "react";
-import {
-  Button,
-  Modal,
-  Form,
-  Stack,
-  OverlayTrigger,
-  Tooltip,
-} from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Button, Modal, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -17,18 +10,26 @@ const BookSearch = (props) => {
   //handle modal
   const [show, setShow] = useState(true);
 
-  //submit search
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    handleNext();
-  };
-
   //close
   const handleClose = () => {
     props.onClose(0);
     setShow(false);
   };
 
+  // search button popover
+  const searchPopover = () => {
+    //precision search
+    if (
+      ((title.length === 0 && author.length === 0) || isbn.length < 13) &&
+      !similarSearch
+    ) {
+      return <Tooltip>You must enter Title & Author or ISBN.</Tooltip>;
+    } else {
+      return <></>;
+    }
+  };
+
+  //similar search flag
   const [similarSearch, setSimilarSearch] = useState(false);
 
   //initalize isbn
@@ -54,7 +55,8 @@ const BookSearch = (props) => {
   };
 
   //proceed to book details
-  const handleNext = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
     //do precision search
     if (!similarSearch) {
       if ((title.length > 0 && author.length > 0) || isbn.length > 0) {
@@ -72,10 +74,37 @@ const BookSearch = (props) => {
     }
   };
 
+  //clear isbn if similar search toggled
+  useEffect(() => {
+    if (similarSearch) {
+      setIsbn("");
+    }
+  }, [similarSearch]);
+
+  //shake search icon
+  const shakeSearchIcon = () => {
+    //shake logic for precision search
+    if (similarSearch) {
+      if (author.length > 0 || title.length > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    } 
+    //shake logic for similar search
+    else {
+      if ((title.length > 0 && author.length > 0) || isbn.length >= 13) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
   return (
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
-        <Form onSubmit={handleNext}>
+        <Form onSubmit={handleSubmit}>
           {/*modal header stuff */}
           <ModalHeader breadcrumbs={["Book Search"]} />
 
@@ -85,7 +114,6 @@ const BookSearch = (props) => {
               message="Book Search allows us to search for details about a 
               book using either Title and Author or ISBN. Toggle search for similar
               to get a collection of similar books based on Title and/or Author."
-              onClick={handleNext}
             />
             <Form.Group className="mt-2">
               <Form.Label>Title:</Form.Label>
@@ -106,6 +134,7 @@ const BookSearch = (props) => {
                 onChange={handleBookDataAuthor}
               />
             </Form.Group>
+            {/* */}
             <Form.Group className="mt-2">
               <Form.Label>Show similar books:</Form.Label>
               <Form.Check
@@ -114,6 +143,7 @@ const BookSearch = (props) => {
                 onChange={() => setSimilarSearch(!similarSearch)}
               />
             </Form.Group>
+            
             <hr
               style={{
                 marginLeft: "-1rem",
@@ -136,6 +166,7 @@ const BookSearch = (props) => {
                 }}
                 tabIndex={3} // jump back here on add
                 pattern="[0-9]{13}"
+                disabled={similarSearch}
               />
               <Form.Text className="text-muted">
                 *Must be <strong>13</strong> digits.{" "}
@@ -151,28 +182,12 @@ const BookSearch = (props) => {
                 Close
               </Button>
               <div className="d-flex justify-content-end">
-                <OverlayTrigger
-                  placement="top"
-                  overlay={
-                    !(
-                      (title.length > 0 && author.length > 0) ||
-                      isbn.length >= 13 ||
-                      similarSearch
-                    ) ? (
-                      <Tooltip>You must enter Title & Author or ISBN.</Tooltip>
-                    ) : (
-                      <></>
-                    )
-                  }
-                >
+                <OverlayTrigger placement="top" overlay={searchPopover()}>
                   <Button variant="primary" type="submit" tabIndex={4}>
                     Search &nbsp;
                     <FontAwesomeIcon
                       icon={faArrowRight}
-                      shake={
-                        (title.length > 0 && author.length > 0) ||
-                        isbn.length >= 13
-                      }
+                      shake={shakeSearchIcon()}
                     />
                   </Button>
                 </OverlayTrigger>
