@@ -16,19 +16,6 @@ const BookSearch = (props) => {
     setShow(false);
   };
 
-  // search button popover
-  const searchPopover = () => {
-    //precision search
-    if (
-      ((title.length === 0 && author.length === 0) || isbn.length < 13) &&
-      !similarSearch
-    ) {
-      return <Tooltip>You must enter Title & Author or ISBN.</Tooltip>;
-    } else {
-      return <></>;
-    }
-  };
-
   //similar search flag
   const [similarSearch, setSimilarSearch] = useState(false);
 
@@ -38,6 +25,19 @@ const BookSearch = (props) => {
   const [author, setAuthor] = useState("");
   //initialize title
   const [title, setTitle] = useState("");
+
+  // search button popover
+  const searchPopover = () => {
+    //precision search
+    if (
+      !((title.length > 0 && author.length > 0) || isbn.length >= 13) &&
+      !similarSearch
+    ) {
+      return <Tooltip>You must enter Title & Author or ISBN.</Tooltip>;
+    } else {
+      return <></>;
+    }
+  };
 
   //create object to carry book data
   const [bookData, setBookData] = useState({ title: null, author: null });
@@ -90,7 +90,7 @@ const BookSearch = (props) => {
       } else {
         return false;
       }
-    } 
+    }
     //shake logic for similar search
     else {
       if ((title.length > 0 && author.length > 0) || isbn.length >= 13) {
