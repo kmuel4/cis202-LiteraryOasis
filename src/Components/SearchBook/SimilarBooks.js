@@ -16,9 +16,9 @@ import {
   faArrowRight,
   faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
-import Header from "./Header/Header";
-import BookDatabase from "../assets/BookDatabase";
-import ModalHeader from "./ModalHeader";
+import Header from "../Header/Header";
+import BookDatabase from "../../assets/BookDatabase";
+import ModalHeader from "../ModalHeader";
 
 const BookDetails = (props) => {
   //show the modal
@@ -119,7 +119,10 @@ const BookDetails = (props) => {
             >
               {/*show table if it has contents, show conditional message otherwise */}
               {filteredBookList.length > 0 ? (
-                <table className="table" style={{ overflow: "auto", marginBottom: "0rem" }}>
+                <table
+                  className="table"
+                  style={{ overflow: "auto", marginBottom: "0rem" }}
+                >
                   <thead>
                     <tr>
                       <th></th>
@@ -130,26 +133,28 @@ const BookDetails = (props) => {
                   </thead>
 
                   <tbody>
-                    {//loop through filtered booklist and print it in the table
-                    filteredBookList.map((book, index) => (
-                      <tr key={index}>
-                        <td style={{ border: "1px solid lightgrey" }}>
-                          <Form.Check
-                            type="radio"
-                            id={index}
-                            name="selectedBook"
-                            value={book.ISBN}
-                            onChange={(event) =>
-                              setSelectedBook(event.target.value)
-                            }
-                            required
-                          />
-                        </td>
-                        <td>{book.Title}</td>
-                        <td>{book.Author}</td>
-                        {/* <td>{book.ISBN}</td> */}
-                      </tr>
-                    ))}
+                    {
+                      //loop through filtered booklist and print it in the table
+                      filteredBookList.map((book, index) => (
+                        <tr key={index}>
+                          <td style={{ border: "1px solid lightgrey" }}>
+                            <Form.Check
+                              type="radio"
+                              id={index}
+                              name="selectedBook"
+                              value={book.ISBN}
+                              onChange={(event) =>
+                                setSelectedBook(event.target.value)
+                              }
+                              required
+                            />
+                          </td>
+                          <td>{book.Title}</td>
+                          <td>{book.Author}</td>
+                          {/* <td>{book.ISBN}</td> */}
+                        </tr>
+                      ))
+                    }
                   </tbody>
                 </table>
               ) : (

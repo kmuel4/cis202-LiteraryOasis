@@ -1,19 +1,11 @@
 import { useState, useEffect } from "react";
-import {
-  Button,
-  Modal,
-  Form,
-  Row,
-  Col,
-  InputGroup,
-} from "react-bootstrap";
+import { Button, Modal, Form, Row, Col, InputGroup } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowLeft,
   faCartShopping,
   faBookOpen,
-
 } from "@fortawesome/free-solid-svg-icons";
 import Header from "../Header/Header";
 import BookDatabase from "../../assets/BookDatabase";

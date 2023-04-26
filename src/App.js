@@ -6,8 +6,8 @@ import {
   Toast,
   ToastContainer,
 } from "react-bootstrap";
-import SearchBook from "./Components/BookLookup/SearchBook";
-import BookDetails from "./Components/BookLookup/BookDetails";
+import SearchBook from "./Components/SearchBook/SearchBook";
+import BookDetails from "./Components/SearchBook/BookDetails";
 import Checkout from "./Components/Checkout/Checkout";
 import { useState } from "react";
 import NewCustomer from "./Components/Checkout/NewCustomer/NewCustomer";
@@ -20,7 +20,7 @@ import ReceiptAlert from "./Components/Alert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCashRegister, faSearch } from "@fortawesome/free-solid-svg-icons";
 import logo from "./Images/book.png";
-import SimilarBooks from "./Components/SimilarBooks";
+import SimilarBooks from "./Components/SearchBook/SimilarBooks";
 
 const App = () => {
   //handle what we show on the main screen

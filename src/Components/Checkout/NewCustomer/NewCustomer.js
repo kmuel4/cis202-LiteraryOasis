@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Button,
-  Modal,
-  Col,
-  Row,
-  Form,
-  Card,
-} from "react-bootstrap";
+import { Button, Modal, Col, Row, Form, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Survey from "./Survey";
 import {
@@ -73,9 +66,8 @@ const NewCustomer = (props) => {
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
         <Form onSubmit={handleSubmit}>
-
-        {/*modal header stuff */}
-        <ModalHeader breadcrumbs={["Checkout", "New Customer"]} />
+          {/*modal header stuff */}
+          <ModalHeader breadcrumbs={["Checkout", "New Customer"]} />
 
           <Modal.Body>
             {/*header */}
@@ -194,13 +186,16 @@ const NewCustomer = (props) => {
             </Card>
           </Modal.Body>
           <Modal.Footer>
+            {/*back button */}
             <div className="d-flex justify-content-between w-100">
               <Button variant="secondary" onClick={handleClose}>
                 <FontAwesomeIcon icon={faArrowLeft} /> Back
               </Button>
+              {/*clear button */}
               <Button variant="danger" onClick={handleClear}>
                 <FontAwesomeIcon icon={faTrashCan} />
               </Button>
+              {/*submit button */}
               <div className="d-flex justify-content-end">
                 <Button variant="primary" type="submit">
                   Submit
@@ -210,7 +205,6 @@ const NewCustomer = (props) => {
           </Modal.Footer>
         </Form>
       </Modal>
-      
     </>
   );
 };

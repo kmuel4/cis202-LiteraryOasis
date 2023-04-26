@@ -11,7 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Header from "../Header/Header";
-import ModalHeader from "../ModalHeader"
+import ModalHeader from "../ModalHeader";
 
 const BookSearch = (props) => {
   //handle modal
@@ -76,15 +76,15 @@ const BookSearch = (props) => {
     <>
       <Modal show={show} onHide={handleClose} animation={false}>
         <Form onSubmit={handleNext}>
-
-        {/*modal header stuff */}
-        <ModalHeader breadcrumbs={["Book Search"]} />
+          {/*modal header stuff */}
+          <ModalHeader breadcrumbs={["Book Search"]} />
 
           <Modal.Body>
             <Header
               iconType={faSearch}
               message="Book Search allows us to search for details about a 
-              book using either Title and Author or ISBN."
+              book using either Title and Author or ISBN. Toggle search for similar
+              to get a collection of similar books based on Title and/or Author."
               onClick={handleNext}
             />
             <Form.Group className="mt-2">
@@ -107,14 +107,12 @@ const BookSearch = (props) => {
               />
             </Form.Group>
             <Form.Group className="mt-2">
-              <Stack direction="horizontal" gap={3}>
-                <Form.Label>Search similar books:</Form.Label>
-                <Form.Check
-                  type="checkbox"
-                  style={{ marginTop: "-.4rem" }}
-                  onChange={() => setSimilarSearch(!similarSearch)}
-                />
-              </Stack>
+              <Form.Label>Show similar books:</Form.Label>
+              <Form.Check
+                type="switch"
+                style={{ marginTop: "-.3rem" }}
+                onChange={() => setSimilarSearch(!similarSearch)}
+              />
             </Form.Group>
             <hr
               style={{
@@ -157,8 +155,9 @@ const BookSearch = (props) => {
                   placement="top"
                   overlay={
                     !(
-                      ((title.length > 0 && author.length > 0) ||
-                      isbn.length >= 13) || similarSearch
+                      (title.length > 0 && author.length > 0) ||
+                      isbn.length >= 13 ||
+                      similarSearch
                     ) ? (
                       <Tooltip>You must enter Title & Author or ISBN.</Tooltip>
                     ) : (
