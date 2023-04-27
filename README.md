@@ -1,7 +1,16 @@
+<h1 align="center"> Literary Oasis </h1>
+
+- Desktop application for the Literary Oasis bookstore startup
+- Renders a React.js app in an Electron.js desktop window
+
+## *What does it do?*
+
+- Search book details including location in store
+- Add new customer profiles
+- Purchase books in checkout
+
 # Launching the Build
 run the LiteraryOasis.bat file or make a shortcut to run the build
-
-# Launching the app for development
 
 ### `yarn`
 
