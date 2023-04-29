@@ -14,7 +14,7 @@
 ![Home](https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/home.png)
 ### Book search
 ![Book Search](https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/search.png)
-# Search book collection
+### Search book collection
 ![Similar Books](https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/similarbooks.png)
 ### Book details
 ![Book Details](https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/bookdetails.png)
@@ -37,9 +37,9 @@ installs bootstrap
 
 svg core for font awesome
 
-### `npm i --save @fortawesome/free-solid-svg-icons
-npm i --save @fortawesome/free-regular-svg-icons
-`
+### `npm i --save @fortawesome/free-solid-svg-icons`
+### `npm i --save @fortawesome/free-regular-svg-icons`
+
 font awesome icon packages
 
 ### `npm i --save @fortawesome/react-fontawesome@latest`
