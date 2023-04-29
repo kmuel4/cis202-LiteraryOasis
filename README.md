@@ -10,15 +10,15 @@
 - Purchase books in checkout
 
 ## *Have a look*
-# Home page
+### Home page
 ![Home](https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/home.png)
-# Book search
+### Book search
 ![Book Search](https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/search.png)
 # Search book collection
 ![Similar Books](https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/similarbooks.png)
-# Book details
+### Book details
 ![Book Details](https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/bookdetails.png)
-# Checkout
+### Checkout
 ![Checkout](https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/checkout.png)
 
 ### `npm install`
