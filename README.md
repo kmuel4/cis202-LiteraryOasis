@@ -9,6 +9,9 @@
 - Add new customer profiles
 - Purchase books in checkout
 
+## *Have a look*
+![Home](https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/bookdetails.png)
+
 # Launching the Build
 run the LiteraryOasis.bat file or make a shortcut to run the build
 
