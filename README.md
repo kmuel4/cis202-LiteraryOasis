@@ -21,7 +21,7 @@
 ### Checkout
 ![Checkout](https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/checkout.png)
 ### Video Demo
-[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://youtu.be/vt5fpE0bzSY)
+[![Watch the video](https://www.youtube.com/watch?v=8Y5dNJqfMpA)
 
 ### `npm install`
 
