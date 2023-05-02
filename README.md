@@ -21,9 +21,9 @@
 ### Checkout
 ![Checkout](https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/checkout.png)
 ### Video Demo
-[![Video Demo]
-(https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/home.png)
-(https://www.youtube.com/watch?v=8Y5dNJqfMpA)
+[![Final video of fixing issues in your code in VS Code]
+(https://img.youtube.com/vi/JLMbpiywVxQ/maxresdefault.jpg)]
+(https://www.youtube.com/watch?v=JLMbpiywVxQ)
 
 ### `npm install`
 
