@@ -20,6 +20,10 @@
 ![Book Details](https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/bookdetails.png)
 ### Checkout
 ![Checkout](https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/checkout.png)
+### Video Demo
+[![Video Demo]          // Title
+(https://github.com/kmuel4/cis202-LiteraryOasis/blob/master/PresenationFiles/Screenshots/home.png)] // Thumbnail
+(https://www.youtube.com/watch?v=8Y5dNJqfMpA "Video Demo") 
 
 ### `npm install`
 
