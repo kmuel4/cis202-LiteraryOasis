@@ -1,9 +1,8 @@
-import {Row, Button, Modal, Container, } from "react-bootstrap";
+import { Row, Button, Modal, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   faArrowLeft,
-
   faTrashCan,
   faCreditCard,
   faHandHoldingDollar,
@@ -144,8 +143,12 @@ const Payment = (props) => {
     setCard(!card);
     setCash(!cash);
   };
+
   //get total and send to cash payment
-  const total = props.total;
+  const [total, setTotal] = useState();
+  useEffect(() => {
+    setTotal(props.total);
+  }, [props.total]);
 
   return (
     <Modal
@@ -155,56 +158,63 @@ const Payment = (props) => {
       keyboard={false}
       animation={false}
     >
-        {/*modal header stuff */}
-        <ModalHeader breadcrumbs={["Checkout", "Payment"]} />
+      {/*modal header stuff */}
+      <ModalHeader breadcrumbs={["Checkout", "Payment"]} />
 
-        <Modal.Body>
-          {/*payment options */}
-          <Container style={{ display: "flex", justifyContent: "center", marginLeft: ".5rem", marginTop: "-1rem", marginBottom: "1rem" }}>
-            <Row>
-              <PaymentOption
-                type="Card"
-                iconType={faCreditCard}
-                changeSelected={handlePaymentOption}
-                selected={card}
-              />
-              <PaymentOption
-                type="Cash"
-                iconType={faHandHoldingDollar}
-                changeSelected={handlePaymentOption}
-                selected={cash}
-              />
-            </Row>
-          </Container>
+      <Modal.Body>
+        {/*payment options */}
+        <Container
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginLeft: ".5rem",
+            marginTop: "-1rem",
+            marginBottom: "1rem",
+          }}
+        >
+          <Row>
+            <PaymentOption
+              type="Card"
+              iconType={faCreditCard}
+              changeSelected={handlePaymentOption}
+              selected={card}
+            />
+            <PaymentOption
+              type="Cash"
+              iconType={faHandHoldingDollar}
+              changeSelected={handlePaymentOption}
+              selected={cash}
+            />
+          </Row>
+        </Container>
 
-          {card ? (
-            <>
-              <CardPayment/>
-            </>
-          ) : (
-            <CashPayment total={total} />
-          )}
-        </Modal.Body>
+        {card ? (
+          <>
+            <CardPayment />
+          </>
+        ) : (
+          <CashPayment total={total} />
+        )}
+      </Modal.Body>
 
-        <Modal.Footer>
-          <div className="d-flex justify-content-between w-100">
-            {/*go back */}
-            <Button variant="secondary" onClick={handleBack}>
-              <FontAwesomeIcon icon={faArrowLeft} /> Back
+      <Modal.Footer>
+        <div className="d-flex justify-content-between w-100">
+          {/*go back */}
+          <Button variant="secondary" onClick={handleBack}>
+            <FontAwesomeIcon icon={faArrowLeft} /> Back
+          </Button>
+          {/*clear form */}
+          <Button variant="danger" onClick={handleClear}>
+            <FontAwesomeIcon icon={faTrashCan} />
+          </Button>
+          {/*submit form */}
+          <div className="d-flex justify-content-end">
+            <Button variant="primary" onClick={handleSubmit} tabIndex={11}>
+              Submit
             </Button>
-            {/*clear form */}
-            <Button variant="danger" onClick={handleClear}>
-              <FontAwesomeIcon icon={faTrashCan} />
-            </Button>
-            {/*submit form */}
-            <div className="d-flex justify-content-end">
-              <Button variant="primary" onClick={handleSubmit} tabIndex={11}>
-                Submit
-              </Button>
-            </div>
           </div>
-        </Modal.Footer>
-      
+        </div>
+      </Modal.Footer>
     </Modal>
   );
 };
