@@ -11,7 +11,7 @@ import BookDetails from "./Components/SearchBook/BookDetails";
 import Checkout from "./Components/Checkout/Checkout";
 import { useState } from "react";
 import NewCustomer from "./Components/Checkout/NewCustomer/NewCustomer";
-import CardPayment from "./Components/Checkout/Payment";
+import Payment from "./Components/Checkout/Payment/Payment";
 import Receipt from "./Components/Checkout/Receipt";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -78,6 +78,12 @@ const App = () => {
     setShow(true);
   };
 
+  //handle total cart amount
+  const [total, setTotal] = useState()
+  const handleTotal = (value) => {
+    setTotal(value);
+  }
+
   //screen manager
   const showScreen = (value) => {
     switch (value) {
@@ -113,6 +119,7 @@ const App = () => {
             getCart={cart}
             searchBook={searchBook}
             clearIsbn={clearIsbn}
+            total={handleTotal}
           />
         );
       case 4:
@@ -122,7 +129,7 @@ const App = () => {
         );
       case 5:
         // payment
-        return <CardPayment onClose={handleSetIndex} />;
+        return <Payment onClose={handleSetIndex} total={total}/>;
       case 6:
         //receipt
         return <Receipt onClose={handleSetIndex} receipt={handleAlert} />;

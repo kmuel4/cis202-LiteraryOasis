@@ -137,9 +137,11 @@ const Checkout = (props) => {
   };
 
   //calc total amount
-  const totalAmount = () => {
-    return parseFloat((subtotal + salesTax()).toFixed(2));
-  };
+  const [total, setTotal] = useState(parseFloat((subtotal + salesTax()).toFixed(2)));
+  useEffect(() => {
+    setTotal(parseFloat((subtotal + salesTax()).toFixed(2)));
+    props.total(total);
+  }, [subtotal]);
 
   //check for empty cart
   useEffect(() => {
@@ -282,7 +284,7 @@ const Checkout = (props) => {
             <Form.Label>Total:</Form.Label>
             <InputGroup>
               <InputGroup.Text>$</InputGroup.Text>
-              <Form.Control placeholder={totalAmount()} disabled />
+              <Form.Control placeholder={total} disabled />
             </InputGroup>
           </Form.Group>
         </Row>
