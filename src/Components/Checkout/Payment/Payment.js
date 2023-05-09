@@ -161,15 +161,8 @@ const CardPayment = (props) => {
         <ModalHeader breadcrumbs={["Checkout", "Payment"]} />
 
         <Modal.Body>
-          {/*card info title */}
-          <Header
-            header="Card Information"
-            iconType={faWallet}
-            message="Select the payment option and fill out the following form."
-          />
-
           {/*payment options */}
-          <Container style={{ display: "flex", justifyContent: "center" }}>
+          <Container style={{ display: "flex", justifyContent: "center", marginLeft: ".5rem", marginTop: "-1rem", marginBottom: "1rem" }}>
             <Row>
               <PaymentOption
                 type="Card"
@@ -188,6 +181,13 @@ const CardPayment = (props) => {
 
           {card ? (
             <>
+              {/*card info title */}
+              <Header
+                header="Card Information"
+                iconType={faWallet}
+                message="Enter card information."
+              />
+
               {/*card number */}
               <Form.Group className="mb-3" controlId="CardNumber">
                 <Form.Label>Card Number*</Form.Label>
@@ -360,8 +360,10 @@ const CardPayment = (props) => {
                   tabIndex={10}
                 />
               </Form.Group>
-            
-          </>) : <CashPayment total={total}/>}
+            </>
+          ) : (
+            <CashPayment total={total} />
+          )}
         </Modal.Body>
 
         <Modal.Footer>

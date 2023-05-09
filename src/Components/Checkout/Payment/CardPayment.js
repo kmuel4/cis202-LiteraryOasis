@@ -96,16 +96,15 @@ const CardPayment = () => {
     setPhone(formattedInput);
   };
 
-  //handle payment option
-  const [card, setCard] = useState(true);
-  const [cash, setCash] = useState(false);
-  const handlePaymentOption = (event) => {
-    setCard(!card);
-    setCash(!cash);
-  };
-
   return (
     <>
+      {/*card info title */}
+      <Header
+        header="Card Information"
+        iconType={faWallet}
+        message="Enter card information."
+      />
+
       {/*card number */}
       <Form.Group className="mb-3" controlId="CardNumber">
         <Form.Label>Card Number*</Form.Label>

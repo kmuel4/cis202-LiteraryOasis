@@ -1,21 +1,21 @@
 import { Form, Container, InputGroup, Row, Col } from "react-bootstrap";
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from "react";
 
 const CashPayment = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle form submission logic here
+    // handle form submission logic here
   };
 
-  const [cash, setCash] = useState(0.00);
-
+  //cash
+  const [cash, setCash] = useState(0.0);
+  // get change when cash is entered
   const [change, setChange] = useState();
   useEffect(() => {
-    if(cash - props.total > 0){
-        setChange((cash - props.total).toFixed(2));
-    }
-    else{
-        setChange("0.00");
+    if (cash - props.total > 0) {
+      setChange((cash - props.total).toFixed(2));
+    } else {
+      setChange("0.00");
     }
   }, [cash]);
 
@@ -27,8 +27,10 @@ const CashPayment = (props) => {
             display: "flex",
             justifyContent: "center",
             marginBottom: "1rem",
+            marginTop: "-1rem",
           }}
         >
+          {/*total */}
           <Form.Group>
             <Form.Label>Total:</Form.Label>
             <InputGroup>
@@ -38,6 +40,7 @@ const CashPayment = (props) => {
           </Form.Group>
         </Container>
         <Row className="mb-3">
+          {/*cash given */}
           <Form.Group as={Col}>
             <Form.Label>Cash Given:</Form.Label>
             <InputGroup>
@@ -51,6 +54,8 @@ const CashPayment = (props) => {
               />
             </InputGroup>
           </Form.Group>
+
+          {/*change */}
           <Form.Group as={Col}>
             <Form.Label>Change Due:</Form.Label>
             <InputGroup>

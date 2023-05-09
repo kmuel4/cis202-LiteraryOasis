@@ -136,7 +136,7 @@ const BookDetails = (props) => {
                       //loop through filtered booklist and print it in the table
                       filteredBookList.map((book, index) => (
                         <tr key={index}>
-                          <td style={{ border: "1px solid lightgrey" }}>
+                          <td style={{ border: "1px solid lightgrey", textAlign: "center" }}>
                             {/*radio button gets isbn */}
                             <Form.Check
                               type="radio"
