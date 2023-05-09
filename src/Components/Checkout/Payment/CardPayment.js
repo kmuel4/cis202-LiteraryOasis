@@ -1,19 +1,25 @@
-import { Form, Row, Col, Button, Modal, Container } from "react-bootstrap";
+import { Form, Row, Col,  Accordion, useAccordionButton, } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import {
-  faArrowLeft,
   faWallet,
   faHouseUser,
-  faTrashCan,
-  faCreditCard,
-  faHandHoldingDollar,
 } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../../Header/Header";
-import ModalHeader from "../../ModalHeader";
-import PaymentOption from "./PaymentOption";
-import Cash from "./CashPayment";
+
+function CardAccordion({ children, eventKey }) {
+  const accordionClick = useAccordionButton(eventKey);
+
+  return (
+    <button
+      type="button"
+      style={{border: "0px"}}
+      onClick={accordionClick}
+    >
+      {children}
+    </button>
+  );
+}
 
 const CardPayment = () => {
   // handle card number
@@ -98,6 +104,7 @@ const CardPayment = () => {
 
   return (
     <>
+    <Form>
       {/*card info title */}
       <Header
         header="Card Information"
@@ -273,6 +280,7 @@ const CardPayment = () => {
           tabIndex={10}
         />
       </Form.Group>
+      </Form>
     </>
   );
 };
