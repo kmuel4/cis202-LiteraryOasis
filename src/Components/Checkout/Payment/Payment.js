@@ -161,7 +161,7 @@ const CardPayment = (props) => {
         <ModalHeader breadcrumbs={["Checkout", "Payment"]} />
 
         <Modal.Body>
-          {/*payment options */}
+          {/*payment options 
           <Container style={{ display: "flex", justifyContent: "center", marginLeft: ".5rem", marginTop: "-1rem", marginBottom: "1rem" }}>
             <Row>
               <PaymentOption
@@ -178,7 +178,7 @@ const CardPayment = (props) => {
               />
             </Row>
           </Container>
-
+*/}
           {card ? (
             <>
               {/*card info title */}
