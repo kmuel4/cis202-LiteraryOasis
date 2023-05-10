@@ -1,8 +1,16 @@
-import { Modal, Image, Stack, Breadcrumb } from "react-bootstrap";
+import { Modal, Image, Stack, Breadcrumb, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../Images/book.png";
+import { faExpand, faCompress } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState, useEffect } from "react";
 
 const ModalHeader = (props) => {
+  const [fullscreen, setFullscreen] = useState(false);
+  const handleFullscreen = () => {
+    setFullscreen(!fullscreen);
+  };
+
   return (
     <Modal.Header
       className="stick-top"
@@ -34,6 +42,22 @@ const ModalHeader = (props) => {
               </Breadcrumb.Item>
             ))}
           </Breadcrumb>
+          &nbsp;
+          {fullscreen ? (
+            <FontAwesomeIcon
+              icon={faExpand}
+              size="sm"
+              style={{ cursor: "pointer", marginTop: ".2rem" }}
+              onClick={() => handleFullscreen()}
+            />
+          ) : (
+            <FontAwesomeIcon
+              icon={faCompress}
+              size="sm"
+              style={{ cursor: "pointer", marginTop: ".2rem" }}
+              onClick={() => handleFullscreen()}
+            />
+          )}
         </Stack>
       </Modal.Title>
     </Modal.Header>

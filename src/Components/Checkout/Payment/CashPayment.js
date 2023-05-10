@@ -19,6 +19,25 @@ const CashPayment = (props) => {
     }
   }, [cash]);
 
+  //initialize phone
+  const [phone, setPhone] = useState("");
+
+  //format phone
+  const handlePhoneChange = (e) => {
+    const input = e.target.value.replace(/\D/g, ""); // remove non-numeric characters
+    let formattedInput = "";
+    if (input.length > 0) {
+      formattedInput = "(" + input.slice(0, 3);
+    }
+    if (input.length > 3) {
+      formattedInput += ") " + input.slice(3, 6);
+    }
+    if (input.length > 6) {
+      formattedInput += "-" + input.slice(6, 10);
+    }
+    setPhone(formattedInput);
+  };
+
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
@@ -50,6 +69,7 @@ const CashPayment = (props) => {
                 step="0.01"
                 placeholder="0.00"
                 required
+                tabIndex={1}
                 onChange={(event) => setCash(parseFloat(event.target.value))}
               />
             </InputGroup>
@@ -64,6 +84,27 @@ const CashPayment = (props) => {
             </InputGroup>
           </Form.Group>
         </Row>
+
+        {/*phone number */}
+        <Form.Group className="mb-3 mt-3" controlId="Phone">
+          <Form.Label>Phone Number:</Form.Label>
+          <Form.Control
+            type="tel"
+            placeholder="(123) 456-7890"
+            value={phone}
+            onChange={handlePhoneChange}
+            required
+            minLength="14"
+            tabIndex={2}
+          />
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Label className="text-muted">
+            *I have given the customer their change.
+          </Form.Label>
+          <Form.Check type="switch" required />
+        </Form.Group>
       </Form>
     </Container>
   );

@@ -19,7 +19,7 @@ const RenderBooks = (props) => {
   };
   return (
     <div
-      style={{ maxHeight: "20rem", overflowY: "scroll", overflowX: "hidden" }}
+      style={{ maxHeight: "20rem", height: "20rem", overflowY: "scroll", overflowX: "hidden" }}
     >
       {/*print all books in list */}
       {books.map((book, index) => (
@@ -47,12 +47,11 @@ const RenderBooks = (props) => {
               {/*remove button */}
               <Container
                 as={Col}
-                style={{ marginTop: "32px", textAlign: "right" }}
+                style={{ marginTop: "32px", display: "flex", justifyContent: "right" }}
               >
                 <Button
                   variant="danger"
                   style={{
-                    marginRight: ".5rem",
                     maxHeight: "2.5rem",
                     overflowX: "hidden",
                     textOverflow: "ellipsis",
@@ -67,13 +66,12 @@ const RenderBooks = (props) => {
               {book.status === false ? (
                 <Container
                   style={{
-                    textAlign: "left",
                     marginTop: ".5rem",
                     marginBottom: "-.5rem",
                   }}
                 >
                   <mark style={{ fontSize: ".75rem", color: "grey" }}>
-                    *This book is out of stock and will be ordered.
+                    *This book is out of stock.
                   </mark>
                 </Container>
               ) : (

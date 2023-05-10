@@ -137,7 +137,9 @@ const Checkout = (props) => {
   };
 
   //calc total amount
-  const [total, setTotal] = useState(parseFloat((subtotal + salesTax()).toFixed(2)));
+  const [total, setTotal] = useState(
+    parseFloat((subtotal + salesTax()).toFixed(2))
+  );
   useEffect(() => {
     setTotal(parseFloat((subtotal + salesTax()).toFixed(2)));
     props.total(total);
@@ -153,148 +155,152 @@ const Checkout = (props) => {
   }, [books]);
 
   return (
-    <Modal show={show} onHide={handleClose} animation={false}>
+    <Modal show={show} onHide={handleClose} animation={false} fullscreen={true}>
       {/*modal header stuff */}
       <ModalHeader breadcrumbs={["Checkout"]} />
-
-      <Modal.Body>
-        {/*header */}
-        <Header
-          iconType={faCashRegister}
-          message={
-            <ul>
-              <li>
-                Checkout is the main interface. Enter a book's ISBN by scanning
-                the barcode or do it manually by keyboard. If you do not know
-                the barcode, return to home and click Search Book.
-              </li>
-              <li>
-                Click the shaking magnifying glass to go to the Book Details
-                page for the inserted ISBN.
-              </li>
-              <li>
-                If the customer is new, click the New Customer button to go to
-                the New Customer page for registration.
-              </li>
-            </ul>
-          }
-        />
-        {/*enter isbn */}
-        <Form onSubmit={handleSubmit}>
-          <div className="d-flex justify-content-between mt-4">
-            <Form.Group as={Col} md={8} className="mb-3">
-              <InputGroup>
-                {/*isbn text field */}
-                <Form.Control
-                  placeholder="Enter ISBN"
-                  value={isbn}
-                  onChange={(event) => {
-                    const value = event.target.value;
-                    if (value.length <= 13) {
-                      // check if input length is <= 13
-                      setIsbn(value);
-                    } else {
-                      setIsbn(value.slice(0, 13)); // truncate input to 13 digits
-                    }
-                  }}
-                  tabIndex={1} // jump back here on add
-                  required
-                  //only accept 13 digit
-                  pattern="[0-9]{13}"
-                />
-                {/*search book isbn icon */}
-                <InputGroup.Text>
-                  <FontAwesomeIcon
-                    style={{
-                      cursor: isbn.length >= 13 ? "pointer" : "default",
+      <Container>
+        <Modal.Body>
+          {/*header */}
+          <br/>
+          <Header
+            iconType={faCashRegister}
+            message={
+              <ul>
+                <li>
+                  Checkout is the main interface. Enter a book's ISBN by
+                  scanning the barcode or do it manually by keyboard. If you do
+                  not know the barcode, return to home and click Search Book.
+                </li>
+                <li>
+                  Click the shaking magnifying glass to go to the Book Details
+                  page for the inserted ISBN.
+                </li>
+                <li>
+                  If the customer is new, click the New Customer button to go to
+                  the New Customer page for registration.
+                </li>
+              </ul>
+            }
+          />
+          {/*enter isbn */}
+          <Form onSubmit={handleSubmit}>
+            <div className="d-flex justify-content-between mt-4">
+              <Form.Group as={Col} md={8} className="mb-3">
+                <InputGroup>
+                  {/*isbn text field */}
+                  <Form.Control
+                    placeholder="Enter ISBN"
+                    value={isbn}
+                    onChange={(event) => {
+                      const value = event.target.value;
+                      if (value.length <= 13) {
+                        // check if input length is <= 13
+                        setIsbn(value);
+                      } else {
+                        setIsbn(value.slice(0, 13)); // truncate input to 13 digits
+                      }
                     }}
-                    icon={faSearch}
-                    onClick={() => {
-                      handleSearchClick();
-                    }}
-                    //shake when isbn is full
-                    shake={isbn.length >= 13 ? true : false}
+                    tabIndex={1} // jump back here on add
+                    required
+                    //only accept 13 digit
+                    pattern="[0-9]{13}"
                   />
-                </InputGroup.Text>
+                  {/*search book isbn icon */}
+                  <InputGroup.Text>
+                    <FontAwesomeIcon
+                      style={{
+                        cursor: isbn.length >= 13 ? "pointer" : "default",
+                      }}
+                      icon={faSearch}
+                      onClick={() => {
+                        handleSearchClick();
+                      }}
+                      //shake when isbn is full
+                      shake={isbn.length >= 13 ? true : false}
+                    />
+                  </InputGroup.Text>
+                </InputGroup>
+                {/*input status text */}
+                <Form.Text className="text-muted">
+                  *Must be <strong>13</strong> digits.{" "}
+                  <em>
+                    Currently entered <strong>{isbn.length}</strong>{" "}
+                    digits.&nbsp;
+                  </em>
+                </Form.Text>
+              </Form.Group>
+
+              {/*get the booklist */}
+              <BookDatabase retrievedBookList={setRetrievedBookList} />
+
+              {/*add book to cart*/}
+              <Container as={Col} style={{ textAlign: "right", marginTop: "" }}>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  tabIndex={2}
+                  style={{
+                    marginRight: "-.8rem",
+                  }}
+                >
+                  Add &nbsp;
+                  {/*change icon if isbn is in the box */}
+                  {isbn.length >= 13 ? (
+                    <FontAwesomeIcon icon={faCheck} beatFade />
+                  ) : (
+                    <FontAwesomeIcon icon={faMinus} />
+                  )}
+                </Button>
+              </Container>
+            </div>
+          </Form>
+          <Card style={{ padding: ".5rem", marginBottom: "1rem" }}>
+            {books.length > 0 ? (
+              // render books in cart
+              <RenderBooks books={books} removeBook={handleRemoveBook} />
+            ) : (
+              <>
+                <p style={{ textAlign: "center", marginTop: "1rem" }}>
+                  No books added
+                </p>
+              </>
+            )}
+          </Card>
+          <Row>
+            {/*subtotal */}
+            <Form.Group className="mb-3" as={Col}>
+              <Form.Label>Subtotal:</Form.Label>
+              <InputGroup>
+                <InputGroup.Text>$</InputGroup.Text>
+                <Form.Control placeholder={subtotal} disabled />
               </InputGroup>
-              {/*input status text */}
-              <Form.Text className="text-muted">
-                *Must be <strong>13</strong> digits.{" "}
-                <em>
-                  Currently entered <strong>{isbn.length}</strong> digits.&nbsp;
-                </em>
-              </Form.Text>
             </Form.Group>
-
-            {/*get the booklist */}
-            <BookDatabase retrievedBookList={setRetrievedBookList} />
-
-            {/*add book to cart*/}
-            <Container as={Col} style={{ textAlign: "right", marginTop: "" }}>
-              <Button
-                variant="primary"
-                type="submit"
-                tabIndex={2}
-                style={{
-                  marginRight: "-.8rem",
-                }}
-              >
-                Add &nbsp;
-                {/*change icon if isbn is in the box */}
-                {isbn.length >= 13 ? (
-                  <FontAwesomeIcon icon={faCheck} beatFade />
-                ) : (
-                  <FontAwesomeIcon icon={faMinus} />
-                )}
-              </Button>
-            </Container>
+            {/*sales tax */}
+            <Form.Group className="mb-3" as={Col}>
+              <Form.Label>Sales Tax:</Form.Label>
+              <InputGroup>
+                <InputGroup.Text>$</InputGroup.Text>
+                <Form.Control placeholder={salesTax()} disabled />
+              </InputGroup>
+            </Form.Group>
+            {/*total */}
+            <Form.Group className="mb-3" as={Col}>
+              <Form.Label>Total:</Form.Label>
+              <InputGroup>
+                <InputGroup.Text>$</InputGroup.Text>
+                <Form.Control placeholder={total} disabled />
+              </InputGroup>
+            </Form.Group>
+          </Row>
+          {/*new customer button */}
+          <div className="d-flex justify-content-between w-100">
+            <Button variant="primary" onClick={handleNewCustomer}>
+              <FontAwesomeIcon icon={faUserPlus} /> &nbsp;New Customer
+            </Button>
           </div>
-        </Form>
-        <Card style={{ padding: ".5rem", marginBottom: "1rem" }}>
-          {books.length > 0 ? (
-            // render books in cart
-            <RenderBooks books={books} removeBook={handleRemoveBook} />
-          ) : (
-            <>
-              <p style={{ textAlign: "center", marginTop: "1rem" }}>
-                No books added
-              </p>
-            </>
-          )}
-        </Card>
-        <Row>
-          {/*subtotal */}
-          <Form.Group className="mb-3" as={Col}>
-            <Form.Label>Subtotal:</Form.Label>
-            <InputGroup>
-              <InputGroup.Text>$</InputGroup.Text>
-              <Form.Control placeholder={subtotal} disabled />
-            </InputGroup>
-          </Form.Group>
-          {/*sales tax */}
-          <Form.Group className="mb-3" as={Col}>
-            <Form.Label>Sales Tax:</Form.Label>
-            <InputGroup>
-              <InputGroup.Text>$</InputGroup.Text>
-              <Form.Control placeholder={salesTax()} disabled />
-            </InputGroup>
-          </Form.Group>
-          {/*total */}
-          <Form.Group className="mb-3" as={Col}>
-            <Form.Label>Total:</Form.Label>
-            <InputGroup>
-              <InputGroup.Text>$</InputGroup.Text>
-              <Form.Control placeholder={total} disabled />
-            </InputGroup>
-          </Form.Group>
-        </Row>
-        {/*new customer button */}
-        <div className="d-flex justify-content-between w-100">
-          <Button variant="primary" onClick={handleNewCustomer}>
-            <FontAwesomeIcon icon={faUserPlus} /> &nbsp;New Customer
-          </Button>
-        </div>
-      </Modal.Body>
+        </Modal.Body>
+      </Container>
+
       <Modal.Footer>
         {/*close button */}
         <div className="d-flex justify-content-between w-100">
@@ -316,7 +322,7 @@ const Checkout = (props) => {
               {/*payment button */}
               <Button variant="primary" onClick={handlePay}>
                 Payment&nbsp;
-                <FontAwesomeIcon icon={faArrowRight} shake={!isCartEmpty}/>
+                <FontAwesomeIcon icon={faArrowRight} shake={!isCartEmpty} />
               </Button>
             </OverlayTrigger>
           </div>

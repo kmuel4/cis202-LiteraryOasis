@@ -35,32 +35,7 @@ const PaymentOption = (props) => {
         <Card.Title style={{ marginTop: "-.75rem" }}>{props.type}</Card.Title>
       </Card>
       {/*show ? icon after cash button */}
-      {props.type === "Cash" && (
-        <span
-          style={{
-            fontSize: ".75rem",
-            position: "relative",
-            top: "-6.8rem",
-            left: "18.3rem",
-            cursor: "pointer",
-          }}
-        >
-          {/*overlay */}
-          <OverlayTrigger
-            trigger="click"
-            placement="bottom"
-            overlay={
-              <Popover>
-                {/*unique message for each popover */}
-                <Popover.Body>Click to select payment option.</Popover.Body>
-              </Popover>
-            }
-          >
-            {/*question icon to open popover */}
-            <FontAwesomeIcon icon={faQuestion} />
-          </OverlayTrigger>
-        </span>
-      )}
+
     </>
   );
 };

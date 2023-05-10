@@ -1,25 +1,9 @@
-import { Form, Row, Col,  Accordion, useAccordionButton, } from "react-bootstrap";
+import { Form, Row, Col, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
-import {
-  faWallet,
-  faHouseUser,
-} from "@fortawesome/free-solid-svg-icons";
+import { faWallet, faHouseUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../../Header/Header";
-
-function CardAccordion({ children, eventKey }) {
-  const accordionClick = useAccordionButton(eventKey);
-
-  return (
-    <button
-      type="button"
-      style={{border: "0px"}}
-      onClick={accordionClick}
-    >
-      {children}
-    </button>
-  );
-}
 
 const CardPayment = () => {
   // handle card number
@@ -102,186 +86,204 @@ const CardPayment = () => {
     setPhone(formattedInput);
   };
 
+  //clear fields that you cant delete
+  const handleClear = () => {
+    //clear card info
+    setCardNumber("");
+    setCardName("");
+    setExpiration("");
+    setSecurityCode("");
+
+    //clear billing
+    setBillingFirst("");
+    setBillingLast("");
+    setAddress1("");
+    setAddress2("");
+    setCity("");
+    setZip("");
+    setPhone("");
+  };
+
   return (
-    <>
-    <Form>
-      {/*card info title */}
-      <Header
-        header="Card Information"
-        iconType={faWallet}
-        message="Enter card information."
-      />
-
-      {/*card number */}
-      <Form.Group className="mb-3" controlId="CardNumber">
-        <Form.Label>Card Number*</Form.Label>
-        <Form.Control
-          pattern="[0-9]{16}"
-          required
-          onChange={handleCardNumberChange}
-          tabIndex={1}
-          value={cardNumber}
+    <Container>
+      <Form>
+        {/*card info title */}
+        <Header
+          header="Card Information"
+          iconType={faWallet}
+          message="Enter card information."
         />
-        <Form.Text className="text-muted">
-          Must be <strong>16</strong> digits.{" "}
-          <em>
-            Currently entered: <strong>{cardNumberLength}</strong> digits.
-          </em>
-        </Form.Text>
-      </Form.Group>
 
-      {/*card holder name */}
-      <Form.Group controlId="CardHolderName">
-        <Form.Label>Name on card*</Form.Label>
-        <Form.Control
-          tabIndex={2}
-          required
-          value={cardName}
-          onChange={(e) => setCardName(e.target.value)}
-          placeholder="First Name"
-        />
-      </Form.Group>
-
-      {/*card expiration */}
-      <Row className="mt-3 mb-5">
-        <Form.Group as={Col} controlId="CardExpiration">
-          <Form.Label>Expiration*</Form.Label>
+        {/*card number */}
+        <Form.Group className="mb-3" controlId="CardNumber">
+          <Form.Label>Card Number*</Form.Label>
           <Form.Control
-            type="month"
-            placeholder="Enter date"
-            value={expiration}
-            onChange={(e) => setExpiration(e.target.value)}
+            pattern="[0-9]{16}"
             required
-            tabIndex={3}
-          />
-        </Form.Group>
-
-        {/*card security code */}
-        <Form.Group as={Col} controlId="CardSecurityCode">
-          <Form.Label>Security Code*</Form.Label>
-          <Form.Control
-            tabIndex={4}
-            pattern="[0-9]{3}"
-            required
-            value={securityCode}
-            onChange={handleSecurityCode}
+            onChange={handleCardNumberChange}
+            tabIndex={1}
+            value={cardNumber}
           />
           <Form.Text className="text-muted">
-            Must be <strong>3</strong> digits.
+            Must be <strong>16</strong> digits.{" "}
+            <em>
+              Currently entered: <strong>{cardNumberLength}</strong> digits.
+            </em>
           </Form.Text>
         </Form.Group>
-      </Row>
-      {/*billing title */}
-      <Header iconType={faHouseUser} message="Enter billing information" />
-      <Row className="mb-3">
-        {/*first name */}
-        <Form.Group as={Col} controlId="First">
-          <Form.Label>Name*</Form.Label>
+
+        {/*card holder name */}
+        <Form.Group controlId="CardHolderName">
+          <Form.Label>Name on card*</Form.Label>
           <Form.Control
-            tabIndex={5}
+            tabIndex={2}
             required
-            placeholder="Enter First"
-            value={billingFirst}
-            onChange={(e) => setBillingFirst(e.target.value)}
+            value={cardName}
+            onChange={(e) => setCardName(e.target.value)}
+            placeholder="First Name"
           />
         </Form.Group>
 
-        {/*last name */}
-        <Form.Group as={Col} className="mt-2" controlId="Last">
-          <Form.Label></Form.Label>
+        {/*card expiration */}
+        <Row className="mt-3 mb-5">
+          <Form.Group as={Col} controlId="CardExpiration">
+            <Form.Label>Expiration*</Form.Label>
+            <Form.Control
+              type="month"
+              placeholder="Enter date"
+              value={expiration}
+              onChange={(e) => setExpiration(e.target.value)}
+              required
+              tabIndex={3}
+            />
+          </Form.Group>
+
+          {/*card security code */}
+          <Form.Group as={Col} controlId="CardSecurityCode">
+            <Form.Label>Security Code*</Form.Label>
+            <Form.Control
+              tabIndex={4}
+              pattern="[0-9]{3}"
+              required
+              value={securityCode}
+              onChange={handleSecurityCode}
+            />
+            <Form.Text className="text-muted">
+              Must be <strong>3</strong> digits.
+            </Form.Text>
+          </Form.Group>
+        </Row>
+        {/*billing title */}
+        <Header iconType={faHouseUser} message="Enter billing information" />
+        <Row className="mb-3">
+          {/*first name */}
+          <Form.Group as={Col} controlId="First">
+            <Form.Label>Name*</Form.Label>
+            <Form.Control
+              tabIndex={5}
+              required
+              placeholder="Enter First"
+              value={billingFirst}
+              onChange={(e) => setBillingFirst(e.target.value)}
+            />
+          </Form.Group>
+
+          {/*last name */}
+          <Form.Group as={Col} className="mt-2" controlId="Last">
+            <Form.Label></Form.Label>
+            <Form.Control
+              tabIndex={6}
+              required
+              placeholder="Enter Last"
+              value={billingLast}
+              onChange={(e) => setBillingLast(e.target.value)}
+            />
+          </Form.Group>
+        </Row>
+
+        {/*address */}
+        <Form.Group controlId="Address">
+          <Form.Label>Address*</Form.Label>
           <Form.Control
-            tabIndex={6}
+            tabIndex={7}
             required
-            placeholder="Enter Last"
-            value={billingLast}
-            onChange={(e) => setBillingLast(e.target.value)}
+            placeholder="1234 Main St"
+            value={address1}
+            onChange={(e) => setAddress1(e.target.value)}
           />
         </Form.Group>
-      </Row>
-
-      {/*address */}
-      <Form.Group controlId="Address">
-        <Form.Label>Address*</Form.Label>
-        <Form.Control
-          tabIndex={7}
-          required
-          placeholder="1234 Main St"
-          value={address1}
-          onChange={(e) => setAddress1(e.target.value)}
-        />
-      </Form.Group>
-      <Form.Group className="mb-3 mt-3" controlId="Address2">
-        <Form.Label>Address 2</Form.Label>
-        <Form.Control
-          placeholder="Apartment, studio, or floor"
-          value={address2}
-          onChange={(e) => setAddress2(e.target.value)}
-        />
-      </Form.Group>
-
-      {/*city */}
-      <Row>
-        <Form.Group as={Col} controlId="City">
-          <Form.Label>City*</Form.Label>
+        <Form.Group className="mb-3 mt-3" controlId="Address2">
+          <Form.Label>Address 2</Form.Label>
           <Form.Control
-            tabIndex={8}
-            pattern="[a-zA-Z]+"
-            required
-            placeholder="Enter City"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
+            placeholder="Apartment, studio, or floor"
+            value={address2}
+            onChange={(e) => setAddress2(e.target.value)}
           />
         </Form.Group>
 
-        {/*state */}
-        <Form.Group as={Col} controlId="State">
-          <Form.Label>State*</Form.Label>
-          <Form.Select required defaultValue={null}>
-            <option>NY</option>
-            <option disabled>...</option>
-          </Form.Select>
-        </Form.Group>
-      </Row>
+        {/*city */}
+        <Row>
+          <Form.Group as={Col} controlId="City">
+            <Form.Label>City*</Form.Label>
+            <Form.Control
+              tabIndex={8}
+              pattern="[a-zA-Z]+"
+              required
+              placeholder="Enter City"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+          </Form.Group>
 
-      {/*zip */}
-      <Row className="mt-3">
-        <Form.Group as={Col} controlId="zip">
-          <Form.Label>Zip*</Form.Label>
+          {/*state */}
+          <Form.Group as={Col} controlId="State">
+            <Form.Label>State*</Form.Label>
+            <Form.Select required defaultValue={null}>
+              <option>NY</option>
+              <option disabled>...</option>
+            </Form.Select>
+          </Form.Group>
+        </Row>
+
+        {/*zip */}
+        <Row className="mt-3">
+          <Form.Group as={Col} controlId="zip">
+            <Form.Label>Zip*</Form.Label>
+            <Form.Control
+              tabIndex={9}
+              required
+              placeholder="Enter Zip"
+              pattern="[0-9]{5}"
+              value={zip}
+              onChange={handleZipChange}
+            />
+          </Form.Group>
+
+          {/*country */}
+          <Form.Group as={Col} controlId="Country">
+            <Form.Label>Country*</Form.Label>
+            <Form.Select required defaultValue={null}>
+              <option>United States</option>
+              <option disabled>...</option>
+            </Form.Select>
+          </Form.Group>
+        </Row>
+
+        {/*phone number */}
+        <Form.Group className="mb-3 mt-3" controlId="Phone">
+          <Form.Label>Phone Number*</Form.Label>
           <Form.Control
-            tabIndex={9}
+            type="tel"
+            placeholder="(123) 456-7890"
+            value={phone}
+            onChange={handlePhoneChange}
             required
-            placeholder="Enter Zip"
-            pattern="[0-9]{5}"
-            value={zip}
-            onChange={handleZipChange}
+            minLength="14"
+            tabIndex={10}
           />
         </Form.Group>
-
-        {/*country */}
-        <Form.Group as={Col} controlId="Country">
-          <Form.Label>Country*</Form.Label>
-          <Form.Select required defaultValue={null}>
-            <option>United States</option>
-            <option disabled>...</option>
-          </Form.Select>
-        </Form.Group>
-      </Row>
-
-      {/*phone number */}
-      <Form.Group className="mb-3 mt-3" controlId="Phone">
-        <Form.Label>Phone Number*</Form.Label>
-        <Form.Control
-          type="tel"
-          placeholder="(123) 456-7890"
-          value={phone}
-          onChange={handlePhoneChange}
-          required
-          minLength="14"
-          tabIndex={10}
-        />
-      </Form.Group>
       </Form>
-    </>
+    </Container>
   );
 };
 
