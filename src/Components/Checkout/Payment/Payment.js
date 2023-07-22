@@ -1,18 +1,15 @@
-import { Form, Row, Col, Button, Modal, Container } from "react-bootstrap";
+import { Form, Row, Col, Button, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
 import {
   faArrowLeft,
   faWallet,
   faHouseUser,
-  faTrashCan,
-  faCreditCard,
-  faHandHoldingDollar,
+  faTrashCan
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../../Header/Header";
 import ModalHeader from "../../ModalHeader";
-import PaymentOption from "./PaymentOption";
 import CashPayment from "./CashPayment";
 
 const CardPayment = (props) => {
@@ -140,11 +137,6 @@ const CardPayment = (props) => {
 
   //handle payment option
   const [card, setCard] = useState(true);
-  const [cash, setCash] = useState(false);
-  const handlePaymentOption = (event) => {
-    setCard(!card);
-    setCash(!cash);
-  };
 
   const total = props.total;
 

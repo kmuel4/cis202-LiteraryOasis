@@ -17,7 +17,7 @@ const CashPayment = (props) => {
     } else {
       setChange("0.00");
     }
-  }, [cash]);
+  }, [cash, props.total]);
 
   return (
     <Container>
